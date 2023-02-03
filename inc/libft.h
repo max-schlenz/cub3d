@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/30 14:33:31 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/10/31 11:27:37 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/03 14:52:45 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,5 +99,6 @@ void	free_null(int index, ...);
 char	*merge_str(int index, ...);
 char	*realloc_ptr(char *ptr, char *new, bool free_new);
 void	free_array(char **array);
+char	*strrepl(char *str, char *needle, char *repl);
 
 #endif

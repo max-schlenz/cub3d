@@ -6,14 +6,14 @@
 #    By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2023/02/03 12:40:56 by lkrabbe          ###   ########.fr        #
+#    Updated: 2023/02/03 15:47:34 by lkrabbe          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SHELL 			=	/bin/bash
 UNAME			=	$(shell uname)
 MAKEFLAGS 		=	--no-print-directory
-CFLAGS			=	#-Wall -Wextra -Werror #-g #-fsanitize=address 
+CFLAGS			=	-g -fsanitize=address #-Wall -Wextra -Werror #-g  
 
 #FORMAT----------------------------------#
 DEFCL			=	$(shell echo -e "\033[0m")

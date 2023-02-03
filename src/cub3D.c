@@ -6,54 +6,102 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 11:18:12 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/03 12:59:16 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/03 15:39:23 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3D.h>
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <memory.h>
-
-#define WIDTH 512
-#define HEIGHT 512
-
-static mlx_image_t* img;
-
-void hook(void* param)
+static bool	get_map_size(t_parse *parse)
 {
-	mlx_t* mlx = param;
+	int		fd;
+	int		width;
+	int		width_tmp;
+	int		height;
+	char	*read_buf;
+	
+	width = 0;
+	height = 0;
+	width_tmp = 0;
+	if (!access("test", F_OK))
+	{
+		fd = open("test", O_RDWR | O_APPEND, 0644);
+		if (!fd || access("test", F_OK))
+			return (false);
+		read_buf = ft_strdup("42");
+		while (read_buf != NULL)
+		{
+			free_null(1, &read_buf);
+			read_buf = get_next_line(fd);
+			if (read_buf && read_buf[0] == '\n')
+				continue ;
+			height++;
+			width_tmp = ft_strlen(read_buf) - 1;
+			if (width_tmp > width)
+				width = width_tmp;
+		}
+		parse->map_width = width;
+		parse->map_height = height;
+		return (true);
+	}
+	return (false);
+}
 
-	if (mlx_is_key_down(mlx, MLX_KEY_ESCAPE))
-		mlx_close_window(mlx);
-	if (mlx_is_key_down(mlx, MLX_KEY_UP))
-		img->instances[0].y -= 5;
-	if (mlx_is_key_down(mlx, MLX_KEY_DOWN))
-		img->instances[0].y += 5;
-	if (mlx_is_key_down(mlx, MLX_KEY_LEFT))
-		img->instances[0].x -= 5;
-	if (mlx_is_key_down(mlx, MLX_KEY_RIGHT))
-		img->instances[0].x += 5;
+static void	allocate_map_arr(t_parse *parse)
+{
+	int **arr;
+	
+	parse->array = ft_calloc(parse->map_height, sizeof(int*));
+	for (int i = 0; i < parse->map_height; i++)
+	{
+		parse->array[i] = malloc(parse->map_width * sizeof(int));
+		ft_memset(parse->array[i], '2', parse->map_width);
+	}
+}
+
+static void	parse_map(t_parse *parse)
+{
+	get_map_size(parse);
+	allocate_map_arr(parse);
+	printf("WIDTH: %i, HEIGHT: %i\n", parse->map_width, parse->map_height);
+
+	int		fd;
+	int		line;
+	char	*read_buf;
+	
+	line = 0;
+	if (parse->map_width != -1)
+	{
+		fd = open("test", O_RDWR | O_APPEND, 0644);
+		read_buf = ft_strdup("42");
+		while (read_buf != NULL)
+		{
+			free_null(1, &read_buf);
+			read_buf = get_next_line(fd);
+			if (read_buf && read_buf[0] == '\n')
+				continue ;
+			for (int i = 0; read_buf && read_buf[i] && read_buf[i] != '\n'; i++)
+			{
+				if (read_buf[i] == ' ')
+					read_buf[i] = '2';
+				parse->array[line][i] = read_buf[i];
+			}
+			line++;
+		}
+	}
+	
+	for (int i = 0; i < parse->map_height; i++)
+	{
+		for (int j = 0; j < parse->map_width; j++)
+			printf("%c", parse->array[i][j]);
+		printf("\n");
+	}
 }
 
 
-int32_t	main(void)
+int	main(void)
 {
-	mlx_t* mlx;
-
-	main_casting();
-	return (0);
-	if (!(mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true)))
-		return(EXIT_FAILURE);
-
-	img = mlx_new_image(mlx, 128, 128);
-	memset(img->pixels, 255, img->width * img->height * sizeof(int));
-	mlx_image_to_window(mlx, img, 0, 0);
-
-	mlx_loop_hook(mlx, &hook, mlx);
-	mlx_loop(mlx);
-
-	mlx_terminate(mlx);
-	return (EXIT_SUCCESS);
+	t_parse	*parse = ft_calloc(1, sizeof(t_parse));
+	parse_map(parse);
+	main_casting(parse);
 }

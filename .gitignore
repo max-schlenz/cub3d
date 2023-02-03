@@ -2,6 +2,7 @@
 *.d
 
 MLX42/*
+test
 
 # Object files
 *.o
