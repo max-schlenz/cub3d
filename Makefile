@@ -6,7 +6,7 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2023/02/03 12:14:22 by mschlenz         ###   ########.fr        #
+#    Updated: 2023/02/03 12:21:10 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,18 +51,14 @@ LIB_FILES		=	$(addsuffix .a, $(addprefix $(LIB_DIR)/, $(LIB)))
 OBJ_FILES		=	$(addsuffix .o, $(addprefix $(OBJ_DIR)/, $(SRC)))
 INC_FILES		=	$(addsuffix .h, $(addprefix $(INC_DIR)/, $(INC)))
 
-MLX_DIR			=	MLX42
-MLX_LIB			=	$(MLX_DIR)/build/libmlx42.a
-INCLUDES		= 	-I $(INC_DIR) -I $(MLX_DIR)/include/MLX42
-LINKER			=	-L lib -l ft 
-
 MAC_BREW		=	~/.brewconfig.zsh
 MAC_GLFW		=	~/.brew/opt/glfw/lib/
 
-GLFW			=	~/.brew/opt/glfw/lib
-MLX_LINKER		=	-L $(GLFW) -l glfw -L $(MLX_DIR)/build  -framework Cocoa -framework OpenGL -framework IOKit
+MLX_DIR			=	MLX42
+MLX_LIB			=	$(MLX_DIR)/build/libmlx42.a
 
-HEADER			=	./.header
+INCLUDES		= 	-I $(INC_DIR) -I $(MLX_DIR)/include/MLX42
+LINKER			=	-L lib -l ft -L $(MAC_GLFW) -l glfw -L $(MLX_DIR)/build  -framework Cocoa -framework OpenGL -framework IOKit
 
 all: $(NAME)
 
@@ -75,7 +71,7 @@ $(LIB_FILES):
 $(OBJ_DIR):
 	@mkdir -p $(shell find src -type d | sed \s/src/obj/g)
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c header_c 
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c 
 	@if [ ! -f .tmp ]; then														\
 		echo -n "compile...";													\
 		touch .tmp;\
@@ -83,17 +79,10 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c header_c
 	@echo -en "\\r		➜  ${BCYAN}$(NAME)${DEFCL}...    »  $@${DEL_R}"
 	@$(CC) $(CFLAGS) $(INCLUDES) $(MAC_INCLUDES) -c $< -o $@ 
 	
-ifeq ($(UNAME), Darwin)
-$(NAME): $(MAC_BREW) $(MAC_GLFW) $(HEADER) $(MLX_DIR) $(MLX_LIB) $(LIB_FILES) $(OBJ_DIR) $(OBJ_FILES)
+$(NAME): $(MAC_BREW) $(MAC_GLFW) $(MLX_DIR) $(MLX_LIB) $(LIB_FILES) $(OBJ_DIR) $(OBJ_FILES)
 	@echo -en "\\r		  ${BGREEN}$(NAME)${DEFCL}        ✔  ${BGREEN}./$(NAME)${DEFCL}${DEL_R}\n"
-	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ_FILES) $(MLX_LIB) $(INCLUDES) $(LINKER) $(MLX_LINKER)
+	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ_FILES) $(MLX_LIB) $(INCLUDES) $(LINKER)
 	@rm -f .tmp
-else	
-$(NAME): $(HEADER) $(MAC_GLFW) $(LIB_FILES) $(OBJ_DIR) $(OBJ_FILES)
-	@echo -en "\\r		  ${BGREEN}$(NAME)${DEFCL}        ✔  ${BGREEN}./$(NAME)${DEFCL}${DEL_R}\n"
-	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ_FILES) $(INCLUDES) $(LINKER)
-	@rm -f .tmp
-endif
 
 $(MLX_DIR):
 	@git clone https://github.com/codam-coding-college/MLX42.git
@@ -114,18 +103,6 @@ $(MAC_GLFW):
 	@echo "${CYAN}installing glfw...${DEFCL}"
 	@brew install glfw
 	@echo ""
-
-${HEADER}:
-# @if [ ! -f ".header" ]; then												\
-# 	echo 	"$(BLUE) __  __ _       _     _          _ _ ";					\
-# 	echo 	"|  \/  (_)_ __ (_)___| |__   ___| | $(CYAN)|";					\
-# 	echo 	"$(BLUE)| |\/| | | '_ \| / __| '_ \ / $(CYAN)_ \ | |";			\
-# 	echo 	"$(BLUE)| |  | | | | | | \$(CYAN)__ \ | | |  __/ | |";			\
-# 	echo 	"$(BLUE)|_|  |_|$(CYAN)_|_| |_|_|___/_| |_|\___|_|_|";			\
-# 	echo	"$(BCYAN)	    	       by Talea & Max$(DEFCL)";				\
-# 	echo	"";																\
-# 	touch .header;															\
-# fi
 
 clean: ${HEADER}
 	@rm -f .header
@@ -151,15 +128,6 @@ fclean: clean ${HEADER}
 	fi
 	@echo -en "\n";
 
-
-header_c:
-	@rm -f .header
-
-# test:
-# 	@cd tests && bash tester.sh a
-
 re: fclean all
-
-.INTERMEDIATE: header_c
 
 .PHONY: all clean fclean re bonus
