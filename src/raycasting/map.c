@@ -6,7 +6,6 @@
 # define X 0
 # define Y 1
 
-
 typedef struct s_movement{
 	int		x;
 	int		y;
@@ -48,12 +47,14 @@ void	check_west(t_parse	*map, t_movement *move)
 	{
 		if (wall_check(map, move, 0, -1) == 0)
 		{
-			printf("west\n");
 			move->x--;
 			move->tile_x = 1;
 		}
 		else
-			move->tile_x = 0.10;
+		{
+			printf("west\n");
+			move->tile_x = 0.01;
+		}
 	}
 }
 
@@ -63,42 +64,48 @@ void	check_east(t_parse	*map, t_movement *move)
 	{
 		if (wall_check(map, move, 0, +1) == 0)
 		{
-			printf("east\n");		
 			move->x++;
 			move->tile_x = 0;
 		}
 		else
-			move->tile_x = 0.90;
-	}
-}
-
-void	check_south(t_parse	*map, t_movement *move)
-{
-	if (move->tile_y < 0)
-	{
-		if (wall_check(map, move, -1, 0) == 0)
 		{
-			printf("south\n");
-			move->y--;
-			move->tile_y = 1;
+			printf("east\n");		
+			move->tile_x = 0.99;
 		}
-		else
-			move->tile_y = 0.1;
 	}
 }
 
 void	check_north(t_parse	*map, t_movement *move)
 {
+	if (move->tile_y < 0)
+	{
+		if (wall_check(map, move, -1, 0) == 0)
+		{
+			move->y--;
+			move->tile_y = 1;
+		}
+		else
+		{
+			printf("north\n");
+			move->tile_y = 0.01;
+		}
+	}
+}
+
+void	check_south(t_parse	*map, t_movement *move)
+{
 	if (move->tile_y > 1)
 	{
 		if (wall_check(map, move, +1, 0) == 0)
 		{
-			printf("north\n");
 			move->y++;
 			move->tile_y = 0;
 		}
 		else
-			move->tile_y = 0.1;
+		{
+			printf("south\n");
+			move->tile_y = 0.99;
+		}
 	}
 }
 
@@ -138,27 +145,45 @@ void	mouse_checker(mlx_t *mlx, t_movement *move)
 	int	x;
 	int	y;
 	mlx_get_mouse_pos(mlx, &x, &y);
-	// printf("mouse x = %i, y = %i\n", x, y);
+	if ((WIDTH/2 - x) < 0)
+	{
+		// left right for rotation for the raycaster
+		//printf("right\n");
+	}
+	else if ((WIDTH/2 - x) > 0)
+	{
+		//printf("left\n");
+	}
+	if ((HEIGHT/2 - y) < 0)
+	{
+		// top down for  tranlate the casting line up or down
+		// printf("down\n");
+	}
+	else if ((HEIGHT/2 - y) > 0)
+	{
+		// printf("up\n");
+	}	
+	mlx_set_mouse_pos(mlx, WIDTH / 2, HEIGHT / 2);
 }
-	
+
+void	draw_player_char(mlx_image_t *img, int y, int x)
+{
+	mlx_put_pixel(img, x, y, MLX_COLOR_Black);
+	mlx_put_pixel(img, x + 1, y, MLX_COLOR_Black);
+	mlx_put_pixel(img, x, y + 1, MLX_COLOR_Black);
+	mlx_put_pixel(img, x + 1, y + 1, MLX_COLOR_Black);
+}
+
 void	draw_player_on_map(t_parse *map, mlx_image_t *img, t_movement *move)
 {
 	int	x;
 	int	y;
 
-	// printf("per pixle %i == %i\n",(HEIGHT / (map->map_height)), (WIDTH / map->map_width));
-	// printf("start pos %i == %i\n",(move->x), (move->y));
-	// printf("tile %f == %f\n", (move->tile_x), move->tile_y);
 	x = move->x * (WIDTH / map->map_width);
 	y = move->y * (HEIGHT / (map->map_height));
-	//printf("x = %i and y %i\n", x, y);
 	x += move->tile_x * (WIDTH / (map->map_width));
 	y += move->tile_y * (HEIGHT / map->map_height);
-	// printf("x = %i and y %i\n", x, y);
-	mlx_put_pixel(img, x, y, MLX_COLOR_Black);
-	mlx_put_pixel(img, x + 1, y, MLX_COLOR_Black);
-	mlx_put_pixel(img, x, y + 1, MLX_COLOR_Black);
-	mlx_put_pixel(img, x + 1, y + 1, MLX_COLOR_Black);
+	draw_player_char(img, y, x);
 }
 
 void	draw_map(t_parse *map, mlx_image_t *img, t_movement *move)
@@ -225,6 +250,7 @@ int	mlx_setup(t_parse *map)
 		exit(EXIT_FAILURE);
 	img = mlx_new_image(mlx, WIDTH, HEIGHT);
 	mlx_image_to_window(mlx, img, 0, 0);
+	mlx_set_cursor_mode(mlx, MLX_MOUSE_HIDDEN);
 	mlx_loop_hook(mlx, &rendering_loop, &transporter);
 	transporter.mlx = mlx;
 	transporter.img = img;
