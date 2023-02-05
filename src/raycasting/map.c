@@ -5,11 +5,11 @@
 # define HEIGHT 1000
 # define X 0
 # define Y 1
-# define DEFAULT_ROTATION_SPEED 0.1
-# define DEFAULT_DIRECTION 0
+# define DEFAULT_ROTATION_SPEED 0.02
+# define DEFAULT_DIRECTION 0.00001
 # define DEFAULT_VELOCITY 0.01
-# define DEFAULT_TOP_DOWN 0 //? maybe not use in the end
-
+# define DEFAULT_TOP_DOWN 0.00001 //? maybe not use in the end
+# define PI_TIMES_TWO 6.28318530718
 typedef struct s_movement{
 	int		x;
 	int		y;
@@ -28,7 +28,14 @@ typedef struct s_transfer{
 	t_movement	*move;
 }t_transfer;
 
-
+typedef struct s_array // for each pixel ont the horizontal  >> t_array array[img->width] //need to  care about  rezising free and alloc
+{
+	int				x;
+	double			tile_x;
+	double			direction;
+	double			distance;
+	mlx_texture_t	*texture;
+}t_array;
 
 void	default_movement(t_movement *move)
 {
@@ -143,64 +150,93 @@ void	key_checker(mlx_t *mlx, t_movement *move)
 	if (mlx_is_key_down(mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(mlx);
 	if (mlx_is_key_down(mlx, MLX_KEY_W))
-		movement[Y] -= move->velocity;
+	{
+		movement[Y] -= move->velocity * cos(move->direction);
+		movement[X] -= move->velocity * sin(move->direction);
+	}
 	if (mlx_is_key_down(mlx, MLX_KEY_A))
-		movement[X] -= move->velocity;
+	{
+		movement[X] -= move->velocity * cos(move->direction);
+		movement[Y] -= move->velocity * sin(move->direction);
+	}
 	if (mlx_is_key_down(mlx, MLX_KEY_S))
-		movement[Y] += move->velocity;
+	{
+		movement[Y] += move->velocity * cos(move->direction);
+		movement[X] += move->velocity * sin(move->direction);
+	}
 	if (mlx_is_key_down(mlx, MLX_KEY_D))
-		movement[X] += move->velocity;
+	{
+		movement[X] += move->velocity * cos(move->direction);
+		movement[Y] += move->velocity * sin(move->direction);
+	}
+	if (mlx_is_key_down(mlx, MLX_KEY_Q))
+	{
+		move->direction += 0.1;
+	}
+	if (mlx_is_key_down(mlx, MLX_KEY_E))
+	{
+		move->direction -= 0.1;
+	}
 	move->tile_x += movement[X];
 	move->tile_y += movement[Y];
 }
 
 void	mouse_checker(mlx_t *mlx, t_movement *move)
 {
-	//int	movement[2];
 	int	x;
 	int	y;
+
 	mlx_get_mouse_pos(mlx, &x, &y);
-	if ((WIDTH/2 - x) < 0)
+	if ((WIDTH / 2 - x) < 0)
 	{
 		move->direction += move->rotation_speed;// coud be based on a factor so it rotates faster
-	printf("direction%f top_down%f\n",move->direction, move->top_down);
-		//printf("right\n");
 	}
-	else if ((WIDTH/2 - x) > 0)
+	else if ((WIDTH / 2 - x) > 0)
 	{
 		move->direction -= move->rotation_speed;
-	printf("direction%f top_down%f\n",move->direction, move->top_down);
-		//printf("left\n");
 	}
-	if ((HEIGHT/2 - y) < 0)//? maybe not used in the end// top down for  tranlate the casting line up or down
+	if ((HEIGHT / 2 - y) < 0)//? maybe not used in the end// top down for  tranlate the casting line up or down
 	{
 		move->top_down += move->rotation_speed;
-	printf("direction%f top_down%f\n",move->direction, move->top_down);
-		// printf("down\n");
 	}
-	else if ((HEIGHT/2 - y) > 0)//? maybe not used in the end
+	else if ((HEIGHT / 2 - y) > 0)//? maybe not used in the end
 	{
 		move->top_down -= move->rotation_speed;
-	printf("direction%f top_down%f\n",move->direction, move->top_down);
-		// printf("up\n");
 	}
-	while (move->direction > M_PI)
-		move->direction -= M_PI;
+	while (move->direction > PI_TIMES_TWO)
+		move->direction -= PI_TIMES_TWO;
 	while (move->direction < 0)
-		move->direction += M_PI;
-	while (move->top_down > M_PI)
-		move->top_down -= M_PI;
+		move->direction += PI_TIMES_TWO;
+	while (move->top_down > PI_TIMES_TWO)
+		move->top_down -= PI_TIMES_TWO;
 	while (move->top_down < 0)
-		move->top_down += M_PI;
+		move->top_down += PI_TIMES_TWO;
 	mlx_set_mouse_pos(mlx, WIDTH / 2, HEIGHT / 2);
 }
 
 void	draw_player_char(mlx_image_t *img, int y, int x)
 {
-	mlx_put_pixel(img, x, y, MLX_COLOR_Black);
-	mlx_put_pixel(img, x + 1, y, MLX_COLOR_Black);
-	mlx_put_pixel(img, x, y + 1, MLX_COLOR_Black);
-	mlx_put_pixel(img, x + 1, y + 1, MLX_COLOR_Black);
+	mlx_put_pixel(img, x, y, MLX_COLOR_BLACK);
+	mlx_put_pixel(img, x + 1, y, MLX_COLOR_BLACK);
+	mlx_put_pixel(img, x, y + 1, MLX_COLOR_BLACK);
+	mlx_put_pixel(img, x + 1, y + 1, MLX_COLOR_BLACK);
+}
+
+
+
+
+void	cast_array(mlx_image_t *img, t_movement *move, t_parse *map)
+{
+	int	x;
+	int	y;
+
+	x = ;
+	y = 0;
+
+
+
+
+	mlx_put_pixel(img, x, y, MLX_COLOR_AQUA);
 }
 
 void	draw_player_on_map(t_parse *map, mlx_image_t *img, t_movement *move)
@@ -213,6 +249,7 @@ void	draw_player_on_map(t_parse *map, mlx_image_t *img, t_movement *move)
 	x += move->tile_x * (WIDTH / (map->map_width));
 	y += move->tile_y * (HEIGHT / map->map_height);
 	draw_player_char(img, y, x);
+	cast_array(img, move, map);
 }
 
 void	draw_map(t_parse *map, mlx_image_t *img, t_movement *move)
@@ -230,12 +267,15 @@ void	draw_map(t_parse *map, mlx_image_t *img, t_movement *move)
 	{
 		while (x < img->width)
 		{
+			// printf("DRAW: y/ppy = %i x/ppx = %i\n", y / pixel_per_y, x / pixel_per_x);
 			if (map->array[y / pixel_per_y][x / pixel_per_x] == '1')
-				mlx_put_pixel(img, x, y, MLX_COLOR_OrangeRed);
+				mlx_put_pixel(img, x, y, MLX_COLOR_ORANGERED);
 			else if (map->array[y / pixel_per_y][x / pixel_per_x] == '0')
-				mlx_put_pixel(img, x, y, MLX_COLOR_DarkSalmon);
+				mlx_put_pixel(img, x, y, MLX_COLOR_DARKSALMON);
+			else if (map->array[y / pixel_per_y][x / pixel_per_x] == '2')
+				mlx_put_pixel(img, x, y, MLX_COLOR_BLUE);
 			else
-				mlx_put_pixel(img, x, y, MLX_COLOR_Blue);
+				mlx_put_pixel(img, x, y, MLX_COLOR_YELLOWGREEN);
 			x++;
 		}
 		x = 0;
@@ -258,7 +298,7 @@ void	rendering_loop(void *param)
 	img = transporter->img;
 	move = transporter->move;
 	ft_bzero(img->pixels, (WIDTH * HEIGHT * sizeof(u_int32_t)));
-	mouse_checker(mlx, move);
+//	mouse_checker(mlx, move);
 	key_checker(mlx, move);
 	is_there_something(map, move);
 	draw_map(map, img, move);
@@ -291,6 +331,7 @@ int	mlx_setup(t_parse *map)
 int	main_casting(t_parse *parse)// input map
 {
 	parse->map_height += -1;
+	parse->map_width += -1;
 	mlx_setup(parse);
 	return (0);
 }
