@@ -6,11 +6,32 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 10:17:57 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/05 14:58:18 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/05 15:54:47 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3D.h>
+
+char	*ft_strdup_nonl(const char *s1)
+{
+	size_t		len_s1;
+	size_t		i;
+	char		*ptr;
+
+	len_s1 = ft_strlen(s1);
+	i = 0;
+	ptr = malloc(len_s1 + 1);
+	if (!ptr)
+		return (NULL);
+	while (i < len_s1)
+	{
+		ptr[i] = s1[i];
+		i++;
+	}
+	ptr[--i] = '\0';
+	return (ptr);
+}
+
 
 static bool	get_map_size(t_parse *parse)
 {
@@ -53,12 +74,13 @@ static void	allocate_map_arr(t_parse *parse)
 {
 	int **arr;
 
-	parse->array = ft_calloc(parse->map_height, sizeof(char*));
+	parse->array = ft_calloc(parse->map_height + 1, sizeof(char*));
 	for (int i = 0; i < parse->map_height; i++)
 	{
 		parse->array[i] = ft_calloc(parse->map_width + 2, sizeof(char));
 		ft_memset(parse->array[i], '2', parse->map_width + 1);
 	}
+	parse->array[parse->map_height] = NULL;
 }
 
 bool is_map_valid(t_parse *parse)
@@ -117,22 +139,32 @@ void	parse_map(t_parse *parse)
 				continue ;
 			if (!ft_strncmp(read_buf, "NO", 2))
 			{
-				parse->tex_no = ft_strdup(read_buf);
+				parse->tex_no = ft_strdup_nonl(read_buf + 3);
 				continue;
 			}
 			else if (!ft_strncmp(read_buf, "SO", 2))
 			{
-				parse->tex_so = ft_strdup(read_buf);	
+				parse->tex_so = ft_strdup_nonl(read_buf + 3);	
 				continue;
 			}
 			else if (!ft_strncmp(read_buf, "WE", 2))
 			{
-				parse->tex_we = ft_strdup(read_buf);	
+				parse->tex_we = ft_strdup_nonl(read_buf + 3);	
 				continue;
 			}
 			else if (!ft_strncmp(read_buf, "EA", 2))
 			{
-				parse->tex_ea = ft_strdup(read_buf);
+				parse->tex_ea = ft_strdup_nonl(read_buf + 3);
+				continue;
+			}
+			else if (!ft_strncmp(read_buf, "F ", 2))
+			{
+				parse->f = ft_strdup_nonl(read_buf + 2);
+				continue;
+			}
+			else if (!ft_strncmp(read_buf, "C ", 2))
+			{
+				parse->c = ft_strdup_nonl(read_buf + 2);
 				continue;
 			}
 			i = 0;
@@ -149,8 +181,19 @@ void	parse_map(t_parse *parse)
 			}
 			line++;
 		}
+		free_null(1, &read_buf);
 	}
 	
+	if (!parse->tex_no
+	||	!parse->tex_so
+	||	!parse->tex_we
+	||	!parse->tex_ea
+	||	!parse->f
+	||	!parse->c)
+	{
+		printf("Error: required map params not set.\n");
+		exit(0);
+	}
 	
 	for (int i = 0; i < parse->map_height; i++)
 	{
@@ -158,6 +201,12 @@ void	parse_map(t_parse *parse)
 			printf("%c", parse->array[i][j]);
 		printf("\n");
 	}
-	
+
 	printf("\nWIDTH: %i, HEIGHT: %i\n", parse->map_width, parse->map_height);
+	printf("tex_no: %s\n", parse->tex_no);
+	printf("tex_so: %s\n", parse->tex_so);
+	printf("tex_we: %s\n", parse->tex_we);
+	printf("tex_ea: %s\n", parse->tex_ea);
+	printf("f: %s\n", parse->f);
+	printf("c: %s\n", parse->c);
 }

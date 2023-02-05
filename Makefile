@@ -6,14 +6,14 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2023/02/05 14:01:24 by mschlenz         ###   ########.fr        #
+#    Updated: 2023/02/05 17:17:18 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SHELL 			=	/bin/bash
 UNAME			=	$(shell uname)
 MAKEFLAGS 		=	--no-print-directory
-CFLAGS			=	-g -fsanitize=address #-Wall -Wextra -Werror #-g  
+CFLAGS			=	-g #-fsanitize=address #-Wall -Wextra -Werror #-g  
 
 #FORMAT----------------------------------#
 DEFCL			=	$(shell echo -e "\033[0m")
@@ -38,8 +38,8 @@ LIB_DIR			=	lib
 INC_DIR			=	inc
 
 SRC				= 	${NAME}													\
+					parsing/parse_map										\
 					raycasting/map											\
-					parsing/parse_map
 
 INC				=	${NAME}													\
 					data													\
