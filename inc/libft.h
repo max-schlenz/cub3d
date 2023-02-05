@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/30 14:33:31 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/03 14:52:45 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/05 09:32:32 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 # include <stddef.h>
 # include <stdbool.h>
 # include <stdint.h>
-# include <errno.h>
 
 typedef struct s_list
 {

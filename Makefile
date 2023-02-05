@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+         #
+#    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2023/02/03 15:47:34 by lkrabbe          ###   ########.fr        #
+#    Updated: 2023/02/05 14:01:24 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,8 @@ LIB_DIR			=	lib
 INC_DIR			=	inc
 
 SRC				= 	${NAME}													\
-					raycasting/map
+					raycasting/map											\
+					parsing/parse_map
 
 INC				=	${NAME}													\
 					data													\
@@ -66,7 +67,7 @@ all: $(NAME)
 $(LIB_FILES):
 	@echo -n "compile..."
 	@touch .tmp
-	@$(MAKE) MAKEFLAGS+=-j1 CFLAGS+="$(CFLAGS)" -C src/libft
+	@$(MAKE) MAKEFLAGS+=-j8 CFLAGS+="$(CFLAGS)" -C src/libft
 	@ar -rc $(LIB_FILES) $$(find ./src/libft -type f -name '*.o')
 
 $(OBJ_DIR):
@@ -79,14 +80,21 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	fi
 	@echo -en "\\r		➜  ${BCYAN}$(NAME)${DEFCL}...    »  $@${DEL_R}"
 	@$(CC) $(CFLAGS) $(INCLUDES) $(MAC_INCLUDES) -c $< -o $@ 
-	
+
+ifeq ($(UNAME), Darwin)	
 $(NAME): $(MAC_BREW) $(MAC_GLFW) $(MLX_DIR) $(MLX_LIB) $(LIB_FILES) $(OBJ_DIR) $(OBJ_FILES)
-	@echo -en "\\r		  ${BGREEN}$(NAME)${DEFCL}        ✔  ${BGREEN}./$(NAME)${DEFCL}${DEL_R}\n"
+	@echo -en "\\r		  ${BGREEN}$(NAME)${DEFCL}            ✔  ${BGREEN}./$(NAME)${DEFCL}${DEL_R}\n"
 	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ_FILES) $(MLX_LIB) $(INCLUDES) $(LINKER)
 	@rm -f .tmp
+else
+$(NAME): $(LIB_FILES) $(OBJ_DIR) $(OBJ_FILES)
+	@echo -en "\\r		  ${BGREEN}$(NAME)${DEFCL}            ✔  ${BGREEN}./$(NAME)${DEFCL}${DEL_R}\n"
+	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ_FILES) $(INCLUDES) -L lib -l ft
+	@rm -f .tmp
+endif
 
 ray: $(MAC_BREW) $(MAC_GLFW) $(MLX_DIR) $(MLX_LIB) $(LIB_FILES) $(OBJ_DIR) $(OBJ_FILES)
-	@echo -en "\\r		  ${BGREEN}$(NAME)${DEFCL}        ✔  ${BGREEN}./$(NAME)${DEFCL}${DEL_R}\n"
+	@echo -en "\\r		  ${BGREEN}$(NAME)${DEFCL}            ✔  ${BGREEN}./$(NAME)${DEFCL}${DEL_R}\n"
 	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ_FILES) $(MLX_LIB) $(INCLUDES) $(LINKER)
 	@rm -f .tmp
 

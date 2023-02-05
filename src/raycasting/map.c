@@ -30,7 +30,7 @@ void	default_movement(t_movement *move)
 	move->y = 1;//?get from parser
 	move->tile_x = 0.5;
 	move->tile_y = 0.5;
-	move->velocity = 0.01;
+	move->velocity = 0.04;
 	move->direction = 0; //? will get changed from map input
 }
 
@@ -163,15 +163,15 @@ void	mouse_checker(mlx_t *mlx, t_movement *move)
 	{
 		// printf("up\n");
 	}	
-	mlx_set_mouse_pos(mlx, WIDTH / 2, HEIGHT / 2);
+	// mlx_set_mouse_pos(mlx, WIDTH / 2, HEIGHT / 2);
 }
 
 void	draw_player_char(mlx_image_t *img, int y, int x)
 {
-	mlx_put_pixel(img, x, y, MLX_COLOR_Black);
-	mlx_put_pixel(img, x + 1, y, MLX_COLOR_Black);
-	mlx_put_pixel(img, x, y + 1, MLX_COLOR_Black);
-	mlx_put_pixel(img, x + 1, y + 1, MLX_COLOR_Black);
+	mlx_put_pixel(img, x, y, MLX_COLOR_BLACK);
+	mlx_put_pixel(img, x + 1, y, MLX_COLOR_BLACK);
+	mlx_put_pixel(img, x, y + 1, MLX_COLOR_BLACK);
+	mlx_put_pixel(img, x + 1, y + 1, MLX_COLOR_BLACK);
 }
 
 void	draw_player_on_map(t_parse *map, mlx_image_t *img, t_movement *move)
@@ -201,12 +201,15 @@ void	draw_map(t_parse *map, mlx_image_t *img, t_movement *move)
 	{
 		while (x < img->width)
 		{
+			// printf("DRAW: y/ppy = %i x/ppx = %i\n", y / pixel_per_y, x / pixel_per_x);
 			if (map->array[y / pixel_per_y][x / pixel_per_x] == '1')
-				mlx_put_pixel(img, x, y, MLX_COLOR_OrangeRed);
+				mlx_put_pixel(img, x, y, MLX_COLOR_ORANGERED);
 			else if (map->array[y / pixel_per_y][x / pixel_per_x] == '0')
-				mlx_put_pixel(img, x, y, MLX_COLOR_DarkSalmon);
+				mlx_put_pixel(img, x, y, MLX_COLOR_DARKSALMON);
+			else if (map->array[y / pixel_per_y][x / pixel_per_x] == '2')
+				mlx_put_pixel(img, x, y, MLX_COLOR_BLUE);
 			else
-				mlx_put_pixel(img, x, y, MLX_COLOR_Blue);
+				mlx_put_pixel(img, x, y, MLX_COLOR_YELLOWGREEN);
 			x++;
 		}
 		x = 0;
@@ -264,6 +267,7 @@ int	mlx_setup(t_parse *map)
 int	main_casting(t_parse *parse)// input map
 {
 	parse->map_height += -1;
+	parse->map_width += -1;
 	mlx_setup(parse);
 	return (0);
 }
