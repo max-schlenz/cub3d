@@ -5,14 +5,20 @@
 # define HEIGHT 1000
 # define X 0
 # define Y 1
+# define DEFAULT_ROTATION_SPEED 0.1
+# define DEFAULT_DIRECTION 0
+# define DEFAULT_VELOCITY 0.01
+# define DEFAULT_TOP_DOWN 0 //? maybe not use in the end
 
 typedef struct s_movement{
 	int		x;
 	int		y;
 	double	tile_x;
 	double	tile_y;
-	double	velocity;
 	double	direction;
+	double	top_down;
+	double	velocity;//? settig value
+	double	rotation_speed;//? settig value
 }t_movement;
 
 typedef struct s_transfer{
@@ -30,13 +36,15 @@ void	default_movement(t_movement *move)
 	move->y = 1;//?get from parser
 	move->tile_x = 0.5;
 	move->tile_y = 0.5;
-	move->velocity = 0.01;
-	move->direction = 0; //? will get changed from map input
+	move->velocity = DEFAULT_VELOCITY;
+	move->direction = DEFAULT_DIRECTION; //? will get changed from map input
+	move->top_down = DEFAULT_TOP_DOWN;
+	move->rotation_speed = DEFAULT_ROTATION_SPEED;
 }
 
 int	wall_check(t_parse *map, t_movement *move, int f_b, int l_r)
 {
-	if (map->array[move->y + f_b][move->x + l_r]== '1')
+	if (map->array[move->y + f_b][move->x + l_r] == '1')
 		return (1);
 	return (0);
 }
@@ -69,7 +77,7 @@ void	check_east(t_parse	*map, t_movement *move)
 		}
 		else
 		{
-			printf("east\n");		
+			printf("east\n");
 			move->tile_x = 0.99;
 		}
 	}
@@ -117,6 +125,15 @@ void	is_there_something(t_parse *map, t_movement *move)
 	check_west(map, move);
 }
 
+
+
+/**
+ * @brief change position based data depending on specific key pressed.
+ * also close window for [esc]
+ * 
+ *! @todo movement needs to care about current direction aka x * cos() and  y * cos()
+ * 
+ */
 void	key_checker(mlx_t *mlx, t_movement *move)
 {
 	double	movement[2];
@@ -135,8 +152,6 @@ void	key_checker(mlx_t *mlx, t_movement *move)
 		movement[X] += move->velocity;
 	move->tile_x += movement[X];
 	move->tile_y += movement[Y];
-	// printf("tile  %f %f\n", move->tile_y, move->tile_x);
-	// printf("player %i %i\n", move->y, move->x);
 }
 
 void	mouse_checker(mlx_t *mlx, t_movement *move)
@@ -147,22 +162,36 @@ void	mouse_checker(mlx_t *mlx, t_movement *move)
 	mlx_get_mouse_pos(mlx, &x, &y);
 	if ((WIDTH/2 - x) < 0)
 	{
-		// left right for rotation for the raycaster
+		move->direction += move->rotation_speed;// coud be based on a factor so it rotates faster
+	printf("direction%f top_down%f\n",move->direction, move->top_down);
 		//printf("right\n");
 	}
 	else if ((WIDTH/2 - x) > 0)
 	{
+		move->direction -= move->rotation_speed;
+	printf("direction%f top_down%f\n",move->direction, move->top_down);
 		//printf("left\n");
 	}
-	if ((HEIGHT/2 - y) < 0)
+	if ((HEIGHT/2 - y) < 0)//? maybe not used in the end// top down for  tranlate the casting line up or down
 	{
-		// top down for  tranlate the casting line up or down
+		move->top_down += move->rotation_speed;
+	printf("direction%f top_down%f\n",move->direction, move->top_down);
 		// printf("down\n");
 	}
-	else if ((HEIGHT/2 - y) > 0)
+	else if ((HEIGHT/2 - y) > 0)//? maybe not used in the end
 	{
+		move->top_down -= move->rotation_speed;
+	printf("direction%f top_down%f\n",move->direction, move->top_down);
 		// printf("up\n");
-	}	
+	}
+	while (move->direction > M_PI)
+		move->direction -= M_PI;
+	while (move->direction < 0)
+		move->direction += M_PI;
+	while (move->top_down > M_PI)
+		move->top_down -= M_PI;
+	while (move->top_down < 0)
+		move->top_down += M_PI;
 	mlx_set_mouse_pos(mlx, WIDTH / 2, HEIGHT / 2);
 }
 
@@ -232,9 +261,7 @@ void	rendering_loop(void *param)
 	mouse_checker(mlx, move);
 	key_checker(mlx, move);
 	is_there_something(map, move);
-	// printf("x = %i and y %i\n", img->height, img->width);
 	draw_map(map, img, move);
-	// mlx_put_string(mlx, "hello",150,150);
 }
 
 int	mlx_setup(t_parse *map)
@@ -245,7 +272,7 @@ int	mlx_setup(t_parse *map)
 	t_transfer	transporter;
 
 	default_movement(&move);
-	mlx = mlx_init(WIDTH, HEIGHT, "map", 1);
+	mlx = mlx_init(WIDTH, HEIGHT, "cub3D", 1);
 	if (mlx == NULL)
 		exit(EXIT_FAILURE);
 	img = mlx_new_image(mlx, WIDTH, HEIGHT);
