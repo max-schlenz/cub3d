@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 10:17:57 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/05 14:43:53 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/05 14:58:18 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ static bool	get_map_size(t_parse *parse)
 		{
 			free_null(1, &read_buf);
 			read_buf = get_next_line(fd);
+			if (read_buf && read_buf[0] && read_buf[0] != '0' && read_buf[0] != '1' && read_buf[0] != ' ')
+				continue;
 			if (read_buf && read_buf[0] == '\n')
 				continue ;
 			height++;
@@ -113,14 +115,38 @@ void	parse_map(t_parse *parse)
 			read_buf = get_next_line(fd);
 			if (read_buf && read_buf[0] == '\n')
 				continue ;
-			i = 0;
-			for (; read_buf && read_buf[i] && read_buf[i] != '\n'; i++)
+			if (!ft_strncmp(read_buf, "NO", 2))
 			{
-				if (read_buf[i] == ' ')
-					read_buf[i] = '2';
-				parse->array[line][i] = read_buf[i];
+				parse->tex_no = ft_strdup(read_buf);
+				continue;
 			}
-			parse->array[line][i] = '2';
+			else if (!ft_strncmp(read_buf, "SO", 2))
+			{
+				parse->tex_so = ft_strdup(read_buf);	
+				continue;
+			}
+			else if (!ft_strncmp(read_buf, "WE", 2))
+			{
+				parse->tex_we = ft_strdup(read_buf);	
+				continue;
+			}
+			else if (!ft_strncmp(read_buf, "EA", 2))
+			{
+				parse->tex_ea = ft_strdup(read_buf);
+				continue;
+			}
+			i = 0;
+			while (read_buf && read_buf[i] && read_buf[i] != '\n')
+			{
+				if (line < parse->map_height)
+				{
+					if (read_buf[i] == ' ')
+						read_buf[i] = '2';
+					parse->array[line][i] = read_buf[i];
+				}
+				i++;
+				parse->array[line][i] = '2';
+			}
 			line++;
 		}
 	}
