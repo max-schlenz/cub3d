@@ -40,6 +40,7 @@ void	rendering_loop(void *param)
 	key_checker(mlx, move);
 	is_there_something(map, move);
 	draw_map(map, img, move);
+	raycasting(mlx, img, move, map);
 }
 
 int	mlx_setup(t_parse *map)
@@ -48,7 +49,6 @@ int	mlx_setup(t_parse *map)
 	mlx_image_t	*img;
 	t_movement	move;
 	t_transfer	transporter;
-
 
 	default_movement(&move);
 	move.x = map->player_x;

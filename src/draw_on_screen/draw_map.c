@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 15:09:07 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/06 15:16:56 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/06 20:52:49 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ void	draw_player_on_map(t_parse *map, mlx_image_t *img, t_movement *move)
 	y = move->y * (img->height / (map->map_height));
 	x += move->tile_x * (img->width / (map->map_width));
 	y += move->tile_y * (img->height / map->map_height);
-	draw_player_char(img, y, x);
+	printf("player%i %i\n", x, y);
+	draw_player_char(img, y, x);// here texture
 }
 
 # define pixel_per_y (int)(y /((double)img->height / (map->map_height)))
@@ -55,6 +56,8 @@ void	draw_map(t_parse *map, mlx_image_t *img, t_movement *move)
 				mlx_put_pixel(img, x, y, MLX_COLOR_ORANGERED);
 			else if (map->array[pixel_per_y][pixel_per_x] == '0')
 				mlx_put_pixel(img, x, y, MLX_COLOR_DARKSALMON);
+			else if (map->array[pixel_per_y][pixel_per_x] == 'N')
+				mlx_put_pixel(img, x, y, MLX_COLOR_ORANGERED);
 			x++;
 		}
 		x = 0;
