@@ -3,12 +3,13 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+         #
+#    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2023/02/06 15:24:35 by lkrabbe          ###   ########.fr        #
+#    Updated: 2023/02/06 16:02:03 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
 
 SHELL 			=	/bin/bash
 UNAME			=	$(shell uname)
@@ -39,6 +40,7 @@ INC_DIR			=	inc
 
 SRC				= 	${NAME}													\
 					parsing/parse_map										\
+					parsing/parse_utils										\
 					raycasting/map											\
 					map_movement/check_side									\
 					map_movement/checks										\

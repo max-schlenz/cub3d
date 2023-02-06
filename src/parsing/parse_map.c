@@ -6,32 +6,11 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 10:17:57 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/06 14:10:50 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/06 16:05:03 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3D.h>
-
-char	*ft_strdup_nonl(const char *s1)
-{
-	size_t		len_s1;
-	size_t		i;
-	char		*ptr;
-
-	len_s1 = ft_strlen(s1);
-	i = 0;
-	ptr = malloc(len_s1 + 1);
-	if (!ptr)
-		return (NULL);
-	while (i < len_s1)
-	{
-		ptr[i] = s1[i];
-		i++;
-	}
-	ptr[--i] = '\0';
-	return (ptr);
-}
-
 
 static bool	get_map_size(t_parse *parse)
 {
@@ -91,6 +70,12 @@ bool is_map_valid(t_parse *parse)
 
 	i = 0;
 	j = 0;
+	if (!parse->player_dir)
+	{
+		printf("Found error in row: %i col: %i\n", i + 1, j + 1);
+		exit(1);
+	}
+		
 	while (i < parse->map_height)
 	{
 		while (j < parse->map_width)
