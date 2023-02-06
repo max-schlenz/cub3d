@@ -10,6 +10,7 @@
 # define DEFAULT_VELOCITY 0.01
 # define DEFAULT_TOP_DOWN 0.00001 //? maybe not use in the end
 # define PI_TIMES_TWO 6.28318530718
+
 typedef struct s_movement{
 	int		x;
 	int		y;
@@ -131,8 +132,23 @@ void	is_there_something(t_parse *map, t_movement *move)
 	check_east(map, move);
 	check_west(map, move);
 }
+/**
+ * @brief 
+ * 
+ * x' = xcosθ - ysinθ.
+ * y' = xsinθ + ycosθ.
+ * 
+ */
+void	matrix_movement(t_movement *move, double *array)
+{
+	double	x;
+	double	y;
 
-
+	x = array[X] * cos(move->direction) - array[Y] * sin(move->direction);
+	y = array[X] * sin(move->direction) + array[Y] * cos(move->direction);
+	if (array[X] || array[Y])
+	printf("X %f ==> %f\nY %f ==> %f\n", array[X], x, array[Y], y);
+}
 
 /**
  * @brief change position based data depending on specific key pressed.
@@ -151,23 +167,19 @@ void	key_checker(mlx_t *mlx, t_movement *move)
 		mlx_close_window(mlx);
 	if (mlx_is_key_down(mlx, MLX_KEY_W))
 	{
-		movement[Y] -= move->velocity * cos(move->direction);
-		movement[X] -= move->velocity * sin(move->direction);
+		movement[Y] -= move->velocity;
 	}
 	if (mlx_is_key_down(mlx, MLX_KEY_A))
 	{
-		movement[X] -= move->velocity * cos(move->direction);
-		movement[Y] -= move->velocity * sin(move->direction);
+		movement[X] -= move->velocity;
 	}
 	if (mlx_is_key_down(mlx, MLX_KEY_S))
 	{
-		movement[Y] += move->velocity * cos(move->direction);
-		movement[X] += move->velocity * sin(move->direction);
+		movement[Y] += move->velocity;
 	}
 	if (mlx_is_key_down(mlx, MLX_KEY_D))
 	{
-		movement[X] += move->velocity * cos(move->direction);
-		movement[Y] += move->velocity * sin(move->direction);
+		movement[X] += move->velocity;
 	}
 	if (mlx_is_key_down(mlx, MLX_KEY_Q))
 	{
@@ -177,6 +189,7 @@ void	key_checker(mlx_t *mlx, t_movement *move)
 	{
 		move->direction -= 0.1;
 	}
+	matrix_movement(move, movement);
 	move->tile_x += movement[X];
 	move->tile_y += movement[Y];
 }
@@ -230,7 +243,7 @@ void	cast_array(mlx_image_t *img, t_movement *move, t_parse *map)
 	int	x;
 	int	y;
 
-	x = ;
+	x = 0;
 	y = 0;
 
 
@@ -252,30 +265,29 @@ void	draw_player_on_map(t_parse *map, mlx_image_t *img, t_movement *move)
 	cast_array(img, move, map);
 }
 
+# define pixel_per_y (int)(y /((double)HEIGHT / (map->map_height)))
+# define pixel_per_x (int)(x /((double)WIDTH / map->map_width))
 void	draw_map(t_parse *map, mlx_image_t *img, t_movement *move)
 {
-	int	x;
-	int	y;
-	int	pixel_per_y;
-	int	pixel_per_x;
+	double	x;
+	double	y;
+
 
 	x = 0;
 	y = 0;
-	pixel_per_y = (HEIGHT / (map->map_height));
-	pixel_per_x = (WIDTH / map->map_width);
 	while (y < img->height)
 	{
 		while (x < img->width)
 		{
-			// printf("DRAW: y/ppy = %i x/ppx = %i\n", y / pixel_per_y, x / pixel_per_x);
-			if (map->array[y / pixel_per_y][x / pixel_per_x] == '1')
+			//printf("DRAW: %i y/ppy = %i x/ppx = %i\n",y ,pixel_per_y, pixel_per_x);
+			if (map->array[pixel_per_y][pixel_per_x] == '1')// 999 / 111 = 9
 				mlx_put_pixel(img, x, y, MLX_COLOR_ORANGERED);
-			else if (map->array[y / pixel_per_y][x / pixel_per_x] == '0')
+			else if (map->array[pixel_per_y][pixel_per_x] == '0')
 				mlx_put_pixel(img, x, y, MLX_COLOR_DARKSALMON);
-			else if (map->array[y / pixel_per_y][x / pixel_per_x] == '2')
+			else if (map->array[pixel_per_y][pixel_per_x] == '2')
 				mlx_put_pixel(img, x, y, MLX_COLOR_BLUE);
 			else
-				mlx_put_pixel(img, x, y, MLX_COLOR_YELLOWGREEN);
+				mlx_put_pixel(img, x, y, MLX_COLOR_WHITE);
 			x++;
 		}
 		x = 0;
@@ -297,8 +309,9 @@ void	rendering_loop(void *param)
 	map = transporter->map;
 	img = transporter->img;
 	move = transporter->move;
-	ft_bzero(img->pixels, (WIDTH * HEIGHT * sizeof(u_int32_t)));
-//	mouse_checker(mlx, move);
+	ft_memset(img->pixels, MLX_COLOR_BURLYWOOD,(WIDTH * HEIGHT * sizeof(u_int32_t)));
+	//ft_bzero(img->pixels, (WIDTH * HEIGHT * sizeof(u_int32_t)));
+	mouse_checker(mlx, move);
 	key_checker(mlx, move);
 	is_there_something(map, move);
 	draw_map(map, img, move);
@@ -330,8 +343,6 @@ int	mlx_setup(t_parse *map)
 
 int	main_casting(t_parse *parse)// input map
 {
-	parse->map_height += -1;
-	parse->map_width += -1;
 	mlx_setup(parse);
 	return (0);
 }
