@@ -147,7 +147,8 @@ void	matrix_movement(t_movement *move, double *array)
 	x = array[X] * cos(move->direction) - array[Y] * sin(move->direction);
 	y = array[X] * sin(move->direction) + array[Y] * cos(move->direction);
 	if (array[X] || array[Y])
-	printf("X %f ==> %f\nY %f ==> %f\n", array[X], x, array[Y], y);
+	array[X] = x;
+	array[Y] = y;
 }
 
 /**
@@ -166,29 +167,13 @@ void	key_checker(mlx_t *mlx, t_movement *move)
 	if (mlx_is_key_down(mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(mlx);
 	if (mlx_is_key_down(mlx, MLX_KEY_W))
-	{
 		movement[Y] -= move->velocity;
-	}
 	if (mlx_is_key_down(mlx, MLX_KEY_A))
-	{
 		movement[X] -= move->velocity;
-	}
 	if (mlx_is_key_down(mlx, MLX_KEY_S))
-	{
 		movement[Y] += move->velocity;
-	}
 	if (mlx_is_key_down(mlx, MLX_KEY_D))
-	{
 		movement[X] += move->velocity;
-	}
-	if (mlx_is_key_down(mlx, MLX_KEY_Q))
-	{
-		move->direction += 0.1;
-	}
-	if (mlx_is_key_down(mlx, MLX_KEY_E))
-	{
-		move->direction -= 0.1;
-	}
 	matrix_movement(move, movement);
 	move->tile_x += movement[X];
 	move->tile_y += movement[Y];
@@ -227,6 +212,12 @@ void	mouse_checker(mlx_t *mlx, t_movement *move)
 	mlx_set_mouse_pos(mlx, WIDTH / 2, HEIGHT / 2);
 }
 
+
+/**
+ * @brief 
+ * 
+ * @todo use a sprite for a the payer
+ */
 void	draw_player_char(mlx_image_t *img, int y, int x)
 {
 	mlx_put_pixel(img, x, y, MLX_COLOR_BLACK);
