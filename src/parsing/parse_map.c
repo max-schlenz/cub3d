@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 10:17:57 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/05 15:54:47 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/06 14:10:50 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,14 @@ static bool	get_map_size(t_parse *parse)
 				continue;
 			if (read_buf && read_buf[0] == '\n')
 				continue ;
-			height++;
-			width_tmp = ft_strlen(read_buf);
+			if (read_buf)
+				height++;
+			width_tmp = ft_strlen(read_buf) - 1;
 			if (width_tmp > width)
 				width = width_tmp;
 		}
-		parse->map_width = width - 1;
-		parse->map_height = height - 1;
+		parse->map_width = width;
+		parse->map_height = height;
 		return (true);
 	}
 	return (false);
@@ -74,13 +75,13 @@ static void	allocate_map_arr(t_parse *parse)
 {
 	int **arr;
 
-	parse->array = ft_calloc(parse->map_height + 1, sizeof(char*));
+	parse->array = ft_calloc(parse->map_height + 2, sizeof(char*));
 	for (int i = 0; i < parse->map_height; i++)
 	{
 		parse->array[i] = ft_calloc(parse->map_width + 2, sizeof(char));
 		ft_memset(parse->array[i], '2', parse->map_width + 1);
 	}
-	parse->array[parse->map_height] = NULL;
+	parse->array[parse->map_height + 1] = NULL;
 }
 
 bool is_map_valid(t_parse *parse)
@@ -172,6 +173,17 @@ void	parse_map(t_parse *parse)
 			{
 				if (line < parse->map_height)
 				{
+					if (read_buf[i] == 'N' || read_buf[i] == 'S' || read_buf[i] == 'W' || read_buf[i] == 'E')
+					{
+						if (parse->player_dir != 0)
+						{
+							printf("Error: multiple player spawns (line: %i, row: %i)\n", line, i);
+							exit (0);
+						}
+						parse->player_x = i;
+						parse->player_y = line;
+						parse->player_dir = read_buf[i];
+					}
 					if (read_buf[i] == ' ')
 						read_buf[i] = '2';
 					parse->array[line][i] = read_buf[i];
@@ -209,4 +221,7 @@ void	parse_map(t_parse *parse)
 	printf("tex_ea: %s\n", parse->tex_ea);
 	printf("f: %s\n", parse->f);
 	printf("c: %s\n", parse->c);
+	printf("player_x: %i\n", parse->player_x);
+	printf("player_y: %i\n", parse->player_y);
+	printf("player_dir: %c\n", parse->player_dir);
 }
