@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 10:56:28 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/05 13:52:55 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/06 15:24:09 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,10 @@
 int		main_casting(t_parse *parse);
 void	parse_map(t_parse *parse);
 bool	is_map_valid(t_parse *parse);
+void	is_there_something(t_parse *map, t_movement *move);
+int		wall_check(t_parse *map, t_movement *move, int f_b, int l_r);
+void	key_checker(mlx_t *mlx, t_movement *move);
+void	draw_map(t_parse *map, mlx_image_t *img, t_movement *move);
+void	mouse_checker(mlx_t *mlx, t_movement *move);
 
 #endif
