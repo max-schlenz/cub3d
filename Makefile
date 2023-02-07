@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+         #
+#    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2023/02/07 12:06:33 by lkrabbe          ###   ########.fr        #
+#    Updated: 2023/02/07 13:32:34 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 SHELL 			=	/bin/bash
 UNAME			=	$(shell uname)
 MAKEFLAGS 		=	--no-print-directory
-CFLAGS			=	-g #-fsanitize=address #-Wall -Wextra -Werror #-g  
+CFLAGS			=	-g -fsanitize=address #-Wall -Wextra -Werror #-g  
 
 #FORMAT----------------------------------#
 DEFCL			=	$(shell echo -e "\033[0m")
@@ -111,8 +111,8 @@ $(MLX_DIR):
 	@mkdir -p MLX42/build
 
 $(MLX_LIB):
-	@cmake -B $(MLX_DIR)/build $(MLX_DIR)
-	@$(MAKE) -C MLX42/build
+#	@cmake -B $(MLX_DIR)/build $(MLX_DIR)
+#	@$(MAKE) -C MLX42/build
 
 $(MAC_BREW):
 	@echo "${CYAN}installing brew...${DEFCL}"

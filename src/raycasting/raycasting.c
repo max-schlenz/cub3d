@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:01:19 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/07 12:03:27 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/07 14:24:47 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	draw_vert(mlx_image_t *img, int x)
 	}
 }
 
-void	raycasting(mlx_t *mlx, mlx_image_t *img, t_movement *move, t_parse *map)
+void	raycasting(mlx_t *mlx, mlx_image_t *img, t_movement *move, t_parse *map, t_texture *tex)
 {
 	double	player[2];
 	double	A[2];
@@ -102,5 +102,8 @@ void	raycasting(mlx_t *mlx, mlx_image_t *img, t_movement *move, t_parse *map)
 	A[X] = player[X] + move->tile_y + move->y ;
 	printf("move->d %f\n", move->direction);
 	draw_hori(img, A[Y] * img->height / map->map_height);
-	mlx_put_string(img,"test",100,100);
+	mlx_put_string(mlx, "test", 100, 100);
+	mlx_draw_texture(img, tex->player, 50, 100);
 }
+
+

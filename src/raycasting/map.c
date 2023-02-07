@@ -29,21 +29,23 @@ void	rendering_loop(void *param)
 	mlx_image_t	*img;
 	t_movement	*move;
 	t_parse		*map;
+	t_texture	*tex;
 
 	transporter = param;
 	mlx = transporter->mlx;
 	map = transporter->map;
 	img = transporter->img;
 	move = transporter->move;
+	tex = transporter->tex;
 	ft_bzero(img->pixels, (WIDTH * HEIGHT * sizeof(u_int32_t)));
 	mouse_checker(mlx, move);
 	key_checker(mlx, move);
 	is_there_something(map, move);
 	draw_map(map, img, move);
-	raycasting(mlx, img, move, map);
+	raycasting(mlx, img, move, map, tex);
 }
 
-int	mlx_setup(t_parse *map)
+int	mlx_setup(t_parse *map, t_texture *tex)
 {
 	mlx_t		*mlx;
 	mlx_image_t	*img;
@@ -64,13 +66,16 @@ int	mlx_setup(t_parse *map)
 	transporter.img = img;
 	transporter.map = map;
 	transporter.move = &move;
+	transporter.tex = tex;
 	mlx_loop(mlx);
 	mlx_terminate(mlx);
 	return (EXIT_SUCCESS);
 }
 
-int	main_casting(t_parse *parse)// input map
+int	main_casting(t_parse *parse, t_texture *tex)// input map
 {
-	mlx_setup(parse);
+	float a;
+	mlx_setup(parse, tex);
 	return (0);
 }
+

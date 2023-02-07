@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 11:29:23 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/06 15:06:34 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/07 13:42:32 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,15 @@
 # define DATA_H
 
 # include <cub3D.h>
+
+typedef struct s_texture
+{
+	mlx_texture_t	*wall_no;
+	mlx_texture_t	*wall_so;
+	mlx_texture_t	*wall_we;
+	mlx_texture_t	*wall_ea;
+	mlx_texture_t	*player;
+}	t_texture;
 
 typedef struct s_parse
 {
@@ -65,6 +74,7 @@ typedef struct s_transfer{
 	mlx_t		*mlx;
 	mlx_image_t	*img;
 	t_movement	*move;
+	t_texture	*tex;
 }t_transfer;
 
 /**
