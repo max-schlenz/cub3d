@@ -6,15 +6,13 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 15:20:58 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/06 15:23:55 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/07 11:38:49 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include	<cub3D.h>
 
 # define PI_TIMES_TWO 6.28318530718
-
-
 
 void	overshot_protection(t_movement *move)
 {
