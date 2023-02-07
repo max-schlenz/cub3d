@@ -6,7 +6,7 @@
 #    By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2023/02/06 15:24:35 by lkrabbe          ###   ########.fr        #
+#    Updated: 2023/02/06 18:47:53 by lkrabbe          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,7 @@ INC_DIR			=	inc
 SRC				= 	${NAME}													\
 					parsing/parse_map										\
 					raycasting/map											\
+					raycasting/raycasting									\
 					map_movement/check_side									\
 					map_movement/checks										\
 					map_movement/key_input									\
