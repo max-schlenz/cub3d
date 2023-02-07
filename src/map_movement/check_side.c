@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   check_side.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 14:18:12 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/06 15:09:48 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/07 19:56:32 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include	<cub3D.h>
 
-void	check_west(t_parse	*map, t_movement *move)
+void	check_west(t_map *map, t_movement *move)
 {
 	if (move->tile_x < 0)
 	{
@@ -28,7 +28,7 @@ void	check_west(t_parse	*map, t_movement *move)
 	}
 }
 
-void	check_east(t_parse	*map, t_movement *move)
+void	check_east(t_map *map, t_movement *move)
 {
 	if (move->tile_x > 1)
 	{
@@ -44,7 +44,7 @@ void	check_east(t_parse	*map, t_movement *move)
 	}
 }
 
-void	check_north(t_parse	*map, t_movement *move)
+void	check_north(t_map *map, t_movement *move)
 {
 	if (move->tile_y < 0)
 	{
@@ -60,7 +60,7 @@ void	check_north(t_parse	*map, t_movement *move)
 	}
 }
 
-void	check_south(t_parse	*map, t_movement *move)
+void	check_south(t_map *map, t_movement *move)
 {
 	if (move->tile_y > 1)
 	{
@@ -76,7 +76,7 @@ void	check_south(t_parse	*map, t_movement *move)
 	}
 }
 
-void	is_there_something(t_parse *map, t_movement *move)
+void	is_there_something(t_map *map, t_movement *move)
 {
 	check_north(map, move);
 	check_south(map, move);

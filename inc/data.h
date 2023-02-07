@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 11:29:23 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/07 15:15:41 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/07 20:39:31 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,30 +15,51 @@
 
 # include <cub3D.h>
 
+typedef struct s_sprite
+{
+	mlx_texture_t	**player;
+}	t_sprite;
+
 typedef struct s_texture
 {
 	mlx_texture_t	*wall_no;
 	mlx_texture_t	*wall_so;
 	mlx_texture_t	*wall_we;
 	mlx_texture_t	*wall_ea;
-	mlx_texture_t	**player;
 }	t_texture;
 
-typedef struct s_parse
+typedef struct s_input
 {
-	int		map_width;
-	int		map_height;
-	char	**array;
 	char	*tex_no;
 	char	*tex_so;
 	char	*tex_we;
 	char	*tex_ea;
 	char	*f;
 	char	*c;
+}	t_input;
+
+typedef struct t_player
+{
 	int		player_x;
 	int		player_y;
 	char	player_dir;
-}	t_parse;
+}	t_player;
+
+typedef struct t_map
+{
+	char	**elem;
+	int		width;
+	int		height;
+}	t_map;
+
+typedef struct s_data
+{
+	t_input		*input;
+	t_player	*player;
+	t_map		*map;
+	t_texture	*texture;
+	t_sprite	*sprite;
+}	t_data;
 
 /**
  * @brief base struct for map movement related vars
@@ -70,11 +91,13 @@ typedef struct s_movement{
  * 
  */
 typedef struct s_transfer{
-	t_parse		*map;
+	t_map		*map;
 	mlx_t		*mlx;
 	mlx_image_t	*img;
 	t_movement	*move;
 	t_texture	*tex;
+	t_player	*player;
+	t_sprite	*sprite;
 }t_transfer;
 
 /**

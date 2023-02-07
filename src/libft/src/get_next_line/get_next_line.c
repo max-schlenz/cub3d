@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/01 21:00:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/09/05 12:06:41 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/07 21:48:21 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,12 @@ static void	trim_stat_buf(char **stat_buf)
 	char	*ptr_stat_buf;
 
 	stat_buf_nl = p_nl(*stat_buf);
+	if (ft_strlen(*stat_buf) - stat_buf_nl == 1)
+	{
+		free (*stat_buf);
+		*stat_buf = NULL;
+		return ;
+	}
 	ptr_stat_buf = *stat_buf;
 	*stat_buf = substr(*stat_buf, stat_buf_nl + 1, \
 				ft_strlen(*stat_buf) - stat_buf_nl, 1);

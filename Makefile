@@ -6,7 +6,7 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2023/02/07 13:32:34 by mschlenz         ###   ########.fr        #
+#    Updated: 2023/02/07 20:57:47 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 SHELL 			=	/bin/bash
 UNAME			=	$(shell uname)
 MAKEFLAGS 		=	--no-print-directory
-CFLAGS			=	-g -fsanitize=address #-Wall -Wextra -Werror #-g  
+CFLAGS			=	-g #-fsanitize=address #-Wall -Wextra -Werror #-g  
 
 #FORMAT----------------------------------#
 DEFCL			=	$(shell echo -e "\033[0m")
@@ -39,7 +39,7 @@ LIB_DIR			=	lib
 INC_DIR			=	inc
 
 SRC				= 	${NAME}													\
-					parsing/parse_map										\
+					parsing/parse_input										\
 					parsing/parse_utils										\
 					raycasting/map											\
 					raycasting/raycasting									\
@@ -48,6 +48,8 @@ SRC				= 	${NAME}													\
 					map_movement/key_input									\
 					map_movement/mouse_input								\
 					draw_on_screen/draw_map									\
+					utils/cleanup											\
+					utils/init												\
 
 INC				=	${NAME}													\
 					data													\
@@ -68,7 +70,8 @@ MLX_DIR			=	MLX42
 MLX_LIB			=	$(MLX_DIR)/build/libmlx42.a
 
 INCLUDES		= 	-I $(INC_DIR) -I $(MLX_DIR)/include/MLX42
-LINKER			=	-L lib -l ft -L $(MAC_GLFW) -l glfw -L $(MLX_DIR)/build  -framework Cocoa -framework OpenGL -framework IOKit
+LINKER			=	-ldl -lglfw -pthread -lm -L lib -l ft -L $(MLX_DIR)/build  
+LINKER_MAC		=	-L $(MAC_GLFW) -framework Cocoa -framework OpenGL -framework IOKit
 
 all: $(NAME)
 
@@ -92,12 +95,12 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 ifeq ($(UNAME), Darwin)	
 $(NAME): $(MAC_BREW) $(MAC_GLFW) $(MLX_DIR) $(MLX_LIB) $(LIB_FILES) $(OBJ_DIR) $(OBJ_FILES)
 	@echo -en "\\r		  ${BGREEN}$(NAME)${DEFCL}            ✔  ${BGREEN}./$(NAME)${DEFCL}${DEL_R}\n"
-	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ_FILES) $(MLX_LIB) $(INCLUDES) $(LINKER)
+	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ_FILES) $(MLX_LIB) $(INCLUDES) $(LINKER) $(LINKER_MAC)
 	@rm -f .tmp
 else
-$(NAME): $(LIB_FILES) $(OBJ_DIR) $(OBJ_FILES)
+$(NAME): $(LIB_FILES) $(MLX_DIR) $(MLX_LIB) $(OBJ_DIR) $(OBJ_FILES) 
 	@echo -en "\\r		  ${BGREEN}$(NAME)${DEFCL}            ✔  ${BGREEN}./$(NAME)${DEFCL}${DEL_R}\n"
-	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ_FILES) $(INCLUDES) -L lib -l ft
+	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ_FILES) $(MLX_LIB) $(INCLUDES) $(LINKER)
 	@rm -f .tmp
 endif
 
@@ -111,8 +114,8 @@ $(MLX_DIR):
 	@mkdir -p MLX42/build
 
 $(MLX_LIB):
-#	@cmake -B $(MLX_DIR)/build $(MLX_DIR)
-#	@$(MAKE) -C MLX42/build
+	@cmake -B $(MLX_DIR)/build $(MLX_DIR)
+	@$(MAKE) -C MLX42/build
 
 $(MAC_BREW):
 	@echo "${CYAN}installing brew...${DEFCL}"

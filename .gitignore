@@ -1,9 +1,12 @@
 # Prerequisites
 *.d
 
+MLX42
 MLX42/*
 test
 cub3D
+*.dSYM
+.vscode
 
 # Object files
 *.o

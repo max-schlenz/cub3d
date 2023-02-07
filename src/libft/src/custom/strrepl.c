@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 14:39:16 by mschlenz          #+#    #+#             */
-/*   Updated: 2022/11/28 15:34:30 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/07 21:51:06 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,3 @@ char	*strrepl(char *str, char *needle, char *repl)
 	ret = str;
 	return (ret);
 }
-
-// int main(void)
-// {
-// 	char		*str;
-
-// 	str = ft_strdup("AlphaBetaGammaDeltaBetaYpsilon");
-// 	printf("%s\n", strrepl(str, "Beta", "AlphaBeta"));
-// 	exit(0);
-// }
