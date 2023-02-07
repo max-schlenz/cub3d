@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:01:19 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/07 12:03:27 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/07 14:18:51 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ void	draw_vert(mlx_image_t *img, int x)
 	}
 }
 
+
+//A.x = Px + (Py-A.y)/tan(ALPHA);
 void	raycasting(mlx_t *mlx, mlx_image_t *img, t_movement *move, t_parse *map)
 {
 	double	player[2];
@@ -99,8 +101,10 @@ void	raycasting(mlx_t *mlx, mlx_image_t *img, t_movement *move, t_parse *map)
 		A[Y] = move->y;
 	else
 		A[Y] = move->y + 1;
-	A[X] = player[X] + move->tile_y + move->y ;
-	printf("move->d %f\n", move->direction);
+	A[X] = player[X] + (player[Y] - A[Y])/tan(move->direction) ;
+	printf("move->d %f A[x] = %f A[y] = %f\n", move->direction, A[X], A[Y]);
 	draw_hori(img, A[Y] * img->height / map->map_height);
-	mlx_put_string(img,"test",100,100);
+	if (A[X] >= 0 && A[X]< img->width && A[X] != INFINITY)
+		draw_vert(img, A[X] * img->width / map->map_width);
 }
+
