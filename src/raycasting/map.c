@@ -20,6 +20,7 @@ void	default_movement(t_movement *move)
 	move->direction = DEFAULT_DIRECTION; //? will get changed from map input
 	move->top_down = DEFAULT_TOP_DOWN;
 	move->rotation_speed = DEFAULT_ROTATION_SPEED;
+	move->pixel_per_map_tile = 10;
 }
 
 void	rendering_loop(void *param)
@@ -71,6 +72,7 @@ int	mlx_setup(t_parse *map)
 
 int	main_casting(t_parse *parse)// input map
 {
+	printf("in main casting\n");
 	mlx_setup(parse);
 	return (0);
 }

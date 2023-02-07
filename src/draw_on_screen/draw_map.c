@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 15:09:07 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/06 20:52:49 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/07 12:42:47 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,9 @@ void	draw_player_on_map(t_parse *map, mlx_image_t *img, t_movement *move)
 
 void	draw_map(t_parse *map, mlx_image_t *img, t_movement *move)
 {
-	double	x;
-	double	y;
+	int	x;
+	int	y;
+	int	pixel_per_tile;
 
 	x = 0;
 	y = 0;
