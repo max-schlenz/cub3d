@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 10:56:28 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/06 18:47:18 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/07 12:06:27 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,6 @@ void	key_checker(mlx_t *mlx, t_movement *move);
 void	draw_map(t_parse *map, mlx_image_t *img, t_movement *move);
 void	mouse_checker(mlx_t *mlx, t_movement *move);
 void	raycasting(mlx_t *mlx, mlx_image_t *img, t_movement *move, t_parse *map);
+char	*ft_strdup_nonl(const char *s1);
 
 #endif

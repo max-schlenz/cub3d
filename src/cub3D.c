@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 11:18:12 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/05 17:17:02 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/06 16:05:36 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@ static t_parse *parse_init()
 	parse->tex_ea = NULL;
 	parse->f = NULL;
 	parse->c = NULL;
+	parse->player_x = 0;
+	parse->player_y = 0;
+	parse->player_dir = 0;
 	return (parse);
 }
 
