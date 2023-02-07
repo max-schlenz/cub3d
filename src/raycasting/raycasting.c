@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:01:19 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/07 14:24:47 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/07 15:44:33 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,16 @@ void	draw_vert(mlx_image_t *img, int x)
 	}
 }
 
+void	show_player_anim(t_texture *tex, mlx_image_t *img, int x, int y)
+{
+	static int	j = 0;
+	
+	mlx_draw_texture(img, tex->player[j], x, y);
+	j++;
+	if (j == 33)
+		j = 0;
+}
+
 void	raycasting(mlx_t *mlx, mlx_image_t *img, t_movement *move, t_parse *map, t_texture *tex)
 {
 	double	player[2];
@@ -103,7 +113,6 @@ void	raycasting(mlx_t *mlx, mlx_image_t *img, t_movement *move, t_parse *map, t_
 	printf("move->d %f\n", move->direction);
 	draw_hori(img, A[Y] * img->height / map->map_height);
 	mlx_put_string(mlx, "test", 100, 100);
-	mlx_draw_texture(img, tex->player, 50, 100);
 }
 
 

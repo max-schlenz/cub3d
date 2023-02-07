@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 10:56:28 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/07 13:46:05 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/07 15:44:27 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,10 @@ bool	is_map_valid(t_parse *parse);
 void	is_there_something(t_parse *map, t_movement *move);
 int		wall_check(t_parse *map, t_movement *move, int f_b, int l_r);
 void	key_checker(mlx_t *mlx, t_movement *move);
-void	draw_map(t_parse *map, mlx_image_t *img, t_movement *move);
+void	draw_map(t_parse *map, mlx_image_t *img, t_movement *move, t_texture *tex);
 void	mouse_checker(mlx_t *mlx, t_movement *move);
 char	*ft_strdup_nonl(const char *s1);
 void	raycasting(mlx_t *mlx, mlx_image_t *img, t_movement *move, t_parse *map, t_texture *tex);
+void	show_player_anim(t_texture *tex, mlx_image_t *img, int x, int y);
 
 #endif

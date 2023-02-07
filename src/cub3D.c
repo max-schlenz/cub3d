@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 11:18:12 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/07 13:44:00 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/07 15:46:28 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@ static void	textures_cleanup(t_texture *textures)
 	mlx_delete_texture(textures->wall_so);
 	mlx_delete_texture(textures->wall_we);
 	mlx_delete_texture(textures->wall_ea);
-	mlx_delete_texture(textures->player);
+	for (int i = 0; i < 33; i++)
+		mlx_delete_texture(textures->player[i]);
+	free(textures->player);
 	free(textures);
 }
 
@@ -48,6 +50,25 @@ static t_parse *parse_init()
 	return (parse);
 }
 
+static mlx_texture_t **load_anim_player()
+{
+	char			*prefix;
+	char			*suffix;
+	char			*path;
+	mlx_texture_t 	**player;
+
+	player = ft_calloc(34, sizeof(mlx_texture_t *));
+	for (int i = 0; i < 33; i++)
+	{
+		prefix = ft_strjoin("res/player/sprite", ft_itoa(i));
+		path = ft_strjoin(prefix, ".png");
+		player[i] = mlx_load_png(path);
+		free(prefix);
+		free(path);
+	}
+	return (player);
+}
+
 static t_texture	*load_textures(t_parse *parse)
 {
 	t_texture	*textures;
@@ -57,10 +78,11 @@ static t_texture	*load_textures(t_parse *parse)
 	textures->wall_so = mlx_load_png(parse->tex_so);
 	textures->wall_we = mlx_load_png(parse->tex_we);
 	textures->wall_ea = mlx_load_png(parse->tex_ea);
-	textures->player = mlx_load_png("res/player.png");
-
+	textures->player = load_anim_player();
+	
 	return (textures);
 }
+
 
 int	main(void)
 {

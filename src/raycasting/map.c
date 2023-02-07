@@ -41,7 +41,7 @@ void	rendering_loop(void *param)
 	mouse_checker(mlx, move);
 	key_checker(mlx, move);
 	is_there_something(map, move);
-	draw_map(map, img, move);
+	draw_map(map, img, move, tex);
 	raycasting(mlx, img, move, map, tex);
 }
 
@@ -74,7 +74,6 @@ int	mlx_setup(t_parse *map, t_texture *tex)
 
 int	main_casting(t_parse *parse, t_texture *tex)// input map
 {
-	float a;
 	mlx_setup(parse, tex);
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 15:09:07 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/06 20:52:49 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/07 15:44:27 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	draw_player_char(mlx_image_t *img, int y, int x)
 	mlx_put_pixel(img, x + 1, y + 1, MLX_COLOR_BLACK);
 }
 
-void	draw_player_on_map(t_parse *map, mlx_image_t *img, t_movement *move)
+void	draw_player_on_map(t_parse *map, mlx_image_t *img, t_movement *move, t_texture *tex)
 {
 	int	x;
 	int	y;
@@ -35,13 +35,14 @@ void	draw_player_on_map(t_parse *map, mlx_image_t *img, t_movement *move)
 	x += move->tile_x * (img->width / (map->map_width));
 	y += move->tile_y * (img->height / map->map_height);
 	printf("player%i %i\n", x, y);
-	draw_player_char(img, y, x);// here texture
+	show_player_anim(tex, img, x, y);
+	// draw_player_char(img, y, x);// here texture
 }
 
 # define pixel_per_y (int)(y /((double)img->height / (map->map_height)))
 # define pixel_per_x (int)(x /((double)img->width / map->map_width))
 
-void	draw_map(t_parse *map, mlx_image_t *img, t_movement *move)
+void	draw_map(t_parse *map, mlx_image_t *img, t_movement *move, t_texture *tex)
 {
 	double	x;
 	double	y;
@@ -63,5 +64,5 @@ void	draw_map(t_parse *map, mlx_image_t *img, t_movement *move)
 		x = 0;
 		y++;
 	}
-	draw_player_on_map(map, img, move);
+	draw_player_on_map(map, img, move, tex);
 }
