@@ -6,11 +6,28 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 15:38:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/06 15:38:17 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/08 01:02:34 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3D.h>
+
+bool	error(int row, int col, t_error error)
+{
+	if (error == PLAYER_ERROR)
+		ft_putstr_fd("Error: spawn not defined", 2);
+	else if (error == PARAM_ERROR)
+		ft_putstr_fd("Error: required map params not set", 2);
+	else
+	{
+		ft_putstr_fd("Error in row: ", 2);
+		ft_putnbr_fd(row + 1, 2);
+		ft_putstr_fd(" col: ", 2);
+		ft_putnbr_fd(col + 1, 2);
+	}
+	write(2, "\n", 1);
+	return (false);
+}
 
 char	*ft_strdup_nonl(const char *s1)
 {

@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 20:02:42 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/07 20:54:46 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/07 23:43:44 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void clean_sprites(t_sprite *sprite)
 {
-	for (int i = 0; i < 33; i++)
+	for (int i = 0; i < 33 && sprite->player[i]; i++)
 		mlx_delete_texture(sprite->player[i]);
 	free(sprite->player);
 	free(sprite);
@@ -22,10 +22,14 @@ static void clean_sprites(t_sprite *sprite)
 
 static void	clean_textures(t_texture *texture)
 {
-	mlx_delete_texture(texture->wall_no);
-	mlx_delete_texture(texture->wall_so);
-	mlx_delete_texture(texture->wall_we);
-	mlx_delete_texture(texture->wall_ea);
+	if (texture->wall_no)
+		mlx_delete_texture(texture->wall_no);
+	if (texture->wall_so)
+		mlx_delete_texture(texture->wall_so);
+	if (texture->wall_we)
+		mlx_delete_texture(texture->wall_we);
+	if (texture->wall_ea)
+		mlx_delete_texture(texture->wall_ea);
 	free(texture);
 }
 
@@ -51,4 +55,5 @@ void	cleanup(t_data *data)
 	clean_map(data->map);
 	free_null(2, &data->player, &data->map);
 	free(data);
+	exit (EXIT_SUCCESS);
 }

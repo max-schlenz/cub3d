@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 10:56:28 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/07 20:56:48 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/08 00:03:00 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
  * 
  */
 int		main_casting(t_data *data);
-void	parse_input(t_input *input, t_player *player, t_map *map);
+bool	parse_input(t_input *input, t_player *player, t_map *map);
 bool	input_valid(t_input *input, t_player *player, t_map *map);
 void	is_there_something(t_map *map, t_movement *move);
 int		wall_check(t_map *map, t_movement *move, int f_b, int l_r);
@@ -49,5 +49,7 @@ void	load_textures(t_input *input, t_texture *tex);
 void	load_sprites(t_sprite *sprite);
 void	init(t_data *data);
 t_data	*alloc(void);
+bool	error(int row, int col, t_error error);
+char	*get_line(int fd);
 
 #endif

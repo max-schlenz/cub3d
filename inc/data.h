@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 11:29:23 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/07 20:39:31 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/08 00:04:17 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,13 @@
 # define DATA_H
 
 # include <cub3D.h>
+
+typedef enum e_error
+{
+	MAP_ERROR,
+	PARAM_ERROR,
+	PLAYER_ERROR
+}	t_error;
 
 typedef struct s_sprite
 {
