@@ -51,8 +51,7 @@ static char	**alloc_map(t_map *map)
 	while (i < map->height)
 	{
 		elem[i] = ft_calloc(map->width + 2, sizeof(char));
-		ft_memset(elem[i], '2', map->width + 1);
-		i++;
+		ft_memset(elem[i++], '2', map->width + 1);
 	}
 	elem[map->height + 1] = NULL;
 	return (elem);
