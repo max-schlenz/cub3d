@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 15:04:00 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/07 15:29:01 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/08 12:13:26 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ void	matrix_movement(t_movement *move, double *array)
 
 	x = array[X] * cos(move->direction) - array[Y] * sin(move->direction);
 	y = array[X] * sin(move->direction) + array[Y] * cos(move->direction);
-	if (array[X] || array[Y])
 	array[X] = x;
 	array[Y] = y;
 }

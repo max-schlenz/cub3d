@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 15:09:07 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/08 11:14:54 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/08 11:29:32 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void	draw_player_on_map(t_map *map, mlx_image_t *img, t_movement *move, t_textur
 	y = move->y * (img->height / (map->height));
 	x += move->tile_x * (img->width / (map->width));
 	y += move->tile_y * (img->height / map->height);
-	printf("player%i %i\n", x, y);
 	show_player_anim(sprite->player, img, x, y);
 	// draw_player_char(img, y, x);// here texture
 }

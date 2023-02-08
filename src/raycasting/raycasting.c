@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:01:19 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/08 11:16:25 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/08 13:22:48 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,10 +103,27 @@ void	show_player_anim(mlx_texture_t **player, mlx_image_t *img, int x, int y)
 		j = 0;
 }
 
+void line(mlx_image_t *img, int x0, int y0, int x1, int y1)
+{
+    int dx =  abs(x1 - x0), sx = x0 < x1 ? 1 : -1;
+    int dy = -abs(y1 - y0), sy = y0 < y1 ? 1 : -1;
+    int err = dx + dy, e2; /* error value e_xy */
+
+    while (1) {
+		if (x0 >= 0 && x0 < img->width && y0 >= 0 && y0 < img->height)
+      	  mlx_put_pixel(img, x0, y0, MLX_COLOR_BLACK);
+        if (x0 == x1 && y0 == y1) break;
+        e2 = 2 * err;
+        if (e2 > dy) { err += dy; x0 += sx; } /* e_xy+e_x > 0 */
+        if (e2 < dx) { err += dx; y0 += sy; } /* e_xy+e_y < 0 */
+    }
+}
+
 void	raycasting(mlx_t *mlx, mlx_image_t *img, t_movement *move, t_map *map, t_texture *tex)
 {
 	double	player[2];
 	double	A[2];
+	double	xa;
 
 	player[X] = move->x + move->tile_x;
 	player[Y] = move->y + move->tile_y;
@@ -114,10 +131,23 @@ void	raycasting(mlx_t *mlx, mlx_image_t *img, t_movement *move, t_map *map, t_te
 		A[Y] = move->y;
 	else
 		A[Y] = move->y + 1;
-	A[X] = player[X] + (player[Y] - A[Y])/tan(move->direction) ;
-	printf("move->d %f A[x] = %f A[y] = %f\n", move->direction, A[X], A[Y]);
-	if (A[Y] >= 0 && A[Y]< img->height)
-		draw_hori(img, A[Y] * img->height / map->height);
-	if (A[X] >= 0 && A[X]< img->width && A[X] != INFINITY)
-		draw_vert(img, A[X] * img->width / map->width);
+	A[X] = player[X] + (player[Y] - A[Y])/tan(-1 * move->direction - M_PI_2);
+	// if (A[Y] >= 0 && A[Y] < img->height)
+	// 	draw_hori(img, A[Y] * img->height / map->height);
+	// if (A[X] >= 0 && A[X] < img->width && A[X] != INFINITY)
+	// 	draw_vert(img, A[X] * img->width / map->width);
+	// if ((A[Y] >= 0 && A[Y] < img->height && (A[X] >= 0 && A[X] < img->width && A[X] != INFINITY)))
+	// 	line(img, player[X]* (img->height / map->height), player[Y]* (img->width / map->width), A[X]* (img->height / map->height), A[Y]* (img->width / map->width));
+	xa = 1 / tan(-1 * move->direction - M_PI_2);
+	if ()
+	A[X] += xa;
+	if (move->direction <= M_PI_2 || move->direction >= M_PI_2 + M_PI)
+		A[Y] += -1;
+	else
+		A[Y] += + 1;
+
+	// if ((A[Y] >= 0 && A[Y] < img->height && (A[X] >= 0 && A[X] < img->width && A[X] != INFINITY)))
+	// 	line(img, player[X]* (img->height / map->height), player[Y]* (img->width / map->width), A[X]* (img->height / map->height), A[Y]* (img->width / map->width));
+
+	
 }
