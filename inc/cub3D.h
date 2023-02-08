@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 10:56:28 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/08 00:03:00 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/08 10:30:58 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@
 # include <stdlib.h>
 # include <data.h>
 # include "hex_color.h"
+
+# define PLAYER_SPRITE_FRAMES
 
 /**
  * @brief main function for the raycasting part
