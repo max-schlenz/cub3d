@@ -49,7 +49,7 @@ void	rendering_loop(void *param)
 	raycasting(mlx, img, move, map, tex);
 }
 
-int	mlx_setup(t_map *map, t_player *player, t_texture *tex)
+int	mlx_setup(t_map *map, t_player *player, t_texture *tex, t_sprite *sprite)
 {
 	mlx_t		*mlx;
 	mlx_image_t	*img;
@@ -71,6 +71,7 @@ int	mlx_setup(t_map *map, t_player *player, t_texture *tex)
 	transporter.map = map;
 	transporter.move = &move;
 	transporter.tex = tex;
+	transporter.sprite = sprite;
 	mlx_loop(mlx);
 	mlx_terminate(mlx);
 	return (EXIT_SUCCESS);
@@ -78,7 +79,7 @@ int	mlx_setup(t_map *map, t_player *player, t_texture *tex)
 
 int	main_casting(t_data *data)// input map
 {
-	mlx_setup(data->map, data->player, data->texture);
+	mlx_setup(data->map, data->player, data->texture, data->sprite);
 	return (0);
 }
 
