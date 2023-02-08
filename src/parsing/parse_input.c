@@ -17,21 +17,21 @@ static bool	get_map_params(t_map *map)
 	int		fd;
 	int		width_line;
 	char	*line;
-	
+
 	if (!access("test", F_OK))
 	{
-		fd = open("test", O_RDWR | O_APPEND, 0644);
-		if (!fd)
-			return (false);
-		line = ft_strdup("42");
+		fd = open("test", O_RDONLY);
+		line = ft_calloc(1, sizeof(char));
 		while (line != NULL)
 		{
 			free (line);
 			line = get_next_line(fd);
-			if (line && (line[0] == '\n' || (line[0] != '0' && line[0] != '1' && line[0] != ' ')))
-				continue;
-			if (line)
-				map->height++;
+			if (!line)
+				return (true);
+			if (line[0] == '\n'
+				|| (line[0] != '0' && line[0] != '1' && line[0] != ' '))
+				continue ;
+			map->height++;
 			width_line = ft_strlen(line) - 1;
 			if (width_line > map->width)
 				map->width = width_line;
@@ -57,10 +57,10 @@ static char	**alloc_map(t_map *map)
 	return (elem);
 }
 
-bool input_valid(t_input *input, t_player *player, t_map *map)
+bool	input_valid(t_input *input, t_player *player, t_map *map)
 {
-	int row;
-	int col;
+	int	row;
+	int	col;
 
 	row = 0;
 	col = 0;
@@ -68,16 +68,14 @@ bool input_valid(t_input *input, t_player *player, t_map *map)
 		return (error(row, col, PLAYER_ERROR));
 	while (row < map->height && col < map->width)
 	{
-		if (map->elem[row][col] == '0')
-		{
-			if (row == 0 || col == 0 || row == map->height - 1
+		if (map->elem[row][col] == '0' && (
+				row == 0 || col == 0 || row == map->height - 1
 				|| col == map->width - 1 || !map->elem[row][col + 1]
 				|| map->elem[row - 1][col] == '2'
 				|| map->elem[row][col - 1] == '2'
 				|| map->elem[row + 1][col] == '2'
-				|| map->elem[row][col + 1] == '2')
-					return (error(row, col, MAP_ERROR));
-		}
+				|| map->elem[row][col + 1] == '2'))
+			return (error(row, col, MAP_ERROR));
 		if (++col == map->width)
 		{
 			col = 0;
@@ -87,7 +85,7 @@ bool input_valid(t_input *input, t_player *player, t_map *map)
 	return (true);
 }
 
-static void parse_input_map(char **read_buf, t_player *player, t_map *map, int *line)
+static void	parse_input_map(char **read_buf, t_player *player, t_map *map, int *line)
 {
 	int	i;
 
@@ -121,12 +119,13 @@ bool	parse_input(t_input *input, t_player *player, t_map *map)
 {
 	int		fd;
 	int		line;
+	int		i;
 	char	*read_buf;
-	
+
 	get_map_params(map);
 	map->elem = alloc_map(map);
 	read_buf = ft_calloc(1, sizeof(char));
-	int i = 0;
+	i = 0;
 	if (map->width != -1)
 	{
 		fd = open("test", O_RDWR | O_APPEND, 0644);
@@ -148,7 +147,7 @@ bool	parse_input(t_input *input, t_player *player, t_map *map)
 				input->f = ft_strdup_nonl(read_buf + 2);
 			else if (!input->c && !ft_strncmp(read_buf, "C ", 2))
 				input->c = ft_strdup_nonl(read_buf + 2);
-			else if (read_buf && (read_buf[0] == '\n' || (read_buf[0] != '0' && read_buf[0] != '1' && read_buf[0] != ' ')))
+			else if (read_buf[0] == '\n' || (read_buf[0] != '0' && read_buf[0] != '1' && read_buf[0] != ' '))
 				continue;
 			else
 				parse_input_map(&read_buf, player, map, &i);
@@ -159,7 +158,7 @@ bool	parse_input(t_input *input, t_player *player, t_map *map)
 	if (!input->tex_no || !input->tex_so || !input->tex_we || !input->tex_ea
 		|| !input->f || !input->c)
 		return (error(0, 0, PARAM_ERROR));
-	
+
 	for (int i = 0; i < map->height; i++)
 	{
 		for (int j = 0; j < map->width; j++)
