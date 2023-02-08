@@ -29,8 +29,10 @@ void	rendering_loop(void *param)
 	mlx_t		*mlx;
 	mlx_image_t	*img;
 	t_movement	*move;
-	t_parse		*map;
+	t_map		*map;
 	t_texture	*tex;
+	t_player	*player;
+	t_sprite	*sprite;
 
 	transporter = param;
 	mlx = transporter->mlx;
@@ -38,15 +40,17 @@ void	rendering_loop(void *param)
 	img = transporter->img;
 	move = transporter->move;
 	tex = transporter->tex;
+	player = transporter->player;
+	sprite = transporter->sprite;
 	ft_bzero(img->pixels, (WIDTH * HEIGHT * sizeof(u_int32_t)));
 	mouse_checker(mlx, move);
 	key_checker(mlx, move);
 	is_there_something(map, move);
-	draw_map(map, img, move);
+	draw_map(map, img, move, tex, sprite);
 	raycasting(mlx, img, move, map, tex);
 }
 
-int	mlx_setup(t_parse *map, t_texture *tex)
+int	mlx_setup(t_map *map, t_player *player, t_texture *tex, t_sprite *sprite)
 {
 	mlx_t		*mlx;
 	mlx_image_t	*img;
@@ -54,8 +58,8 @@ int	mlx_setup(t_parse *map, t_texture *tex)
 	t_transfer	transporter;
 
 	default_movement(&move);
-	move.x = map->player_x;
-	move.y = map->player_y;
+	move.x = player->player_x;
+	move.y = player->player_y;
 	mlx = mlx_init(WIDTH, HEIGHT, "cub3D", 1);
 	if (mlx == NULL)
 		exit(EXIT_FAILURE);
@@ -68,15 +72,15 @@ int	mlx_setup(t_parse *map, t_texture *tex)
 	transporter.map = map;
 	transporter.move = &move;
 	transporter.tex = tex;
+	transporter.sprite = sprite;
 	mlx_loop(mlx);
 	mlx_terminate(mlx);
 	return (EXIT_SUCCESS);
 }
 
-int	main_casting(t_parse *parse, t_texture *tex)// input map
+int	main_casting(t_data *data)// input map
 {
-	float a;
-	mlx_setup(parse, tex);
+	mlx_setup(data->map, data->player, data->texture, data->sprite);
 	return (0);
 }
 

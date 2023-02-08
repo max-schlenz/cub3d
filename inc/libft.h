@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/30 14:33:31 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/05 15:29:43 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/08 01:02:07 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int		print_hex(va_list args, size_t lcase);
 // GET_NEXT_LINE
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1
+#  define BUFFER_SIZE 100
 # endif
 
 char	*get_next_line(int fd);

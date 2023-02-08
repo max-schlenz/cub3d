@@ -6,13 +6,13 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:01:19 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/07 15:00:58 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/08 11:16:25 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include	<cub3D.h>
 /*
-void	dots(mlx_t *mlx, mlx_image_t *img, t_movement *move, t_parse *map, double x_ofset, double y_ofset)
+void	dots(mlx_t *mlx, mlx_image_t *img, t_movement *move, t_input *map, double x_ofset, double y_ofset)
 {
 	int	x;
 	int	y;
@@ -29,7 +29,7 @@ void	dots(mlx_t *mlx, mlx_image_t *img, t_movement *move, t_parse *map, double x
 	mlx_put_pixel(img, x , y , MLX_COLOR_BLACK);
 }
 
-void	raycasting(mlx_t *mlx, mlx_image_t *img, t_movement *move, t_parse *map)
+void	raycasting(mlx_t *mlx, mlx_image_t *img, t_movement *move, t_input *map)
 {
 	int	dx;
 	int	dy;
@@ -93,7 +93,17 @@ void	draw_vert(mlx_image_t *img, int x)
 
 
 //A.x = Px + (Py-A.y)/tan(ALPHA);
-void	raycasting(mlx_t *mlx, mlx_image_t *img, t_movement *move, t_parse *map, t_texture *tex)
+void	show_player_anim(mlx_texture_t **player, mlx_image_t *img, int x, int y)
+{
+	static int	j = 0;
+	
+	mlx_draw_texture(img, player[j], x, y);
+	j++;
+	if (j == 33)
+		j = 0;
+}
+
+void	raycasting(mlx_t *mlx, mlx_image_t *img, t_movement *move, t_map *map, t_texture *tex)
 {
 	double	player[2];
 	double	A[2];
@@ -107,7 +117,7 @@ void	raycasting(mlx_t *mlx, mlx_image_t *img, t_movement *move, t_parse *map, t_
 	A[X] = player[X] + (player[Y] - A[Y])/tan(move->direction) ;
 	printf("move->d %f A[x] = %f A[y] = %f\n", move->direction, A[X], A[Y]);
 	if (A[Y] >= 0 && A[Y]< img->height)
-		draw_hori(img, A[Y] * img->height / map->map_height);
+		draw_hori(img, A[Y] * img->height / map->height);
 	if (A[X] >= 0 && A[X]< img->width && A[X] != INFINITY)
-		draw_vert(img, A[X] * img->width / map->map_width);
+		draw_vert(img, A[X] * img->width / map->width);
 }
