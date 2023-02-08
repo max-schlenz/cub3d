@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 20:02:42 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/07 23:43:44 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/08 11:04:23 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ void	cleanup(t_data *data)
 	clean_input(data->input);
 	clean_sprites(data->sprite);
 	clean_map(data->map);
-	free_null(2, &data->player, &data->map);
-	free(data);
+	free_null(2, &data->player, &data->map, &data);
 	exit (EXIT_SUCCESS);
 }

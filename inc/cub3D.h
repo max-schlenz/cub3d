@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 10:56:28 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/08 10:30:58 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/08 11:27:25 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,6 @@ void	init(t_data *data);
 t_data	*alloc(void);
 bool	error(int row, int col, t_error error);
 char	*get_line(int fd);
+char	**alloc_map(t_map *map);
 
 #endif
