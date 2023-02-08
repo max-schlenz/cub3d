@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 15:04:00 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/06 15:15:41 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/07 15:29:01 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 #define X 0
 #define Y 1
+# define PI_TIMES_TWO 6.28318530718
 
 
 
@@ -59,6 +60,27 @@ void	key_checker(mlx_t *mlx, t_movement *move)
 		movement[Y] += move->velocity;
 	if (mlx_is_key_down(mlx, MLX_KEY_D))
 		movement[X] += move->velocity;
+	if (mlx_is_key_down(mlx, MLX_KEY_1))
+		move->direction = 0.1 * PI_TIMES_TWO;
+	if (mlx_is_key_down(mlx, MLX_KEY_2))
+		move->direction = 0.2 * PI_TIMES_TWO;
+	if (mlx_is_key_down(mlx, MLX_KEY_3))
+		move->direction = 0.3 * PI_TIMES_TWO;
+	if (mlx_is_key_down(mlx, MLX_KEY_4))
+		move->direction = 0.4 * PI_TIMES_TWO;
+	if (mlx_is_key_down(mlx, MLX_KEY_5))
+		move->direction = 0.5 * PI_TIMES_TWO;
+	if (mlx_is_key_down(mlx, MLX_KEY_6))
+		move->direction = 0.6 * PI_TIMES_TWO;
+	if (mlx_is_key_down(mlx, MLX_KEY_7))
+		move->direction = 0.7 * PI_TIMES_TWO;
+	if (mlx_is_key_down(mlx, MLX_KEY_8))
+		move->direction = 0.8 * PI_TIMES_TWO;
+	if (mlx_is_key_down(mlx, MLX_KEY_9))
+		move->direction = 0.9 * PI_TIMES_TWO;
+	if (mlx_is_key_down(mlx, MLX_KEY_0))
+		move->direction = 1.0 * PI_TIMES_TWO;
+
 	matrix_movement(move, movement);
 	move->tile_x += movement[X];
 	move->tile_y += movement[Y];
