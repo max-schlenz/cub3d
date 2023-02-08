@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:01:19 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/08 13:22:48 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/08 13:52:03 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ void	raycasting(mlx_t *mlx, mlx_image_t *img, t_movement *move, t_map *map, t_te
 	// if ((A[Y] >= 0 && A[Y] < img->height && (A[X] >= 0 && A[X] < img->width && A[X] != INFINITY)))
 	// 	line(img, player[X]* (img->height / map->height), player[Y]* (img->width / map->width), A[X]* (img->height / map->height), A[Y]* (img->width / map->width));
 	xa = 1 / tan(-1 * move->direction - M_PI_2);
-	if ()
+	// if ()
 	A[X] += xa;
 	if (move->direction <= M_PI_2 || move->direction >= M_PI_2 + M_PI)
 		A[Y] += -1;

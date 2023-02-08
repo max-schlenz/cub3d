@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 20:55:12 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/08 11:01:30 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/08 11:27:49 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,10 @@ t_data	*alloc()
 	data = ft_calloc(1, sizeof(t_data));
 	data->input = ft_calloc(1, sizeof(t_input));
 	data->player = ft_calloc(1, sizeof(t_player));
-	data->map = ft_calloc(1, sizeof(t_map));
 	data->texture = ft_calloc(1, sizeof(t_texture));
 	data->sprite = ft_calloc(1, sizeof(t_sprite));
 	data->sprite->player = ft_calloc(34, sizeof(mlx_texture_t *));
+	data->map = ft_calloc(1, sizeof(t_map));
+	data->map->elem = alloc_map(data->map);
 	return (data);
 }
