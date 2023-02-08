@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 20:55:12 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/07 20:55:45 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/08 01:35:41 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,6 @@ void	load_textures(t_input *input, t_texture *texture)
 
 void	init(t_data *data)
 {
-	data->input->tex_no = NULL;
-	data->input->tex_so = NULL;
-	data->input->tex_we = NULL;
-	data->input->tex_ea = NULL;
-	data->input->f = NULL;
-	data->input->c = NULL;
 	data->player->player_x = 0;
 	data->player->player_y = 0;
 	data->player->player_dir = 0;
