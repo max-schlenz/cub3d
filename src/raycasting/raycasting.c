@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:01:19 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/08 13:22:48 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/08 14:54:31 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,22 +132,28 @@ void	raycasting(mlx_t *mlx, mlx_image_t *img, t_movement *move, t_map *map, t_te
 	else
 		A[Y] = move->y + 1;
 	A[X] = player[X] + (player[Y] - A[Y])/tan(-1 * move->direction - M_PI_2);
-	// if (A[Y] >= 0 && A[Y] < img->height)
-	// 	draw_hori(img, A[Y] * img->height / map->height);
-	// if (A[X] >= 0 && A[X] < img->width && A[X] != INFINITY)
-	// 	draw_vert(img, A[X] * img->width / map->width);
-	// if ((A[Y] >= 0 && A[Y] < img->height && (A[X] >= 0 && A[X] < img->width && A[X] != INFINITY)))
-	// 	line(img, player[X]* (img->height / map->height), player[Y]* (img->width / map->width), A[X]* (img->height / map->height), A[Y]* (img->width / map->width));
+	if (A[Y] >= 0 && A[Y] < img->height)
+		draw_hori(img, A[Y] * img->height / map->height);
+	if (A[X] >= 0 && A[X] < img->width && A[X] != INFINITY)
+		draw_vert(img, A[X] * img->width / map->width);
+	if ((A[Y] >= 0 && A[Y] < img->height && (A[X] >= 0 && A[X] < img->width && A[X] != INFINITY)))
+		line(img, player[X]* (img->height / map->height), player[Y]* (img->width / map->width), A[X]* (img->height / map->height), A[Y]* (img->width / map->width));
 	xa = 1 / tan(-1 * move->direction - M_PI_2);
-	if ()
-	A[X] += xa;
+	if (((int)A[X] >= 0 && (int)A[X] < map->height) &&map->elem[(int)A[Y]][(int)A[X]] == '1')
+		printf("wall\n");
 	if (move->direction <= M_PI_2 || move->direction >= M_PI_2 + M_PI)
+	{
 		A[Y] += -1;
+		A[X] += xa;
+	}
 	else
-		A[Y] += + 1;
+	{
+		A[Y] += +1;
+		A[X] += -xa;
+	}
 
-	// if ((A[Y] >= 0 && A[Y] < img->height && (A[X] >= 0 && A[X] < img->width && A[X] != INFINITY)))
-	// 	line(img, player[X]* (img->height / map->height), player[Y]* (img->width / map->width), A[X]* (img->height / map->height), A[Y]* (img->width / map->width));
+	if ((A[Y] >= 0 && A[Y] < img->height && (A[X] >= 0 && A[X] < img->width && A[X] != INFINITY)))
+		line(img, player[X]* (img->height / map->height), player[Y]* (img->width / map->width), A[X]* (img->height / map->height), A[Y]* (img->width / map->width));
 
 	
 }

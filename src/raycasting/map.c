@@ -25,13 +25,13 @@ void	default_movement(t_movement *move)
 
 void	rendering_loop(void *param)
 {
-	t_transfer	*transporter;
+	t_transfer	*transporter;// void pointer
 	mlx_t		*mlx;
 	mlx_image_t	*img;
-	t_movement	*move;
+	t_movement	*move;// player
 	t_map		*map;
 	t_texture	*tex;
-	t_player	*player;
+	t_player	*player;//gone
 	t_sprite	*sprite;
 
 	transporter = param;
@@ -55,7 +55,7 @@ int	mlx_setup(t_map *map, t_player *player, t_texture *tex, t_sprite *sprite)
 	mlx_t		*mlx;
 	mlx_image_t	*img;
 	t_movement	move;
-	t_transfer	transporter;
+	t_transfer	transporter;// gone
 
 	default_movement(&move);
 	move.x = player->player_x;
