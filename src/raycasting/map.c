@@ -48,6 +48,8 @@ void	rendering_loop(void *param)
 	is_there_something(map, move);
 	draw_map(map, img, move, tex, sprite);
 	raycasting(mlx, img, move, map, tex);
+	// printf("fps: %i\n", (int)(1 / mlx->delta_time));
+	update_fps_counter(mlx, img);
 }
 
 int	mlx_setup(t_map *map, t_player *player, t_texture *tex, t_sprite *sprite)

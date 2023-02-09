@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:01:19 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/09 15:23:04 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/09 17:14:42 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,7 @@ void	vert_check(t_movement *move, t_map *map, double *y_hit, double *player, dou
 	y_hit[X] = player[X] + (player[Y] - y_hit[Y]) \
 	/ tan(-1 * direction - M_PI_2);
 	xa = 1 / tan(-1 * move->direction - M_PI_2);
-	printf("vert%f %f\n",y_hit[Y],y_hit[X]);
+	// printf("vert%f %f\n",y_hit[Y],y_hit[X]);
 	if (direction <= M_PI_2 || direction >= M_PI_2 + M_PI)
 	{
 		while (LOGICY && (map->elem[(int)y_hit[Y] - 1][(int)y_hit[X]] != '1'))
@@ -198,13 +198,14 @@ double	sinlgle_ray(mlx_image_t *img, t_movement *move, t_map *map, double direct
 	// printf("H%f %f\n", hori[X], hori[Y]);
 	// len[0] = fabs((player[X] - hori[X]) / cos(-1 * direction - M_PI_2));
 	vert_check(move, map, vert, player, direction);
-	printf("V%f %f\n", vert[X], vert[Y]);
+	// printf("V%f %f\n", vert[X], vert[Y]);
 	len[1] = fabs((player[X] - vert[X]) / cos(-1 * direction - M_PI_2));
 	line(MLX_COLOR_BISQUE ,img, player[X] * img->width/ map->width, player[Y] * img->height/ map->height, vert[X] * img->width/ map->width, vert[Y] * img->height/ map->height);
 	//printf("len 0 %f len 1 %f\n", len[0], len[1]);
 	// if (len[1] < len[0])
 		// line(MLX_COLOR_SEAGREEN,img, player[X] * img->width/ map->width, player[Y] * img->height/ map->height, hori[X] * img->width/ map->width, hori[Y] * img->height/ map->height);
 	// else
+	return (0);
 }
 
 #define	DEGREE_TO_RADIAL(degree) ((double)(degree) / 360 * (M_PI * 2))
@@ -225,10 +226,10 @@ void	raycasting(mlx_t *mlx, mlx_image_t *img, t_movement *move, t_map *map, t_te
 	while(i < img->width)
 	{
 		overshot_protection(&degree);
-		printf("degree = %f add %f\n", degree, degree_per_pixel);
-		//sinlgle_ray(img, move, map, degree);
+		// printf("degree = %f add %f\n", degree, degree_per_pixel);
+		sinlgle_ray(img, move, map, degree);
 		degree += degree_per_pixel;
 		i++;
-		sleep(1);
+		// sleep(1);
 	}
 }

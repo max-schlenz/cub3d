@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 10:56:28 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/09 14:19:07 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/09 17:15:45 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 # include "hex_color.h"
 
 # define PLAYER_SPRITE_FRAMES
+# define MAPNAME "maps/test"
 
 /**
  * @brief main function for the raycasting part
@@ -55,5 +56,8 @@ bool	error(int row, int col, t_error error);
 char	*get_line(int fd);
 char	**alloc_map(t_map *map);
 void	overshot_protection(double *degree);
+void	img_draw_char(mlx_image_t* image, int32_t texoffset, int32_t imgoffset);
+void	update_fps_counter(mlx_t* mlx, mlx_image_t* img);
+void	parse_debug(t_input *input, t_player *player, t_map *map);
 
 #endif

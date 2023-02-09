@@ -18,9 +18,9 @@ static bool	get_map_params(t_map *map)
 	int		width_line;
 	char	*line;
 
-	if (!access("maps/test", F_OK))
+	if (!access(MAPNAME, F_OK))
 	{
-		fd = open("maps/test", O_RDONLY);
+		fd = open(MAPNAME, O_RDONLY);
 		line = ft_calloc(1, sizeof(char));
 		while (line != NULL)
 		{
@@ -122,28 +122,6 @@ void	parse_input_map(char **read_buf, t_player *player, t_map *map)
 	line++;
 }
 
-
-static void	parse_debug(t_input *input, t_player *player, t_map *map)
-{
-	for (int i = 0; i < map->height; i++)
-	{
-		for (int j = 0; j < map->width; j++)
-			printf("%c", map->elem[i][j]);
-		printf("\n");
-	}
-
-	printf("\nWIDTH: %i, HEIGHT: %i\n", map->width, map->height);
-	printf("tex_no: %s\n", input->tex_no);
-	printf("tex_so: %s\n", input->tex_so);
-	printf("tex_we: %s\n", input->tex_we);
-	printf("tex_ea: %s\n", input->tex_ea);
-	printf("f: %s\n", input->f);
-	printf("c: %s\n", input->c);
-	printf("player_x: %i\n", player->player_x);
-	printf("player_y: %i\n", player->player_y);
-	printf("player_dir: %c\n", player->player_dir);
-}
-
 static void	parse_line(char **line, t_input *input, t_player *player, t_map *map)
 {
 	if (!input->tex_no && !ft_strncmp((*line), "NO", 2))
@@ -170,7 +148,7 @@ bool	parse_input(t_input *input, t_player *player, t_map *map)
 	line = ft_calloc(1, sizeof(char));
 	if (map->width != -1)
 	{
-		fd = open("maps/test", O_RDWR | O_APPEND, 0644);
+		fd = open(MAPNAME, O_RDWR | O_APPEND, 0644);
 		while (line)
 		{
 			free (line);
