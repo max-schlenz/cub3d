@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 15:09:07 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/08 11:29:32 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/08 15:20:10 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ void	draw_player_on_map(t_map *map, mlx_image_t *img, t_movement *move, t_textur
 	// draw_player_char(img, y, x);// here texture
 }
 
-# define pixel_per_y (int)(y /((double)img->height / (map->height)))
-# define pixel_per_x (int)(x /((double)img->width / map->width))
+# define pixel_per_y (int)(y /(pixel_per_tile))
+# define pixel_per_x (int)(x /(pixel_per_tile))
 
 void	draw_map(t_map *map, mlx_image_t *img, t_movement *move, t_texture *tex, t_sprite *sprite)
 {
@@ -49,16 +49,25 @@ void	draw_map(t_map *map, mlx_image_t *img, t_movement *move, t_texture *tex, t_
 
 	x = 0;
 	y = 0;
+	if ((double)img->height / (map->height) > (double)img->width / map->width)
+		pixel_per_tile =  (double)img->width / map->width;
+	else
+		pixel_per_tile =  (double)img->width / map->width;
 	while (y < img->height)
 	{
 		while (x < img->width)
 		{
-			if (map->elem[pixel_per_y][pixel_per_x] == '1')
-				mlx_put_pixel(img, x, y, MLX_COLOR_ORANGERED);
-			else if (map->elem[pixel_per_y][pixel_per_x] == '0')
-				mlx_put_pixel(img, x, y, MLX_COLOR_DARKSALMON);
-			else if (map->elem[pixel_per_y][pixel_per_x] == 'N')
-				mlx_put_pixel(img, x, y, MLX_COLOR_ORANGERED);
+			if (y /(pixel_per_tile) >= map->height|| x /(pixel_per_tile) > map->width)
+				mlx_put_pixel(img, x, y, MLX_COLOR_BLACK);
+			else
+			{
+				if (map->elem[pixel_per_y][pixel_per_x] == '1')
+					mlx_put_pixel(img, x, y, MLX_COLOR_ORANGERED);
+				else if (map->elem[pixel_per_y][pixel_per_x] == '0')
+					mlx_put_pixel(img, x, y, MLX_COLOR_DARKSALMON);
+				else if (map->elem[pixel_per_y][pixel_per_x] == 'N')
+					mlx_put_pixel(img, x, y, MLX_COLOR_ORANGERED);
+			}
 			x++;
 		}
 		x = 0;

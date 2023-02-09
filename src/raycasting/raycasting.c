@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:01:19 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/08 14:58:02 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/09 13:07:28 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,32 +64,32 @@ void	raycasting(mlx_t *mlx, mlx_image_t *img, t_movement *move, t_input *map)
 # define X 0
 # define Y 1
 
-void	draw_hori(mlx_image_t *img, int y)
-{
-	int	i;
+// void	draw_hori(mlx_image_t *img, int y)
+// {
+// 	int	i;
 
-	i = 0;
-	while (i < img->width)
-	{
-		mlx_put_pixel(img, i, y, MLX_COLOR_BLACK);
-		i++;
-	}
-}
+// 	i = 0;
+// 	while (i < img->width)
+// 	{
+// 		mlx_put_pixel(img, i, y, MLX_COLOR_BLACK);
+// 		i++;
+// 	}
+// }
 
-void	draw_vert(mlx_image_t *img, int x)
-{
-	int	i;
+// void	draw_vert(mlx_image_t *img, int x)
+// {
+// 	int	i;
 
-	i = 0;
-	if (x < img->width && x >= 0)
-		while (i < img->width)
-		{
-			mlx_put_pixel(img, x, i, MLX_COLOR_BLACK);
-			i++;
-		}
-	else
-		printf("x = %i is outside\n",x);
-}
+// 	i = 0;
+// 	if (x < img->width && x >= 0)
+// 		while (i < img->width)
+// 		{
+// 			mlx_put_pixel(img, x, i, MLX_COLOR_BLACK);
+// 			i++;
+// 		}
+// 	else
+// 		printf("x = %i is outside\n",x);
+// }
 
 
 //A.x = Px + (Py-A.y)/tan(ALPHA);
@@ -103,7 +103,7 @@ void	show_player_anim(mlx_texture_t **player, mlx_image_t *img, int x, int y)
 		j = 0;
 }
 
-void line(mlx_image_t *img, int x0, int y0, int x1, int y1)
+void line(int color,mlx_image_t *img, int x0, int y0, int x1, int y1)
 {
     int dx =  abs(x1 - x0), sx = x0 < x1 ? 1 : -1;
     int dy = -abs(y1 - y0), sy = y0 < y1 ? 1 : -1;
@@ -111,7 +111,7 @@ void line(mlx_image_t *img, int x0, int y0, int x1, int y1)
 
     while (1) {
 		if (x0 >= 0 && x0 < img->width && y0 >= 0 && y0 < img->height)
-      	  mlx_put_pixel(img, x0, y0, MLX_COLOR_BLACK);
+      	  mlx_put_pixel(img, x0, y0, color);
         if (x0 == x1 && y0 == y1) break;
         e2 = 2 * err;
         if (e2 > dy) { err += dy; x0 += sx; } /* e_xy+e_x > 0 */
@@ -119,41 +119,100 @@ void line(mlx_image_t *img, int x0, int y0, int x1, int y1)
     }
 }
 
-void	raycasting(mlx_t *mlx, mlx_image_t *img, t_movement *move, t_map *map, t_texture *tex)
+# define LOGICY y_hit[Y] >= 0 && y_hit[Y] < map->height && y_hit[X] >= 0 && y_hit[X] < map->width
+# define LOGICX x_hit[Y] >= 0 && x_hit[Y] < map->height && x_hit[X] >= 0 && x_hit[X] < map->width
+
+
+void	hori_check(t_movement *move, t_map *map, double *x_hit, double *player, double direction)
 {
-	double	player[2];
-	double	A[2];
+	double	ya;
+
+	if (direction >= M_PI || direction <= M_PI * 2)
+		x_hit[X] = move->x;
+	else
+		x_hit[X] = move->x + 1;
+	x_hit[Y] = player[Y] + (player[X] - x_hit[X]) \
+	/ tan(direction - M_PI_2);
+	ya = 1 / tan(move->direction - M_PI_2);
+	if (direction >= M_PI || direction <= M_PI_2)
+	{
+		while (LOGICX && (map->elem[(int)x_hit[Y]][(int)x_hit[X] - 1] != '1'))
+		{
+			x_hit[X] += -1;
+			x_hit[Y] += ya;
+		}
+	}
+	else
+	{
+		while (LOGICX && map->elem[(int)x_hit[Y]][(int)x_hit[X]] != '1')
+		{
+			x_hit[X] += 1;
+			x_hit[Y] += -ya;
+		}
+	}
+}
+
+void	vert_check(t_movement *move, t_map *map, double *y_hit, double *player, double direction)
+{
 	double	xa;
+
+	if (direction <= M_PI_2 || direction >= M_PI_2 + M_PI)
+		y_hit[Y] = move->y;
+	else
+		y_hit[Y] = move->y + 1;
+	y_hit[X] = player[X] + (player[Y] - y_hit[Y]) \
+	/ tan(-1 * direction - M_PI_2);
+	xa = 1 / tan(-1 * move->direction - M_PI_2);
+	if (direction <= M_PI_2 || direction >= M_PI_2 + M_PI)
+	{
+		while (LOGICY && (map->elem[(int)y_hit[Y] - 1][(int)y_hit[X]] != '1'))
+		{
+			y_hit[Y] += -1;
+			y_hit[X] += xa;
+		}
+	}
+	else
+	{
+		while (LOGICY && map->elem[(int)y_hit[Y]][(int)y_hit[X]] != '1')
+		{
+			y_hit[Y] += 1;
+			y_hit[X] += -xa;
+		}
+	}
+}
+
+double	sinlgle_ray(mlx_image_t *img, t_movement *move, t_map *map, double direction)
+{
+	double	hori[2];
+	double	vert[2];
+	double	player[2];
+	double	len[0];
 
 	player[X] = move->x + move->tile_x;
 	player[Y] = move->y + move->tile_y;
-	if (move->direction <= M_PI_2 || move->direction >= M_PI_2 + M_PI)
-		A[Y] = move->y;
-	else
-		A[Y] = move->y + 1;
-	A[X] = player[X] + (player[Y] - A[Y])/tan(-1 * move->direction - M_PI_2);
-	if (A[Y] >= 0 && A[Y] < img->height)
-		draw_hori(img, A[Y] * img->height / map->height);
-	if (A[X] >= 0 && A[X] < img->width && A[X] != INFINITY)
-		draw_vert(img, A[X] * img->width / map->width);
-	if ((A[Y] >= 0 && A[Y] < img->height && (A[X] >= 0 && A[X] < img->width && A[X] != INFINITY)))
-		line(img, player[X]* (img->height / map->height), player[Y]* (img->width / map->width), A[X]* (img->height / map->height), A[Y]* (img->width / map->width));
-	xa = 1 / tan(-1 * move->direction - M_PI_2);
-	if (((int)A[X] >= 0 && (int)A[X] < map->height) &&map->elem[(int)A[Y]][(int)A[X]] == '1')
-		printf("wall\n");
-	if (move->direction <= M_PI_2 || move->direction >= M_PI_2 + M_PI)
-	{
-		A[Y] += -1;
-		A[X] += xa;
-	}
-	else
-	{
-		A[Y] += +1;
-		A[X] += -xa;
-	}
+	hori_check(move, map, hori, player, direction);
+	printf("H%f %f\n", hori[X], hori[Y]);
+	len[0] = fabs((player[X] - hori[X]) / cos(-1 * direction - M_PI_2));
+	vert_check(move, map, vert, player, direction);
+	printf("V%f %f\n", vert[X], vert[Y]);
+	len[1] = fabs((player[X] - vert[X]) / cos(-1 * direction - M_PI_2));
+	//printf("len 0 %f len 1 %f\n", len[0], len[1]);
+	// if (len[1] < len[0])
+		line(MLX_COLOR_SEAGREEN,img, player[X] * img->width/ map->width, player[Y] * img->height/ map->height, hori[X] * img->width/ map->width, hori[Y] * img->height/ map->height);
+	// else
+		line(MLX_COLOR_BLACK ,img, player[X] * img->width/ map->width, player[Y] * img->height/ map->height, vert[X] * img->width/ map->width, vert[Y] * img->height/ map->height);
+}
 
-	if ((A[Y] >= 0 && A[Y] < img->height && (A[X] >= 0 && A[X] < img->width && A[X] != INFINITY)))
-		line(img, player[X]* (img->height / map->height), player[Y]* (img->width / map->width), A[X]* (img->height / map->height), A[Y]* (img->width / map->width));
+void	raycasting(mlx_t *mlx, mlx_image_t *img, t_movement *move, t_map *map, t_texture *tex)
+{
+	int i;
+	int	pov;
 
-	
+	pov = -45;
+	i = 0;
+	while( i < img->width)
+	{
+		sinlgle_ray(img, move, map,move->direction + pov + ( 90 * i / img->width));
+		i++;
+	}
 }
