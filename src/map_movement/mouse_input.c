@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 15:20:58 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/07 11:38:49 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/09 14:20:27 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,12 @@
 
 # define PI_TIMES_TWO 6.28318530718
 
-void	overshot_protection(t_movement *move)
+void	overshot_protection(double *degree)
 {
-		move->direction -= PI_TIMES_TWO;
-	while (move->direction < 0)
-		move->direction += PI_TIMES_TWO;
-	while (move->top_down > PI_TIMES_TWO)
-		move->top_down -= PI_TIMES_TWO;
-	while (move->top_down < 0)
-		move->top_down += PI_TIMES_TWO;
+	while (*degree > PI_TIMES_TWO)
+		*degree -= PI_TIMES_TWO;
+	while (*degree < 0)
+		*degree += PI_TIMES_TWO;
 }
 
 void	mouse_checker(mlx_t *mlx, t_movement *move)
@@ -47,6 +44,7 @@ void	mouse_checker(mlx_t *mlx, t_movement *move)
 	{
 		move->top_down -= move->rotation_speed;
 	}
-	overshot_protection(move);
+	overshot_protection(&(move->top_down));
+	overshot_protection(&(move->direction));
 	mlx_set_mouse_pos(mlx, mlx->width / 2, mlx->height / 2);
 }
