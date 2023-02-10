@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:01:19 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/09 16:46:17 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/10 12:30:09 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,23 +129,14 @@ void	hori_check(t_movement *move, t_map *map, double *x_hit, double *player, dou
 {
 	double	ya;
 
-	if (direction >= M_PI || direction <= M_PI * 2)
-		x_hit[X] = move->x;
-	else
+	if (direction >= M_PI_2 && direction < M_PI + M_PI_2)
 		x_hit[X] = move->x + 1;
-	x_hit[Y] = player[Y] + (player[X] - x_hit[X]) \
-	/ tan (direction);
-	ya = 1 / tan(direction) ;
-	printf("hori%f %f\n",x_hit[Y],x_hit[X]);
-	if (direction >= M_PI || direction <= M_PI_2)
-	{
-		while (LOGICX && (map->elem[(int)x_hit[Y]][(int)x_hit[X] - 1] != '1'))
-		{
-			x_hit[X] += -1;
-			x_hit[Y] += ya;
-		}
-	}
 	else
+		x_hit[X] = move->x;
+	x_hit[Y] = player[Y] + (player[X] - x_hit[X]) \
+	* tan (direction);
+	ya = 1 * tan(direction) ;
+	if (direction >= M_PI_2 && direction < M_PI + M_PI_2)
 	{
 		while (LOGICX && map->elem[(int)x_hit[Y]][(int)x_hit[X]] != '1')
 		{
@@ -153,29 +144,31 @@ void	hori_check(t_movement *move, t_map *map, double *x_hit, double *player, dou
 			x_hit[Y] += -ya;
 		}
 	}
+	else
+	{
+		while (LOGICX && (map->elem[(int)x_hit[Y]][(int)x_hit[X] - 1] != '1'))
+		{
+			x_hit[X] += -1;
+			x_hit[Y] += ya;
+		}
+	}
+	// x_hit[Y] = fabs(x_hit[Y]);
+	// x_hit[X] = fabs(x_hit[X]);
 }
 
 void	vert_check(t_movement *move, t_map *map, double *y_hit, double *player, double direction)
 {
 	double	xa;
 
+
 	if (direction >= 0 && direction < M_PI)
-		y_hit[Y] = move->y;
-	else
 		y_hit[Y] = move->y + 1;
+	else
+		y_hit[Y] = move->y;
 	y_hit[X] = player[X] + (player[Y] - y_hit[Y]) \
 	/ tan(direction);
-	xa = 1 / tan(move->direction);
-	printf("vert%f %f\n",y_hit[Y],y_hit[X]);
+	xa = 1 / tan(direction);
 	if (direction >= 0 && direction < M_PI)
-	{
-		while (LOGICY && (map->elem[(int)y_hit[Y] - 1][(int)y_hit[X]] != '1'))
-		{
-			y_hit[Y] += -1;
-			y_hit[X] += xa;
-		}
-	}
-	else
 	{
 		while (LOGICY && map->elem[(int)y_hit[Y]][(int)y_hit[X]] != '1')
 		{
@@ -183,28 +176,47 @@ void	vert_check(t_movement *move, t_map *map, double *y_hit, double *player, dou
 			y_hit[X] += -xa;
 		}
 	}
+	else
+	{
+		while (LOGICY && (map->elem[(int)y_hit[Y] - 1][(int)y_hit[X]] != '1'))
+		{
+			y_hit[Y] += -1;
+			y_hit[X] += xa;
+		}
+	}
+	// y_hit[Y] = fabs(y_hit[Y]);
+	// y_hit[X] = fabs(y_hit[X]);
 }
 
 double	sinlgle_ray(mlx_image_t *img, t_movement *move, t_map *map, double direction)
 {
-	double	hori[2];
-	double	vert[2];
+	double	hori[3];
+	double	vert[3];
 	double	player[2];
-	double	len[0];
+	double*	shorter;
 
 	player[X] = move->x + move->tile_x;
 	player[Y] = move->y + move->tile_y;
 	hori_check(move, map, hori, player, direction);
-	printf("H%f %f\n", hori[X], hori[Y]);
-	len[0] = fabs((player[X] - hori[X]) / cos(-1 * direction - M_PI_2));
+	// printf("H%f %f\n", hori[X], hori[Y]);
+	hori[2] = fabs((player[X] - hori[X]) / cos(-1 * direction - M_PI_2));
 	vert_check(move, map, vert, player, direction);
-	printf("V%f %f\n", vert[X], vert[Y]);
-	len[1] = fabs((player[X] - vert[X]) / cos(-1 * direction - M_PI_2));
-	printf("len 0 %f len 1 %f\n", len[0], len[1]);
+	// printf("V%f %f\n", vert[X], vert[Y]);
+	vert[2] = fabs((player[X] - vert[X]) / cos(-1 * direction - M_PI_2));
+	if (hori[X] < 0 || hori[Y] < 0 )
+		shorter = vert;
+	else if (vert[X] < 0 || vert[Y] < 0 )
+		shorter = hori;
+	else if (hori[2] < vert[2])
+		shorter = hori;
+	else
+		shorter = vert;
+	// printf("len 0 %f len 1 %f\n", len[0], len[1]);
 	// if (len[1] < len[0])
-		line(MLX_COLOR_SEAGREEN,img, player[X] * img->width/ map->width, player[Y] * img->height/ map->height, hori[X] * img->width/ map->width, hori[Y] * img->height/ map->height);
+		// line(MLX_COLOR_SEAGREEN,img, player[X] * img->width/ map->width, player[Y] * img->height/ map->height, hori[X] * img->width/ map->width, hori[Y] * img->height/ map->height);
 	// else
-		line(MLX_COLOR_BISQUE ,img, player[X] * img->width/ map->width, player[Y] * img->height/ map->height, vert[X] * img->width/ map->width, vert[Y] * img->height/ map->height);
+		// line(MLX_COLOR_BISQUE ,img, player[X] * img->width/ map->width, player[Y] * img->height/ map->height, vert[X] * img->width/ map->width, vert[Y] * img->height/ map->height);
+		line(MLX_COLOR_BISQUE ,img, player[X] * img->width/ map->width, player[Y] * img->height/ map->height, shorter[X] * img->width/ map->width, shorter[Y] * img->height/ map->height);
 }
 
 #define	DEGREE_TO_RADIAL(degree) ((double)(degree) / 360 * (M_PI * 2))
@@ -218,19 +230,14 @@ void	raycasting(mlx_t *mlx, mlx_image_t *img, t_movement *move, t_map *map, t_te
 	double	degree;
 	pov =  DEGREE_TO_RADIAL(90);
 	degree = move->direction - (pov / 2);
-	
 	degree_per_pixel = pov / img->width;
 	i = 0;
 	overshot_protection(&degree);
-	printf("degree = %f add %f\n",  degree, degree_per_pixel);
 	while(i < img->width)
 	{
 		overshot_protection(&degree);
-		//printf("degree = %f add %f\n", degree, degree_per_pixel);
 		sinlgle_ray(img, move, map, degree);
 		degree = move->direction - (pov / 2) + degree_per_pixel * i;
 		i++;
-		// usleep(20000);
 	}
-	printf("degree = %f add %f\n", degree, degree_per_pixel);
 }

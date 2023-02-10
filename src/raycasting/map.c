@@ -5,7 +5,7 @@
 # define HEIGHT 1000
 
 # define DEFAULT_ROTATION_SPEED 0.02
-# define DEFAULT_DIRECTION 0.000000
+# define DEFAULT_DIRECTION 0.00000
 # define DEFAULT_VELOCITY 0.01
 # define DEFAULT_TOP_DOWN 0.00001
 
@@ -48,6 +48,8 @@ void	rendering_loop(void *param)
 	is_there_something(map, move);
 	draw_map(map, img, move, tex, sprite);
 	raycasting(mlx, img, move, map, tex);
+	// printf("fps: %i\n", (int)(1 / mlx->delta_time));
+	update_fps_counter(mlx, img);
 }
 
 int	mlx_setup(t_map *map, t_player *player, t_texture *tex, t_sprite *sprite)

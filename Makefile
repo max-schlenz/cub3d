@@ -6,7 +6,7 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2023/02/08 14:20:43 by mschlenz         ###   ########.fr        #
+#    Updated: 2023/02/09 17:14:21 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,6 +50,8 @@ SRC				= 	${NAME}													\
 					draw_on_screen/draw_map									\
 					utils/cleanup											\
 					utils/init												\
+					utils/utils												\
+					debug													\
 
 INC				=	${NAME}													\
 					data													\
