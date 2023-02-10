@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:01:19 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/10 16:41:42 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/10 17:11:29 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,7 +180,7 @@ void	vert_check(t_movement *move, t_map *map, double *y_hit, double *player, dou
 	}
 }
 
-double	sinlgle_ray(t_array *test, t_movement *move, t_map *map, double direction)
+double	sinlgle_ray(t_array *test, t_movement *move, t_map *map, double direction, mlx_image_t *img)
 {
 	double	hori[3];
 	double	vert[3];
@@ -191,7 +191,11 @@ double	sinlgle_ray(t_array *test, t_movement *move, t_map *map, double direction
 	player[Y] = move->y + move->tile_y;
 	hori_check(move, map, hori, player, direction);
 	hori[2] = fabs((player[X] - hori[X]) / cos(-1 * direction - M_PI_2));
+			line(MLX_COLOR_WHITESMOKE, img, player[X],player[Y], hori[X],hori[Y]);
+
 	vert_check(move, map, vert, player, direction);
+			line(MLX_COLOR_WHITESMOKE, img, player[X],player[Y], vert[X],vert[Y]);
+
 	vert[2] = fabs((player[X] - vert[X]) / cos(-1 * direction - M_PI_2));
 	if (hori[X] < 0 || hori[Y] < 0)
 		shorter = vert;
@@ -248,7 +252,7 @@ void	raycasting(mlx_t *mlx, mlx_image_t *img, t_movement *move, t_map *map, t_te
 	{
 		test.x = i;
 		overshot_protection(&degree);
-		sinlgle_ray(&test, move, map, degree);
+		sinlgle_ray(&test, move, map, degree, img);
 		degree = move->direction - (pov / 2) + degree_per_pixel * i;
 		draw_wall(test, img);
 		i++;
