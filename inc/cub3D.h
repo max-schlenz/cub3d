@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 10:56:28 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/10 12:31:25 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/10 15:21:39 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 # include "hex_color.h"
 
 # define PLAYER_SPRITE_FRAMES
-# define MAPNAME "maps/test copy"
+# define MAPNAME "maps/test"
 
 /**
  * @brief main function for the raycasting part

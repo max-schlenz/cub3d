@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:01:19 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/10 12:30:09 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/10 15:59:46 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,6 @@ void line(int color,mlx_image_t *img, int x0, int y0, int x1, int y1)
 # define LOGICY y_hit[Y] >= 0 && y_hit[Y] < map->height && y_hit[X] >= 0 && y_hit[X] < map->width
 # define LOGICX x_hit[Y] >= 0 && x_hit[Y] < map->height && x_hit[X] >= 0 && x_hit[X] < map->width
 
-
 void	hori_check(t_movement *move, t_map *map, double *x_hit, double *player, double direction)
 {
 	double	ya;
@@ -133,9 +132,8 @@ void	hori_check(t_movement *move, t_map *map, double *x_hit, double *player, dou
 		x_hit[X] = move->x + 1;
 	else
 		x_hit[X] = move->x;
-	x_hit[Y] = player[Y] + (player[X] - x_hit[X]) \
-	* tan (direction);
-	ya = 1 * tan(direction) ;
+	x_hit[Y] = player[Y] + (player[X] - x_hit[X]) * tan (direction);
+	ya = 1 * tan(direction);
 	if (direction >= M_PI_2 && direction < M_PI + M_PI_2)
 	{
 		while (LOGICX && map->elem[(int)x_hit[Y]][(int)x_hit[X]] != '1')
@@ -152,21 +150,17 @@ void	hori_check(t_movement *move, t_map *map, double *x_hit, double *player, dou
 			x_hit[Y] += ya;
 		}
 	}
-	// x_hit[Y] = fabs(x_hit[Y]);
-	// x_hit[X] = fabs(x_hit[X]);
 }
 
 void	vert_check(t_movement *move, t_map *map, double *y_hit, double *player, double direction)
 {
 	double	xa;
 
-
 	if (direction >= 0 && direction < M_PI)
 		y_hit[Y] = move->y + 1;
 	else
 		y_hit[Y] = move->y;
-	y_hit[X] = player[X] + (player[Y] - y_hit[Y]) \
-	/ tan(direction);
+	y_hit[X] = player[X] + (player[Y] - y_hit[Y]) / tan(direction);
 	xa = 1 / tan(direction);
 	if (direction >= 0 && direction < M_PI)
 	{
@@ -184,50 +178,67 @@ void	vert_check(t_movement *move, t_map *map, double *y_hit, double *player, dou
 			y_hit[X] += xa;
 		}
 	}
-	// y_hit[Y] = fabs(y_hit[Y]);
-	// y_hit[X] = fabs(y_hit[X]);
 }
 
-double	sinlgle_ray(mlx_image_t *img, t_movement *move, t_map *map, double direction)
+double	sinlgle_ray(t_array *test, t_movement *move, t_map *map, double direction)
 {
 	double	hori[3];
 	double	vert[3];
 	double	player[2];
-	double*	shorter;
+	double	*shorter;
 
 	player[X] = move->x + move->tile_x;
 	player[Y] = move->y + move->tile_y;
 	hori_check(move, map, hori, player, direction);
-	// printf("H%f %f\n", hori[X], hori[Y]);
 	hori[2] = fabs((player[X] - hori[X]) / cos(-1 * direction - M_PI_2));
 	vert_check(move, map, vert, player, direction);
-	// printf("V%f %f\n", vert[X], vert[Y]);
 	vert[2] = fabs((player[X] - vert[X]) / cos(-1 * direction - M_PI_2));
-	if (hori[X] < 0 || hori[Y] < 0 )
+	if (hori[X] < 0 || hori[Y] < 0)
 		shorter = vert;
-	else if (vert[X] < 0 || vert[Y] < 0 )
+	else if (vert[X] < 0 || vert[Y] < 0)
 		shorter = hori;
 	else if (hori[2] < vert[2])
 		shorter = hori;
 	else
 		shorter = vert;
-	// printf("len 0 %f len 1 %f\n", len[0], len[1]);
-	// if (len[1] < len[0])
-		// line(MLX_COLOR_SEAGREEN,img, player[X] * img->width/ map->width, player[Y] * img->height/ map->height, hori[X] * img->width/ map->width, hori[Y] * img->height/ map->height);
-	// else
-		// line(MLX_COLOR_BISQUE ,img, player[X] * img->width/ map->width, player[Y] * img->height/ map->height, vert[X] * img->width/ map->width, vert[Y] * img->height/ map->height);
-		line(MLX_COLOR_BISQUE ,img, player[X] * img->width/ map->width, player[Y] * img->height/ map->height, shorter[X] * img->width/ map->width, shorter[Y] * img->height/ map->height);
+	test->distance = shorter[2] * cos((move->direction - direction));
+	test->tile_x = shorter[1];
 }
+
+void	draw_wall(t_array test, mlx_image_t *img)
+{
+	double	base_distance;
+	int		base_height;
+	int		skyline;
+	int		wall_height;
+	int		i;
+
+	i = 0;
+	skyline = img->height / 2;
+	base_distance = 1;
+	base_height = 200;
+	wall_height = base_height / test.distance;
+	while (i < wall_height)
+	{
+		if (skyline - wall_height / 2 > 0 && skyline - wall_height / 2 < img->height)
+			mlx_put_pixel(img,test.x,skyline - wall_height / 2 + i,MLX_COLOR_RED);
+		i++;
+	}
+	
+}
+
 
 #define	DEGREE_TO_RADIAL(degree) ((double)(degree) / 360 * (M_PI * 2))
 #define	RADIAL_TO_DEGREE(degree) ((double)(degree) * 360 / (M_PI * 2))
 
 void	raycasting(mlx_t *mlx, mlx_image_t *img, t_movement *move, t_map *map, t_texture *tex)
 {
-	double	i;
+	int		i;
 	double	pov;
 	double	degree_per_pixel;
 	double	degree;
+	t_array	test;
+
 	pov =  DEGREE_TO_RADIAL(90);
 	degree = move->direction - (pov / 2);
 	degree_per_pixel = pov / img->width;
@@ -235,9 +246,11 @@ void	raycasting(mlx_t *mlx, mlx_image_t *img, t_movement *move, t_map *map, t_te
 	overshot_protection(&degree);
 	while(i < img->width)
 	{
+		test.x = i;
 		overshot_protection(&degree);
-		sinlgle_ray(img, move, map, degree);
+		sinlgle_ray(&test, move, map, degree);
 		degree = move->direction - (pov / 2) + degree_per_pixel * i;
+		draw_wall(test, img);
 		i++;
 	}
 }
