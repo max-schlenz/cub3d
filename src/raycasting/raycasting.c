@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:01:19 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/10 12:30:09 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/10 13:19:32 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,17 +64,17 @@ void	raycasting(mlx_t *mlx, mlx_image_t *img, t_movement *move, t_input *map)
 # define X 0
 # define Y 1
 
-// void	draw_hori(mlx_image_t *img, int y)
-// {
-// 	int	i;
+void	draw_hori(mlx_image_t *img, int y, uint32_t col)
+{
+	int	i;
 
-// 	i = 0;
-// 	while (i < img->width)
-// 	{
-// 		mlx_put_pixel(img, i, y, MLX_COLOR_BLACK);
-// 		i++;
-// 	}
-// }
+	i = 0;
+	while (i < img->width)
+	{
+		mlx_put_pixel(img, i, y, col);
+		i++;
+	}
+}
 
 // void	draw_vert(mlx_image_t *img, int x)
 // {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 10:56:28 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/10 12:31:25 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/10 16:17:06 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 # include "hex_color.h"
 
 # define PLAYER_SPRITE_FRAMES
-# define MAPNAME "maps/test copy"
+# define MAPNAME "maps/test"
 
 /**
  * @brief main function for the raycasting part
@@ -43,7 +43,7 @@ void	is_there_something(t_map *map, t_movement *move);
 int		wall_check(t_map *map, t_movement *move, int f_b, int l_r);
 void	key_checker(mlx_t *mlx, t_movement *move);
 void	draw_map(t_map *map, mlx_image_t *img, t_movement *move, t_texture *tex, t_sprite *sprite);
-void	mouse_checker(mlx_t *mlx, t_movement *move);
+void	mouse_checker(mlx_t *mlx, t_movement *move, mlx_image_t *img_bg);
 char	*ft_strdup_nonl(const char *s1);
 void	raycasting(mlx_t *mlx, mlx_image_t *img, t_movement *move, t_map *map, t_texture *tex);
 void	show_player_anim(mlx_texture_t **player, mlx_image_t *img, int x, int y);
@@ -59,5 +59,8 @@ void	overshot_protection(double *degree);
 void	img_draw_char(mlx_image_t* image, int32_t texoffset, int32_t imgoffset);
 void	update_fps_counter(mlx_t* mlx, mlx_image_t* img);
 void	parse_debug(t_input *input, t_player *player, t_map *map);
+void 	render_ceiling_floor(mlx_t *mlx, mlx_image_t *img, t_movement *move, t_map *map, t_texture *tex);
+void	draw_hori(mlx_image_t *img, int y, uint32_t col);
+void	project(mlx_t *mlx, mlx_image_t *img_bg, t_movement *move, t_map *map, t_texture *tex);
 
 #endif

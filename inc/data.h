@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 11:29:23 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/08 11:14:31 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/10 16:08:06 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,18 @@
 # define DATA_H
 
 # include <cub3D.h>
+
+typedef enum e_transport
+{
+	MLX,
+	MAP,
+	IMG,
+	IMG_BG,
+	MOVE,
+	TEX,
+	SPRITE,
+	PLAYER
+}	t_transport;
 
 typedef enum e_error
 {
@@ -87,7 +99,7 @@ typedef struct s_movement{
 	double	tile_x;
 	double	tile_y;
 	double	direction;
-	double	top_down;
+	int		top_down;
 	double	velocity;//? settig value
 	double	rotation_speed;//? settig value
 	int		pixel_per_map_tile;
@@ -102,6 +114,7 @@ typedef struct s_transfer{
 	t_map		*map;
 	mlx_t		*mlx;
 	mlx_image_t	*img;
+	mlx_image_t	*img_bg;
 	t_movement	*move;
 	t_texture	*tex;
 	t_player	*player;
