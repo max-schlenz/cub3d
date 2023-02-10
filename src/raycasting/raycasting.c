@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:01:19 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/09 15:23:04 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/09 16:46:17 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,8 +134,8 @@ void	hori_check(t_movement *move, t_map *map, double *x_hit, double *player, dou
 	else
 		x_hit[X] = move->x + 1;
 	x_hit[Y] = player[Y] + (player[X] - x_hit[X]) \
-	/ tan(direction - M_PI_2);
-	ya = 1 / tan(move->direction - M_PI_2);
+	/ tan (direction);
+	ya = 1 / tan(direction) ;
 	printf("hori%f %f\n",x_hit[Y],x_hit[X]);
 	if (direction >= M_PI || direction <= M_PI_2)
 	{
@@ -159,15 +159,15 @@ void	vert_check(t_movement *move, t_map *map, double *y_hit, double *player, dou
 {
 	double	xa;
 
-	if (direction <= M_PI_2 || direction >= M_PI_2 + M_PI)
+	if (direction >= 0 && direction < M_PI)
 		y_hit[Y] = move->y;
 	else
 		y_hit[Y] = move->y + 1;
 	y_hit[X] = player[X] + (player[Y] - y_hit[Y]) \
-	/ tan(-1 * direction - M_PI_2);
-	xa = 1 / tan(-1 * move->direction - M_PI_2);
+	/ tan(direction);
+	xa = 1 / tan(move->direction);
 	printf("vert%f %f\n",y_hit[Y],y_hit[X]);
-	if (direction <= M_PI_2 || direction >= M_PI_2 + M_PI)
+	if (direction >= 0 && direction < M_PI)
 	{
 		while (LOGICY && (map->elem[(int)y_hit[Y] - 1][(int)y_hit[X]] != '1'))
 		{
@@ -194,17 +194,17 @@ double	sinlgle_ray(mlx_image_t *img, t_movement *move, t_map *map, double direct
 
 	player[X] = move->x + move->tile_x;
 	player[Y] = move->y + move->tile_y;
-	// hori_check(move, map, hori, player, direction);
-	// printf("H%f %f\n", hori[X], hori[Y]);
-	// len[0] = fabs((player[X] - hori[X]) / cos(-1 * direction - M_PI_2));
+	hori_check(move, map, hori, player, direction);
+	printf("H%f %f\n", hori[X], hori[Y]);
+	len[0] = fabs((player[X] - hori[X]) / cos(-1 * direction - M_PI_2));
 	vert_check(move, map, vert, player, direction);
 	printf("V%f %f\n", vert[X], vert[Y]);
 	len[1] = fabs((player[X] - vert[X]) / cos(-1 * direction - M_PI_2));
-	line(MLX_COLOR_BISQUE ,img, player[X] * img->width/ map->width, player[Y] * img->height/ map->height, vert[X] * img->width/ map->width, vert[Y] * img->height/ map->height);
-	//printf("len 0 %f len 1 %f\n", len[0], len[1]);
+	printf("len 0 %f len 1 %f\n", len[0], len[1]);
 	// if (len[1] < len[0])
-		// line(MLX_COLOR_SEAGREEN,img, player[X] * img->width/ map->width, player[Y] * img->height/ map->height, hori[X] * img->width/ map->width, hori[Y] * img->height/ map->height);
+		line(MLX_COLOR_SEAGREEN,img, player[X] * img->width/ map->width, player[Y] * img->height/ map->height, hori[X] * img->width/ map->width, hori[Y] * img->height/ map->height);
 	// else
+		line(MLX_COLOR_BISQUE ,img, player[X] * img->width/ map->width, player[Y] * img->height/ map->height, vert[X] * img->width/ map->width, vert[Y] * img->height/ map->height);
 }
 
 #define	DEGREE_TO_RADIAL(degree) ((double)(degree) / 360 * (M_PI * 2))
@@ -216,19 +216,21 @@ void	raycasting(mlx_t *mlx, mlx_image_t *img, t_movement *move, t_map *map, t_te
 	double	pov;
 	double	degree_per_pixel;
 	double	degree;
-	
 	pov =  DEGREE_TO_RADIAL(90);
 	degree = move->direction - (pov / 2);
 	
 	degree_per_pixel = pov / img->width;
 	i = 0;
+	overshot_protection(&degree);
+	printf("degree = %f add %f\n",  degree, degree_per_pixel);
 	while(i < img->width)
 	{
 		overshot_protection(&degree);
-		printf("degree = %f add %f\n", degree, degree_per_pixel);
-		//sinlgle_ray(img, move, map, degree);
-		degree += degree_per_pixel;
+		//printf("degree = %f add %f\n", degree, degree_per_pixel);
+		sinlgle_ray(img, move, map, degree);
+		degree = move->direction - (pov / 2) + degree_per_pixel * i;
 		i++;
-		sleep(1);
+		// usleep(20000);
 	}
+	printf("degree = %f add %f\n", degree, degree_per_pixel);
 }
