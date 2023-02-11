@@ -61,19 +61,26 @@ void	rendering_loop(void *param)
 	update_fps_counter(mlx, img);
 }
 
-static void	test_tex(t_map *map, t_player *player, t_texture *tex, t_sprite *sprite, mlx_image_t *img)
-{
-	unsigned int start_x = (img->width - tex->wall_no->width) / 2;
-	unsigned int start_y = (img->height - tex->wall_no->height) / 2;
+// static void	test_tex(t_map *map, t_player *player, t_texture *tex, t_sprite *sprite, mlx_image_t *img)
+// {
+// 	unsigned int start_x = (img->width - tex->wall_no->width) / 2;
+// 	unsigned int start_y = (img->height - tex->wall_no->height) / 2;
+// 	unsigned char *tex_pixels = tex->wall_no->pixels;
+// 	uint8_t *img_pixels = ft_calloc(img->width * img->height, sizeof(uint8_t));
 
-	for (unsigned int i = 0; i < tex->wall_no->height; i++)
-	{
-		for (unsigned int j = 0; j < tex->wall_no->width; j++)
-		{
-			img->pixels[(start_x + j + (start_y + i) * img->width)] = tex->wall_no->pixels[(j + i * tex->wall_no->width)];
-		}
-	}
-}
+// 	for (int i = 0; i < tex->wall_no->height; i++)
+// 	{
+// 		for (int j = 0; j < tex->wall_no->width; j++)
+// 		{
+// 			img_pixels[(start_x + j + (start_y + i) * img->width)] =
+// 				((int)tex_pixels[(j + i * tex->wall_no->width)] << 24) |
+// 				((int)tex_pixels[(j + i * tex->wall_no->width) + 1] << 16) |
+// 				((int)tex_pixels[(j + i * tex->wall_no->width) + 2] << 8) |
+// 				((int)tex_pixels[(j + i * tex->wall_no->width) + 3]);
+// 		}
+// 	}
+// 	img->pixels = img_pixels;
+// }
 
 int	mlx_setup(t_map *map, t_player *player, t_texture *tex, t_sprite *sprite)
 {

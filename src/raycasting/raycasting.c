@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:01:19 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/11 21:18:23 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/11 21:54:53 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,45 +232,48 @@ void	draw_wall(t_array *test, mlx_image_t *img, t_texture *tex)
 	int		base_height;
 	int		skyline;
 	int		wall_height;
-	int		i;
+	int		i1;
 	int		j = 0;
 	int		color = MLX_COLOR_CORAL;
+	int		start_x;
+	int		start_y;
+	double	scale_x;
+	double	scale_y;
 	
-	i = 0;
+	i1 = 0;
 	skyline = img->height / 2;
 	base_distance = 1;
 	base_height = 200;
 	wall_height = base_height / test->distance;
 
-
-	// uint8_t **twoDimensionalArray = ft_calloc(tex->wall_ea->height * 4, sizeof(uint8_t *));
-
-	// for (int i = 0; i < tex->wall_ea->height * 4; i++) {
-	// 	twoDimensionalArray[i] = &tex->wall_ea->pixels[i * tex->wall_ea->width];
-	// }
+	start_x = j;
+	start_y = skyline - wall_height / 2;
+	scale_x = (double)tex->wall_no->width / (double)wall_height;
+	scale_y = (double)tex->wall_no->height / (double)wall_height;
 	
-	while (i < wall_height)
+	while (i1 < wall_height)
 	{
-		
 		// need skip for put of window
-		if (skyline - wall_height / 2 > 0 && skyline - wall_height / 2 < img->height)
+		if (start_y + i1 >= 0 && start_y + i1 < img->height)
 		{
-			j = 0;
-			color = 0;
-			while (j < 4)
+			for (int i = 0; i < scale_y; i++)
 			{
-				color = color << 8;
-				color = color | tex->wall_no->pixels[((int)(((double)i / (double)wall_height) * tex->wall_no->height * tex->wall_no->width) + (int)(tex->wall_no->width * test->tile_x)) * 3 + j];
-				j++;
-			}
-			// printf("%f\n", test->tile_x * 72);
-			mlx_put_pixel(img, test->x, skyline - wall_height / 2 + i, color);
-		}
-		i++;
-	}
-	// exit (0);
+				for (int j = 0; j < scale_x; j++)
+				{
+					int tex_x = (int)(j / scale_x);
+					int tex_y = (int)(i / scale_y);
+					uint32_t pixel = tex->wall_no->pixels[(tex_x + tex_y * tex->wall_no->width)];
+					uint8_t *pixel_ptr = (uint8_t *)&pixel;
+					img->pixels[(start_x + j + (start_y + i1 + i) * img->width) * 4] = pixel_ptr[0];
+					img->pixels[(start_x + j + (start_y + i1 + i) * img->width) * 4 + 1] = pixel_ptr[1];
+					img->pixels[(start_x + j + (start_y + i1 + i) * img->width) * 4 + 2] = pixel_ptr[2];
+					img->pixels[(start_x + j + (start_y + i1 + i) * img->width) * 4 + 3] = pixel_ptr[3];
+                }
+            }
+        }
+        i1++;
+    }
 }
-
 
 #define	DEGREE_TO_RADIAL(degree) ((double)(degree) / 360 * (M_PI * 2))
 #define	RADIAL_TO_DEGREE(degree) ((double)(degree) * 360 / (M_PI * 2))
