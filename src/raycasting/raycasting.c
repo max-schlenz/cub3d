@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:01:19 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/10 17:11:29 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/11 13:15:00 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ void	hori_check(t_movement *move, t_map *map, double *x_hit, double *player, dou
 	ya = 1 * tan(direction);
 	if (direction >= M_PI_2 && direction < M_PI + M_PI_2)
 	{
-		while (LOGICX && map->elem[(int)x_hit[Y]][(int)x_hit[X]] != '1')
+		while (LOGICX && map->elem[(int)x_hit[Y]][(int)x_hit[X]] == '0')
 		{
 			x_hit[X] += 1;
 			x_hit[Y] += -ya;
@@ -144,7 +144,7 @@ void	hori_check(t_movement *move, t_map *map, double *x_hit, double *player, dou
 	}
 	else
 	{
-		while (LOGICX && (map->elem[(int)x_hit[Y]][(int)x_hit[X] - 1] != '1'))
+		while (LOGICX && (map->elem[(int)x_hit[Y]][(int)x_hit[X] - 1] == '0'))
 		{
 			x_hit[X] += -1;
 			x_hit[Y] += ya;
@@ -164,7 +164,7 @@ void	vert_check(t_movement *move, t_map *map, double *y_hit, double *player, dou
 	xa = 1 / tan(direction);
 	if (direction >= 0 && direction < M_PI)
 	{
-		while (LOGICY && map->elem[(int)y_hit[Y]][(int)y_hit[X]] != '1')
+		while (LOGICY && map->elem[(int)y_hit[Y]][(int)y_hit[X]] == '0')
 		{
 			y_hit[Y] += 1;
 			y_hit[X] += -xa;
@@ -172,7 +172,7 @@ void	vert_check(t_movement *move, t_map *map, double *y_hit, double *player, dou
 	}
 	else
 	{
-		while (LOGICY && (map->elem[(int)y_hit[Y] - 1][(int)y_hit[X]] != '1'))
+		while (LOGICY && (map->elem[(int)y_hit[Y] - 1][(int)y_hit[X]] == '0'))
 		{
 			y_hit[Y] += -1;
 			y_hit[X] += xa;
@@ -190,13 +190,11 @@ double	sinlgle_ray(t_array *test, t_movement *move, t_map *map, double direction
 	player[X] = move->x + move->tile_x;
 	player[Y] = move->y + move->tile_y;
 	hori_check(move, map, hori, player, direction);
-	hori[2] = fabs((player[X] - hori[X]) / cos(-1 * direction - M_PI_2));
-			line(MLX_COLOR_WHITESMOKE, img, player[X],player[Y], hori[X],hori[Y]);
-
+	hori[2] = fabs((player[X] - hori[X]) / cos(direction));
+	line(MLX_COLOR_WHITESMOKE, img, player[X],player[Y], hori[X],hori[Y]);
 	vert_check(move, map, vert, player, direction);
-			line(MLX_COLOR_WHITESMOKE, img, player[X],player[Y], vert[X],vert[Y]);
-
-	vert[2] = fabs((player[X] - vert[X]) / cos(-1 * direction - M_PI_2));
+	line(MLX_COLOR_WHITESMOKE, img, player[X],player[Y], vert[X],vert[Y]);
+	vert[2] = fabs((player[X] - vert[X]) / cos(direction));
 	if (hori[X] < 0 || hori[Y] < 0)
 		shorter = vert;
 	else if (vert[X] < 0 || vert[Y] < 0)
@@ -205,7 +203,7 @@ double	sinlgle_ray(t_array *test, t_movement *move, t_map *map, double direction
 		shorter = hori;
 	else
 		shorter = vert;
-	test->distance = shorter[2] * cos((move->direction - direction));
+	test->distance = shorter[2] * cos(move->direction - direction);
 	test->tile_x = shorter[1];
 }
 
@@ -224,6 +222,7 @@ void	draw_wall(t_array test, mlx_image_t *img)
 	wall_height = base_height / test.distance;
 	while (i < wall_height)
 	{
+		// need skip for put of window
 		if (skyline - wall_height / 2 > 0 && skyline - wall_height / 2 < img->height)
 			mlx_put_pixel(img,test.x,skyline - wall_height / 2 + i,MLX_COLOR_RED);
 		i++;
@@ -254,6 +253,7 @@ void	raycasting(mlx_t *mlx, mlx_image_t *img, t_movement *move, t_map *map, t_te
 		overshot_protection(&degree);
 		sinlgle_ray(&test, move, map, degree, img);
 		degree = move->direction - (pov / 2) + degree_per_pixel * i;
+		test.distance = test.distance ;
 		draw_wall(test, img);
 		i++;
 	}

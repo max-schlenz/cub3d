@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 10:56:28 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/10 16:41:05 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/11 12:53:25 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 # include "hex_color.h"
 
 # define PLAYER_SPRITE_FRAMES
-# define MAPNAME "maps/test"
+# define MAPNAME "maps/test copy"
 
 /**
  * @brief main function for the raycasting part
