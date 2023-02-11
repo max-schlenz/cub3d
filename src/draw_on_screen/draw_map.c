@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 15:09:07 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/11 19:15:50 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/11 21:17:54 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,31 +114,31 @@ void	draw_map(t_map *map, mlx_image_t *img, t_movement *move, t_texture *tex, t_
 
 
 	return ;
-	x = 0;
-	y = 0;
-	if ((double)img->height / (map->height) > (double)img->width / map->width)
-		pixel_per_tile =  (double)img->width / map->width;
-	else
-		pixel_per_tile =  (double)img->width / map->width;
-	while (y < img->height)
-	{
-		while (x < img->width)
-		{
-			if (y /(pixel_per_tile) >= map->height|| x /(pixel_per_tile) > map->width)
-				mlx_put_pixel(img, x, y, MLX_COLOR_BLACK);
-			else
-			{
-				if (map->elem[pixel_per_y][pixel_per_x] == '1')
-					mlx_put_pixel(img, x, y, MLX_COLOR_ORANGERED);
-				else if (map->elem[pixel_per_y][pixel_per_x] == '0')
-					mlx_put_pixel(img, x, y, MLX_COLOR_DARKSALMON);
-				else if (map->elem[pixel_per_y][pixel_per_x] == 'N')
-					mlx_put_pixel(img, x, y, MLX_COLOR_ORANGERED);
-			}
-			x++;
-		}
-		x = 0;
-		y++;
-	}
-	draw_player_on_map(map, img, move, tex, sprite);
+	// x = 0;
+	// y = 0;
+	// if ((double)img->height / (map->height) > (double)img->width / map->width)
+	// 	pixel_per_tile =  (double)img->width / map->width;
+	// else
+	// 	pixel_per_tile =  (double)img->width / map->width;
+	// while (y < img->height)
+	// {
+	// 	while (x < img->width)
+	// 	{
+	// 		if (y /(pixel_per_tile) >= map->height|| x /(pixel_per_tile) > map->width)
+	// 			mlx_put_pixel(img, x, y, MLX_COLOR_BLACK);
+	// 		else
+	// 		{
+	// 			if (map->elem[pixel_per_y][pixel_per_x] == '1')
+	// 				mlx_put_pixel(img, x, y, MLX_COLOR_ORANGERED);
+	// 			else if (map->elem[pixel_per_y][pixel_per_x] == '0')
+	// 				mlx_put_pixel(img, x, y, MLX_COLOR_DARKSALMON);
+	// 			else if (map->elem[pixel_per_y][pixel_per_x] == 'N')
+	// 				mlx_put_pixel(img, x, y, MLX_COLOR_ORANGERED);
+	// 		}
+	// 		x++;
+	// 	}
+	// 	x = 0;
+	// 	y++;
+	// }
+	// draw_player_on_map(map, img, move, tex, sprite);
 }

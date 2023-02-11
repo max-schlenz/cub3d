@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 15:20:58 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/10 16:18:06 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/11 20:43:17 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,13 @@ void	mouse_checker(mlx_t *mlx, t_movement *move, mlx_image_t *img_bg)
 	if ((mlx->height / 2 - y) < 0)//? maybe not used in the end// top down for  tranlate the casting line up or down
 	{
 		move->top_down += 10;
-		img_bg->instances[0].y = move->top_down;
+		// img_bg->instances[0].y = move->top_down;
 		// bg->instances[0].y += 1;
 	}
 	else if ((mlx->height / 2 - y) > 0)//? maybe not used in the end
 	{
 		move->top_down -= 10;
-		img_bg->instances[0].y = move->top_down;
+		// img_bg->instances[0].y = move->top_down;
 	}
 	// overshot_protection(&(move->top_down));
 	// if (move->top_down > 1)

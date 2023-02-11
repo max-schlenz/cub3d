@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:01:19 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/11 19:30:44 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/11 21:18:23 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	raycasting(mlx_t *mlx, mlx_image_t *img, t_movement *move, t_input *map)
 
 void	draw_hori(mlx_image_t *img, int y, uint32_t col)
 {
-	int	i;
+	uint32_t	i;
 
 	i = 0;
 	while (i < img->width)
@@ -233,6 +233,7 @@ void	draw_wall(t_array *test, mlx_image_t *img, t_texture *tex)
 	int		skyline;
 	int		wall_height;
 	int		i;
+	int		j = 0;
 	int		color = MLX_COLOR_CORAL;
 	
 	i = 0;
@@ -240,12 +241,29 @@ void	draw_wall(t_array *test, mlx_image_t *img, t_texture *tex)
 	base_distance = 1;
 	base_height = 200;
 	wall_height = base_height / test->distance;
+
+
+	// uint8_t **twoDimensionalArray = ft_calloc(tex->wall_ea->height * 4, sizeof(uint8_t *));
+
+	// for (int i = 0; i < tex->wall_ea->height * 4; i++) {
+	// 	twoDimensionalArray[i] = &tex->wall_ea->pixels[i * tex->wall_ea->width];
+	// }
+	
 	while (i < wall_height)
 	{
+		
 		// need skip for put of window
 		if (skyline - wall_height / 2 > 0 && skyline - wall_height / 2 < img->height)
 		{
-			printf("%f\n", test->tile_x * 72);
+			j = 0;
+			color = 0;
+			while (j < 4)
+			{
+				color = color << 8;
+				color = color | tex->wall_no->pixels[((int)(((double)i / (double)wall_height) * tex->wall_no->height * tex->wall_no->width) + (int)(tex->wall_no->width * test->tile_x)) * 3 + j];
+				j++;
+			}
+			// printf("%f\n", test->tile_x * 72);
 			mlx_put_pixel(img, test->x, skyline - wall_height / 2 + i, color);
 		}
 		i++;
@@ -259,11 +277,11 @@ void	draw_wall(t_array *test, mlx_image_t *img, t_texture *tex)
 
 void	raycasting(mlx_t *mlx, mlx_image_t *img, t_movement *move, t_map *map, t_texture *tex)
 {
-	int		i;
-	double	pov;
-	double	degree_per_pixel;
-	double	degree;
-	t_array	test;
+	uint32_t	i;
+	double		pov;
+	double		degree_per_pixel;
+	double		degree;
+	t_array		test;
 
 	pov =  DEGREE_TO_RADIAL(90);
 	degree = move->direction - (pov / 2);

@@ -55,7 +55,7 @@ void	rendering_loop(void *param)
 
 	is_there_something(map, move);
 	// move_bg(map, img_bg, move, tex, sprite);
-	 draw_map(map, img, move, tex, sprite);
+	//  draw_map(map, img, move, tex, sprite);
 	raycasting(mlx, img, move, map, tex);
 	// printf("fps: %i\n", (int)(1 / mlx->delta_time));
 	update_fps_counter(mlx, img);
@@ -63,15 +63,14 @@ void	rendering_loop(void *param)
 
 static void	test_tex(t_map *map, t_player *player, t_texture *tex, t_sprite *sprite, mlx_image_t *img)
 {
-	for (int i = 0; i < tex->wall_no->height * sizeof(int); i++)
+	unsigned int start_x = (img->width - tex->wall_no->width) / 2;
+	unsigned int start_y = (img->height - tex->wall_no->height) / 2;
+
+	for (unsigned int i = 0; i < tex->wall_no->height; i++)
 	{
-		for (int j = 0; j < tex->wall_no->width ; j++)
+		for (unsigned int j = 0; j < tex->wall_no->width; j++)
 		{
-				img->pixels[(j + i * img->height)] = tex->wall_no->pixels[(j + i * tex->wall_no->height) ];
-			// for (int k = 0; k < 4; k++)
-			// {
-			// }
-			// printf("%i c: %x\n", j + i * tex->wall_no->height, (int)(tex->wall_no->pixels[(j + i * tex->wall_no->height)]));
+			img->pixels[(start_x + j + (start_y + i) * img->width)] = tex->wall_no->pixels[(j + i * tex->wall_no->width)];
 		}
 	}
 }
@@ -93,10 +92,10 @@ int	mlx_setup(t_map *map, t_player *player, t_texture *tex, t_sprite *sprite)
 	img = mlx_new_image(mlx, WIDTH, HEIGHT);
 	img_bg = mlx_new_image(mlx, WIDTH, HEIGHT * 2);
 	default_movement(&move, img_bg, img);
-	project(mlx, img_bg, &move, map, tex);
+	// project(mlx, img_bg, &move, map, tex);
+	// test_tex(map, player, tex, sprite, img);
 	mlx_image_to_window(mlx, img, 0, 0);
 	mlx_set_cursor_mode(mlx, MLX_MOUSE_HIDDEN);
-	// test_tex(map, player, tex, sprite, img);
 	mlx_loop_hook(mlx, &rendering_loop, &transporter);
 	transporter.mlx = mlx;
 	transporter.img = img;
