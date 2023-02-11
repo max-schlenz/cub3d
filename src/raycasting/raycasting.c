@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:01:19 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/11 13:15:00 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/11 18:03:13 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,29 +205,56 @@ double	sinlgle_ray(t_array *test, t_movement *move, t_map *map, double direction
 		shorter = vert;
 	test->distance = shorter[2] * cos(move->direction - direction);
 	test->tile_x = shorter[1];
+	printf("%f\n", test->tile_x);
+	// while (test->tile_x > 1)
+	// 	test->tile_x--;
 }
 
-void	draw_wall(t_array test, mlx_image_t *img)
+void	draw_wall(t_array *test, mlx_image_t *img, t_texture *tex)
 {
 	double	base_distance;
 	int		base_height;
 	int		skyline;
 	int		wall_height;
 	int		i;
-
+	int		color = MLX_COLOR_CORAL;
+	
 	i = 0;
 	skyline = img->height / 2;
 	base_distance = 1;
 	base_height = 200;
-	wall_height = base_height / test.distance;
+	wall_height = base_height / test->distance;
 	while (i < wall_height)
 	{
 		// need skip for put of window
 		if (skyline - wall_height / 2 > 0 && skyline - wall_height / 2 < img->height)
-			mlx_put_pixel(img,test.x,skyline - wall_height / 2 + i,MLX_COLOR_RED);
+		{
+			// printf("%x %i %f %i\n", (int)tex->wall_no->pixels[i], (int)(test->tile_x * tex->wall_no->width), test->tile_x, tex->wall_no->width);
+			color = 0;
+			for (size_t j = 0; j < 4; j++)
+			{
+				color = color << 8;
+				printf("in for %f\n",  test->tile_x);
+				printf("%i %f\n", ((int)(((double)i / (double)wall_height) * tex->wall_no->height, (tex->wall_no->width * test->tile_x))));
+				printf("%lu\n", ((int)(((double)i / (double)wall_height) * tex->wall_no->height * tex->wall_no->width) + (int)(tex->wall_no->width * test->tile_x)) * 4 + j);
+				color = color | tex->wall_no->pixels[((int)(((double)i / (double)wall_height) * tex->wall_no->height * tex->wall_no->width) + (int)(tex->wall_no->width * test->tile_x)) * 4 + j];
+			}
+				// printf(">%i\n", (int)tex->wall_no->pixels[((int)(((double)i / (double)wall_height) * tex->wall_no->height * tex->wall_no->width) + (int)(tex->wall_no->width * test->tile_x))]);
+			// printf("%d\n", (int)(tex->wall_no->width * test->tile_x));
+			// printf("%d\n", (int)(((double)i / (double)wall_height) * tex->wall_no->height * tex->wall_no->width));
+
+			// if (color != 0x1babdff)
+			// 	printf("c: %x t: %i, t1: %i\n",color, tmp, tmp1);
+			mlx_put_pixel(img, test->x, skyline - wall_height / 2 + i, color);
+			// img->pixels[(test->x * skyline - wall_height / 2 + i) * img->height] = MLX_COLOR_RED;
+		
+			// mlx_draw_texture(img, tex->wall_no, test->x, skyline - wall_height / 2 + i);
+		}
+			
+			
 		i++;
 	}
-	
+	// exit (0);
 }
 
 
@@ -246,15 +273,15 @@ void	raycasting(mlx_t *mlx, mlx_image_t *img, t_movement *move, t_map *map, t_te
 	degree = move->direction - (pov / 2);
 	degree_per_pixel = pov / img->width;
 	i = 0;
-	overshot_protection(&degree);
 	while(i < img->width)
 	{
 		test.x = i;
 		overshot_protection(&degree);
 		sinlgle_ray(&test, move, map, degree, img);
 		degree = move->direction - (pov / 2) + degree_per_pixel * i;
-		test.distance = test.distance ;
-		draw_wall(test, img);
+		printf("> tilex %f\n",test.tile_x);
+		overshot_protection(&degree);
+		draw_wall(&test, img, tex);
 		i++;
 	}
 }
