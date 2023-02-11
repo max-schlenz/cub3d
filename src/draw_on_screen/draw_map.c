@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 15:09:07 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/11 13:59:58 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/11 17:44:14 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,77 @@ void	draw_player_on_map(t_map *map, mlx_image_t *img, t_movement *move, t_textur
 # define pixel_per_y (int)(y /(pixel_per_tile))
 # define pixel_per_x (int)(x /(pixel_per_tile))
 
+typedef struct s_tile{
+	int	pixel_per_tile;
+	int	x;
+	int	y;
+	int	color;
+}t_tile;
+
+# define MAP_TILE_BORDER 0.05
+# define MAP_TILE_SIZE 20
+# define TILE_PER_MAP 5
+# define TILE_BORDER(X) X < MAP_TILE_SIZE * (1 - MAP_TILE_BORDER) && X > MAP_TILE_SIZE * MAP_TILE_BORDER
+
+void draw_tile(mlx_image_t *img, t_tile *tile)
+{
+	int	y;
+	int	x;
+
+	y = 0;
+	while (y < tile->pixel_per_tile)
+	{
+		x = 0;
+		while(x < tile->pixel_per_tile)
+		{
+			if (TILE_BORDER(x) && TILE_BORDER(y))
+				mlx_put_pixel(img , tile->x + x,tile->y + y, MLX_COLOR_WHITE);
+			else
+				mlx_put_pixel(img , tile->x + x,tile->y + y, tile->color);
+			x++;
+		}
+		y++;
+	}
+}
+
+int	what_tile(t_map *map, t_movement *move , int x, int y)
+{
+	x = move->x - x - MAP_TILE_SIZE;
+	y = move->y - y;
+	if ( x == 0 && y == 0)
+		return (MLX_COLOR_RED);// player
+	elsif (x <  - MAP_TILE_SIZE / 2 || y < 0)
+		return (MLX_COLOR_BLACK);
+		return (MLX_COLOR_BLUE);
+}
+
 void	draw_map(t_map *map, mlx_image_t *img, t_movement *move, t_texture *tex, t_sprite *sprite)
 {
 	int	x;
 	int	y;
 	int	pixel_per_tile;
+	t_tile tile;
 
+	tile.pixel_per_tile = MAP_TILE_SIZE;
+	x = 0;
+	y = 0;
+	while (y < MAP_TILE_SIZE * 2 + 1)
+	{
+		while ( x < MAP_TILE_SIZE * 2 + 1)
+		{
+			tile.color = what_tile(map, move , x , y);
+			tile.x = tile.pixel_per_tile  * x;// + offset
+			tile.y = tile.pixel_per_tile  * y;// + offset
+			draw_tile(img, &tile);
+			x++;
+		}
+		x = 0;// offset
+		y++;
+	}
+	
+
+
+	return ;
 	x = 0;
 	y = 0;
 	if ((double)img->height / (map->height) > (double)img->width / map->width)
