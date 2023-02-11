@@ -6,7 +6,7 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2023/02/11 21:16:11 by mschlenz         ###   ########.fr        #
+#    Updated: 2023/02/11 21:21:26 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 SHELL 			=	/bin/bash
 UNAME			=	$(shell uname)
 MAKEFLAGS 		=	--no-print-directory
-CFLAGS			=	-Ofast -g -fsanitize=address -Wall -Wextra -Wno-unused-variable -Wno-unused-function -Wno-unused-parameter -Wno-unused-but-set-variable #-Werror #-g  
+CFLAGS			=	-Ofast -g #-fsanitize=address -Wall -Wextra -Wno-unused-variable -Wno-unused-function -Wno-unused-parameter -Wno-unused-but-set-variable #-Werror #-g  
 
 #FORMAT----------------------------------#
 DEFCL			=	$(shell echo -e "\033[0m")
