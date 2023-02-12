@@ -28,8 +28,6 @@ bool	parse_input_map(char **read_buf, t_player *player, t_map *map)
 	int			i;
 
 	i = 0;
-				printf("h\n");
-
 	while ((*read_buf) && (*read_buf)[i] && (*read_buf)[i] != '\n')
 	{
 		if (line < map->height)
@@ -45,9 +43,10 @@ bool	parse_input_map(char **read_buf, t_player *player, t_map *map)
 		i++;
 	}
 	line++;
+	return (true);
 }
 
-static bool	parse_line(char **line, t_input *input, t_player *player, t_map *map)
+bool	parse_line(char **line, t_input *input, t_player *player, t_map *map)
 {
 	if (((*line)[0] == '1' || (*line)[0] == '0' || (*line)[0] == ' ')
 		&& !parse_input_map(line, player, map))

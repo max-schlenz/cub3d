@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 11:29:23 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/12 01:58:35 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/12 03:49:15 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,8 @@ typedef struct s_data
  * @param velocity value how fast the player can move //?setting value 
  * @param rotation_speed value how fast a  player can turn//? setting value
  */
-typedef struct s_movement{
+typedef struct s_movement
+{
 	int		x;
 	int		y;
 	double	tile_x;
@@ -104,7 +105,7 @@ typedef struct s_movement{
 	double	velocity;//? settig value
 	double	rotation_speed;//? settig value
 	int		pixel_per_map_tile;
-}t_movement;
+}	t_movement;
 
 /**
  * @brief just a struct to parse  multiple structure to the loop
@@ -135,6 +136,6 @@ typedef struct s_array
 	double			direction;
 	double			distance;
 	mlx_texture_t	*texture;
-}t_array;
+}	t_array;
 
 #endif

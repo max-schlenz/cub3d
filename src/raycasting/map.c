@@ -115,4 +115,3 @@ int	main_casting(t_data *data)// input map
 	mlx_setup(data, data->map, data->player, data->texture, data->sprite);
 	return (0);
 }
-
