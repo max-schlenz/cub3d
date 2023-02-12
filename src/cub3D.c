@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 11:18:12 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/12 03:50:10 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/12 03:57:16 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	main(int argc, char **argv)
 {
 	t_data		*data;
 
-	if (argc == 2)
+	if (argc == 2 || DEBUG)
 	{
 		check_inputfile(MAPNAME);
 		data = alloc();
@@ -26,7 +26,7 @@ int	main(int argc, char **argv)
 		{
 			load_textures(data->input, data->texture);
 			load_sprites(data->sprite);
-			// main_casting(data);
+			main_casting(data);
 		}
 		cleanup(data);
 		exit (EXIT_SUCCESS);
