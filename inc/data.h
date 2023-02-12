@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 11:29:23 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/10 16:08:06 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/12 01:58:35 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ typedef enum e_error
 {
 	MAP_ERROR,
 	PARAM_ERROR,
-	PLAYER_ERROR
+	PLAYER_ERROR,
+	UNEXPECTED_ERROR
 }	t_error;
 
 typedef struct s_sprite

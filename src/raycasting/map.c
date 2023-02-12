@@ -76,7 +76,7 @@ static void	test_tex(t_map *map, t_player *player, t_texture *tex, t_sprite *spr
 	}
 }
 
-int	mlx_setup(t_map *map, t_player *player, t_texture *tex, t_sprite *sprite)
+int	mlx_setup(t_data *data, t_map *map, t_player *player, t_texture *tex, t_sprite *sprite)
 {
 	mlx_t		*mlx;
 	mlx_image_t	*img;
@@ -89,7 +89,7 @@ int	mlx_setup(t_map *map, t_player *player, t_texture *tex, t_sprite *sprite)
 	move.y = player->player_y;
 	mlx = mlx_init(WIDTH, HEIGHT, "cub3D", 1);
 	if (mlx == NULL)
-		exit(EXIT_FAILURE);
+		cleanup(data);
 	img = mlx_new_image(mlx, WIDTH, HEIGHT);
 	img_bg = mlx_new_image(mlx, WIDTH, HEIGHT * 2);
 	default_movement(&move, img_bg, img);
@@ -107,12 +107,12 @@ int	mlx_setup(t_map *map, t_player *player, t_texture *tex, t_sprite *sprite)
 	transporter.sprite = sprite;
 	mlx_loop(mlx);
 	mlx_terminate(mlx);
-	return (EXIT_SUCCESS);
+	return (0);
 }
 
 int	main_casting(t_data *data)// input map
 {
-	mlx_setup(data->map, data->player, data->texture, data->sprite);
+	mlx_setup(data, data->map, data->player, data->texture, data->sprite);
 	return (0);
 }
 

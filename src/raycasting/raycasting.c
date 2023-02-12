@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:01:19 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/11 19:30:44 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/12 01:09:28 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,7 +245,7 @@ void	draw_wall(t_array *test, mlx_image_t *img, t_texture *tex)
 		// need skip for put of window
 		if (skyline - wall_height / 2 > 0 && skyline - wall_height / 2 < img->height)
 		{
-			printf("%f\n", test->tile_x * 72);
+			// printf("%f\n", test->tile_x * 72);
 			mlx_put_pixel(img, test->x, skyline - wall_height / 2 + i, color);
 		}
 		i++;

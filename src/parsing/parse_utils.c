@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 15:38:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/08 01:02:34 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/12 02:35:01 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,23 @@
 
 bool	error(int row, int col, t_error error)
 {
-	if (error == PLAYER_ERROR)
-		ft_putstr_fd("Error: spawn not defined", 2);
-	else if (error == PARAM_ERROR)
-		ft_putstr_fd("Error: required map params not set", 2);
+	char	*error_msg[3];
+
+	if (error == UNEXPECTED_ERROR)
+	{
+		ft_putstr_fd("Error in row: ", STDERR_FILENO);
+		ft_putnbr_fd(row + 1, STDERR_FILENO);
+		ft_putstr_fd(" col: ", STDERR_FILENO);
+		ft_putnbr_fd(col + 1, STDERR_FILENO);
+		write(STDERR_FILENO, "\n", 1);
+	}
 	else
 	{
-		ft_putstr_fd("Error in row: ", 2);
-		ft_putnbr_fd(row + 1, 2);
-		ft_putstr_fd(" col: ", 2);
-		ft_putnbr_fd(col + 1, 2);
+		error_msg[MAP_ERROR] = "Error: invalid map";
+		error_msg[PARAM_ERROR] = "Error: required map params not set";
+		error_msg[PLAYER_ERROR] = "Error: spawn not defined";
+		ft_putendl_fd(error_msg[error], STDERR_FILENO);
 	}
-	write(2, "\n", 1);
 	return (false);
 }
 
