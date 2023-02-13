@@ -12,6 +12,7 @@
 		"algorithm": "c",
 		"ios": "c",
 		"string": "c",
-		"type_traits": "c"
+		"type_traits": "c",
+		"font.h": "c"
 	}
 }

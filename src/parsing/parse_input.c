@@ -12,95 +12,17 @@
 
 #include <cub3D.h>
 
-static bool	get_map_params(t_map *map)
-{
-	int		fd;
-	int		width_line;
-	char	*line;
-
-	if (!access(MAPNAME, F_OK))
-	{
-		fd = open(MAPNAME, O_RDONLY);
-		line = ft_calloc(1, sizeof(char));
-		while (line != NULL)
-		{
-			free (line);
-			line = get_next_line(fd);
-			if (!line)
-				return (true);
-			if (line[0] == '\n'
-				|| (line[0] != '0' && line[0] != '1' && line[0] != ' '))
-				continue ;
-			map->height++;
-			width_line = ft_strlen(line) - 1;
-			if (width_line > map->width)
-				map->width = width_line;
-		}
-		return (true);
-	}
-	return (false);
-}
-
-char	**alloc_map(t_map *map)
-{
-	int		i;
-	char	**elem;
-
-	i = 0;
-	get_map_params(map);
-	elem = ft_calloc(map->height + 2, sizeof(char*));
-	while (i < map->height)
-	{
-		elem[i] = ft_calloc(map->width + 2, sizeof(char));
-		ft_memset(elem[i++], '2', map->width + 1);
-	}
-	elem[map->height + 1] = NULL;
-	return (elem);
-}
-
-bool	input_valid(t_input *input, t_player *player, t_map *map)
-{
-	int			row;
-	int			col;
-	const char	**elem = (const char**)map->elem;
-
-	row = 0;
-	col = 0;
-	if (!player->player_dir)
-		return (error(row, col, PLAYER_ERROR));
-	if (!input->tex_no || !input->tex_so || !input->tex_we || !input->tex_ea
-		|| !input->f || !input->c)
-		return (error(0, 0, PARAM_ERROR));
-	while (row < map->height && col < map->width)
-	{
-		if (elem[row][col] == '0' && (
-				row == 0 || col == 0 || row == map->height - 1
-				|| col == map->width - 1 || !elem[row][col + 1]
-				|| elem[row - 1][col] == '2' || elem[row][col - 1] == '2'
-				|| elem[row + 1][col] == '2' || elem[row][col + 1] == '2'))
-			return (error(row, col, MAP_ERROR));
-		if (++col == map->width)
-		{
-			col = 0;
-			row++;
-		}
-	}
-	return (true);
-}
-
-void	parse_input_player(char **read_buf, t_player *player, int line, int *i)
+bool	parse_input_player(char **read_buf, t_player *player, int line, int *i)
 {
 	if (player->player_dir != 0)
-	{
-		printf("Error: multiple player spawns (line: %i, row: %i)\n", line, (*i));
-		exit (0);
-	}
+		return (error(line, *i, UNEXPECTED_ERROR));
 	player->player_x = (*i);
 	player->player_y = line;
 	player->player_dir = (*read_buf)[(*i)];
+	return (true);
 }
 
-void	parse_input_map(char **read_buf, t_player *player, t_map *map)
+bool	parse_input_map(char **read_buf, t_player *player, t_map *map)
 {
 	static int	line = 0;
 	int			i;
@@ -110,9 +32,10 @@ void	parse_input_map(char **read_buf, t_player *player, t_map *map)
 	{
 		if (line < map->height)
 		{
-			if ((*read_buf)[i] == 'N' || (*read_buf)[i] == 'S' 
+			if (((*read_buf)[i] == 'N' || (*read_buf)[i] == 'S'
 				|| (*read_buf)[i] == 'W' || (*read_buf)[i] == 'E')
-				parse_input_player(read_buf, player, line, &i);
+				&& !parse_input_player(read_buf, player, line, &i))
+				return (false);
 			if ((*read_buf)[i] == ' ')
 				(*read_buf)[i] = '2';
 			map->elem[line][i] = (*read_buf)[i];
@@ -120,42 +43,46 @@ void	parse_input_map(char **read_buf, t_player *player, t_map *map)
 		i++;
 	}
 	line++;
+	return (true);
 }
 
-static void	parse_line(char **line, t_input *input, t_player *player, t_map *map)
+bool	parse_line(char **line, t_input *input, t_player *player, t_map *map)
 {
-	if (!input->tex_no && !ft_strncmp((*line), "NO", 2))
+	if (((*line)[0] == '1' || (*line)[0] == '0' || (*line)[0] == ' ')
+		&& !parse_input_map(line, player, map))
+		return (false);
+	else if (!input->tex_no && !ft_strncmp((*line), "NO ", 3))
 		input->tex_no = ft_strdup_nonl((*line) + 3);
-	else if (!input->tex_so && !ft_strncmp((*line), "SO", 2))
+	else if (!input->tex_so && !ft_strncmp((*line), "SO ", 3))
 		input->tex_so = ft_strdup_nonl((*line) + 3);
-	else if (!input->tex_we && !ft_strncmp((*line), "WE", 2))
+	else if (!input->tex_we && !ft_strncmp((*line), "WE ", 3))
 		input->tex_we = ft_strdup_nonl((*line) + 3);
-	else if (!input->tex_ea && !ft_strncmp((*line), "EA", 2))
+	else if (!input->tex_ea && !ft_strncmp((*line), "EA ", 3))
 		input->tex_ea = ft_strdup_nonl((*line) + 3);
-	else if (!input->f && !ft_strncmp((*line), "F", 1))
+	else if (!input->f && !ft_strncmp((*line), "F ", 2))
 		input->f = ft_strdup_nonl((*line) + 2);
-	else if (!input->c && !ft_strncmp((*line), "C", 1))
+	else if (!input->c && !ft_strncmp((*line), "C ", 2))
 		input->c = ft_strdup_nonl((*line) + 2);
-	else if ((*line)[0] == '1' || (*line)[0] == '0' || (*line)[0] == ' ')
-		parse_input_map(line, player, map);
+	return (true);
 }
 
-bool	parse_input(t_input *input, t_player *player, t_map *map)
+bool	parse_input(t_data *data, t_input *input, t_player *player, t_map *map)
 {
 	int		fd;
 	char	*line;
 
 	line = ft_calloc(1, sizeof(char));
-	if (map->width != -1)
+	if (line && map->width != -1)
 	{
-		fd = open(MAPNAME, O_RDWR | O_APPEND, 0644);
+		fd = open(MAPNAME, O_RDONLY);
 		while (line)
 		{
 			free (line);
 			line = get_next_line(fd);
 			if (!line)
 				break ;
-			parse_line(&line, input, player, map);
+			if (!parse_line(&line, input, player, map))
+				return (false);
 		}
 	}
 	parse_debug(input, player, map);

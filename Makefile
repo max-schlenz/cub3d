@@ -6,7 +6,7 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2023/02/10 14:39:42 by mschlenz         ###   ########.fr        #
+#    Updated: 2023/02/12 02:05:55 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 SHELL 			=	/bin/bash
 UNAME			=	$(shell uname)
 MAKEFLAGS 		=	--no-print-directory
-CFLAGS			=	-g -fsanitize=address #-Wall -Wextra -Werror #-g  
+CFLAGS			=	-Ofast -g #-fsanitize=address #-Wall -Wextra -Werror #-g  
 
 #FORMAT----------------------------------#
 DEFCL			=	$(shell echo -e "\033[0m")
@@ -40,6 +40,7 @@ INC_DIR			=	inc
 
 SRC				= 	${NAME}													\
 					parsing/parse_input										\
+					parsing/parse_check										\
 					parsing/parse_utils										\
 					raycasting/map											\
 					raycasting/raycasting									\
@@ -52,6 +53,9 @@ SRC				= 	${NAME}													\
 					utils/cleanup											\
 					utils/init												\
 					utils/utils												\
+					utils/memory											\
+					utils/memory_map										\
+					utils/memory_res										\
 					debug													\
 
 INC				=	${NAME}													\

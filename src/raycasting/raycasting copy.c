@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   raycasting.c                                       :+:      :+:    :+:   */
+/*   raycasting copy.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:01:19 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/08 17:00:43 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/12 03:47:00 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,7 +189,6 @@ void	raycasting(mlx_t *mlx, mlx_image_t *img, t_movement *move, t_map *map, t_te
 	//if (vert[Y] >= 0 && vert[Y] < map->height && vert[X] >= 0 && vert[X] < map->width)
 		line(img, player[X],player[Y], vert[X],vert[Y]);
 	printf("vert %f %f \n", vert[Y], vert[X]);
-}
 // if (A[Y] >= 0 && A[Y] < img->height)
 	// 	draw_hori(img, A[Y] * img->height / map->height);
 	// if (A[X] >= 0 && A[X] < img->width && A[X] != INFINITY)
@@ -199,3 +198,4 @@ void	raycasting(mlx_t *mlx, mlx_image_t *img, t_movement *move, t_map *map, t_te
 	
 	// if ((A[Y] >= 0 && A[Y] < img->height && (A[X] >= 0 && A[X] < img->width && A[X] != INFINITY)))
 	// 	line(img, player[X]* (img->height / map->height), player[Y]* (img->width / map->width), A[X]* (img->height / map->height), A[Y]* (img->width / map->width));
+}
