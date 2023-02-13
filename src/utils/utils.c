@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:35:06 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/12 03:46:28 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/13 18:48:51 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	check_inputfile(char *path)
 	int	fd;
 
 	fd = open(path, O_RDONLY);
-	if (errno)
+	if (fd == -1)
 	{
 		perror("Error");
 		exit(EXIT_FAILURE);

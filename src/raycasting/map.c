@@ -5,7 +5,7 @@
 # define HEIGHT 1000
 
 # define DEFAULT_ROTATION_SPEED 0.02
-# define DEFAULT_DIRECTION 0.00000
+# define DEFAULT_DIRECTION 0.174533
 # define DEFAULT_VELOCITY 0.01
 
 
@@ -67,10 +67,6 @@ static void	test_tex(t_map *map, t_player *player, t_texture *tex, t_sprite *spr
 		for (int j = 0; j < tex->wall_no->width ; j++)
 		{
 				img->pixels[(j + i * img->height)] = tex->wall_no->pixels[(j + i * tex->wall_no->height) ];
-			// for (int k = 0; k < 4; k++)
-			// {
-			// }
-			// printf("%i c: %x\n", j + i * tex->wall_no->height, (int)(tex->wall_no->pixels[(j + i * tex->wall_no->height)]));
 		}
 	}
 }

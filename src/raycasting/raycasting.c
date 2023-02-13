@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:01:19 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/13 18:33:41 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/13 22:12:05 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,9 +134,10 @@ void	hori_check(t_movement *move, t_map *map, double *x_hit, double *player, dou
 		x_hit[X] = move->x;
 	x_hit[Y] = player[Y] + (player[X] - x_hit[X]) * tan (direction);
 	ya = 1 * tan(direction);
+	// from here its the same for hori and vert
 	if (direction >= M_PI_2 && direction < M_PI + M_PI_2)
 	{
-		while (LOGICX && map->elem[(int)x_hit[Y]][(int)x_hit[X]] == '0')
+		while (LOGICX && map->elem[(int)x_hit[Y]][(int)x_hit[X]] != '1')//needs 0 to change with diffrent stuff because sprites and so on
 		{
 			x_hit[X] += 1;
 			x_hit[Y] += -ya;
@@ -144,7 +145,7 @@ void	hori_check(t_movement *move, t_map *map, double *x_hit, double *player, dou
 	}
 	else
 	{
-		while (LOGICX && (map->elem[(int)x_hit[Y]][(int)x_hit[X] - 1] == '0'))
+		while (LOGICX && (map->elem[(int)x_hit[Y]][(int)x_hit[X] - 1] != '1'))
 		{
 			x_hit[X] += -1;
 			x_hit[Y] += ya;
@@ -164,7 +165,7 @@ void	vert_check(t_movement *move, t_map *map, double *y_hit, double *player, dou
 	xa = 1 / tan(direction);
 	if (direction >= 0 && direction < M_PI)
 	{
-		while (LOGICY && map->elem[(int)y_hit[Y]][(int)y_hit[X]] == '0')
+		while (LOGICY && map->elem[(int)y_hit[Y]][(int)y_hit[X]] != '1')
 		{
 			y_hit[Y] += 1;
 			y_hit[X] += -xa;
@@ -172,7 +173,7 @@ void	vert_check(t_movement *move, t_map *map, double *y_hit, double *player, dou
 	}
 	else
 	{
-		while (LOGICY && (map->elem[(int)y_hit[Y] - 1][(int)y_hit[X]] == '0'))
+		while (LOGICY && (map->elem[(int)y_hit[Y] - 1][(int)y_hit[X]] != '1'))
 		{
 			y_hit[Y] += -1;
 			y_hit[X] += xa;
@@ -180,7 +181,7 @@ void	vert_check(t_movement *move, t_map *map, double *y_hit, double *player, dou
 	}
 }
 
-double	sinlgle_ray(t_array *test, t_movement *move, t_map *map, double direction, mlx_image_t *img)
+void	sinlgle_ray(t_array *test, t_movement *move, t_map *map, double direction, mlx_image_t *img)
 {
 	double	hori[3];
 	double	vert[3];
@@ -190,23 +191,35 @@ double	sinlgle_ray(t_array *test, t_movement *move, t_map *map, double direction
 	player[X] = move->x + move->tile_x;
 	player[Y] = move->y + move->tile_y;
 	hori_check(move, map, hori, player, direction);
-	hori[2] = fabs((player[X] - hori[X]) / cos(direction));
-	line(MLX_COLOR_WHITESMOKE, img, player[X],player[Y], hori[X],hori[Y]);
+	hori[2] = fabs((player[X] - hori[X]) / cos(direction)) * cos((move->direction - direction));
 	vert_check(move, map, vert, player, direction);
-	line(MLX_COLOR_WHITESMOKE, img, player[X],player[Y], vert[X],vert[Y]);
-	vert[2] = fabs((player[X] - vert[X]) / cos(direction));
+	vert[2] = fabs((player[X] - vert[X]) / cos(direction)) * cos((move->direction - direction));
 	if (hori[X] < 0 || hori[Y] < 0)
+	{
 		shorter = vert;
+		test->tile_x = shorter[0];
+
+	}
 	else if (vert[X] < 0 || vert[Y] < 0)
+	{
 		shorter = hori;
+		test->tile_x = shorter[1];
+	}
 	else if (hori[2] < vert[2])
+	{
 		shorter = hori;
+		test->tile_x = shorter[1];
+
+	}
 	else
+	{
 		shorter = vert;
-	test->distance = shorter[2] * cos(move->direction - direction);
-	test->tile_x = shorter[1];
-	while (test->tile_x >= 1)
-		test->tile_x = test->tile_x - 1;
+		test->tile_x = shorter[0];
+	}
+	// printf("before%f\n",shorter[2]);
+	// printf("dif %f - %f  = %f\n",move->direction , direction,move->direction - direction);
+	test->distance = shorter[2];
+	// printf("after%f\n\n",test->distance);
 }
 
 int	get_color(uint8_t *start)
@@ -216,14 +229,12 @@ int	get_color(uint8_t *start)
 
 	i = 0;
 	color = 0;
-	while (i < 3)
+	while (i < 4)
 	{
 		color = color << 8;
 		color = color | *(start + i);
 		i++;
 	}
-		color = color << 8;
-		color = color | 0xff;
 	return (color);
 }
 
@@ -253,27 +264,20 @@ void	draw_wall(t_array *test, mlx_image_t *img, t_texture *tex)
 	i = 0;
 	skyline = img->height / 2;
 	base_distance = 1;
-	base_height = 200;
+	base_height = 500;
 	wall_height = base_height / test->distance;
 	test->texture = tex->wall_no;
-	while (i  < wall_height)
+	while (i  < wall_height && i < img->height)
 	{
 		// need skip for put of window
 		if (skyline - wall_height / 2 + i > 0 && skyline - wall_height / 2 + i < img->height)
 		{
-			// printf("%f %f %p\n",test->tile_x,(double)i / (double)wall_height ,test->texture);
+			//get_pixel_for_sprites
 			color = img_pixel( test->tile_x,((double)i / (double)wall_height), test->texture);
-			// printf("%x\n",color);
-			// printf("%f %f\n", test->tile_x * 72, (((double)i / wall_height) * 72.0));
 			mlx_put_pixel(img, test->x, skyline - wall_height / 2 + i, color);
-		}
-		else
-		{
-
 		}
 		i++;
 	}
-	// exit (0);
 }
 
 
@@ -292,14 +296,17 @@ void	raycasting(mlx_t *mlx, mlx_image_t *img, t_movement *move, t_map *map, t_te
 	degree = move->direction - (pov / 2);
 	degree_per_pixel = pov / img->width;
 	i = 0;
+	// printf("%f\n",pov);
+	// exit(0);
+	// printf(">>%f player %f\n",degree ,move->direction);
 	while(i < img->width)
 	{
 		test.x = i;
-		overshot_protection(&degree);
 		sinlgle_ray(&test, move, map, degree, img);
-		degree = move->direction - (pov / 2) + degree_per_pixel * i;
-		overshot_protection(&degree);
+		degree = move->direction - (pov / 2) + pov / img->width * i;
 		draw_wall(&test, img, tex);
 		i++;
 	}
+	// printf(">>%f %i\n",degree,i);
+	// exit (0);
 }
