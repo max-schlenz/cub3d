@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:01:19 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/11 19:30:44 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/13 18:29:16 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,22 +209,37 @@ double	sinlgle_ray(t_array *test, t_movement *move, t_map *map, double direction
 		test->tile_x = test->tile_x - 1;
 }
 
-int	get_color(int8_t *start)
+int	get_color(uint8_t *start)
 {
 	int	color;
 	int	i;
 
 	i = 0;
 	color = 0;
-	while (i < 4)
+	while (i < 3)
 	{
 		color = color << 8;
 		color = color | *(start + i);
 		i++;
 	}
+		color = color << 8;
+		color = color | 0xff;
 	return (color);
 }
-		// color = color | tex->wall_no->pixels[((int)(((double)i / (double)wall_height) * tex->wall_no->height * tex->wall_no->width) + (int)(tex->wall_no->width * test->tile_x)) * 4 + j];
+
+
+
+int	img_pixel(double x_p, double y_p, mlx_texture_t *tex)
+{
+	uint8_t *ptr;
+	int	x;
+	int	y;
+
+	x = (int)(x_p * tex->width);
+	y =(int)(y_p * tex->height) * (tex->width);
+	ptr = &tex->pixels[(int)(x * 4 + y * 4)];
+	return (get_color(ptr));
+}
 
 void	draw_wall(t_array *test, mlx_image_t *img, t_texture *tex)
 {
@@ -240,13 +255,21 @@ void	draw_wall(t_array *test, mlx_image_t *img, t_texture *tex)
 	base_distance = 1;
 	base_height = 200;
 	wall_height = base_height / test->distance;
-	while (i < wall_height)
+	test->texture = tex->wall_no;
+	while (i  < wall_height)
 	{
 		// need skip for put of window
-		if (skyline - wall_height / 2 > 0 && skyline - wall_height / 2 < img->height)
+		if (skyline - wall_height / 2 + i > 0 && skyline - wall_height / 2 + i < img->height)
 		{
-			printf("%f\n", test->tile_x * 72);
+			// printf("%f %f %p\n",test->tile_x,(double)i / (double)wall_height ,test->texture);
+			color = img_pixel( test->tile_x,((double)i / (double)wall_height), test->texture);
+			// printf("%x\n",color);
+			// printf("%f %f\n", test->tile_x * 72, (((double)i / wall_height) * 72.0));
 			mlx_put_pixel(img, test->x, skyline - wall_height / 2 + i, color);
+		}
+		else
+		{
+
 		}
 		i++;
 	}

@@ -52,10 +52,9 @@ void	rendering_loop(void *param)
 	ft_bzero(img->pixels, (WIDTH * HEIGHT * sizeof(u_int32_t)));
 	mouse_checker(mlx, move, img_bg);
 	key_checker(mlx, move);
-
 	is_there_something(map, move);
 	// move_bg(map, img_bg, move, tex, sprite);
-	 draw_map(map, img, move, tex, sprite);
+	//draw_map(map, img, move, tex, sprite);
 	raycasting(mlx, img, move, map, tex);
 	// printf("fps: %i\n", (int)(1 / mlx->delta_time));
 	update_fps_counter(mlx, img);
