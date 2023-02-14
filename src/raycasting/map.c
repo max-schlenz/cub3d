@@ -9,9 +9,8 @@
 # define DEFAULT_VELOCITY 0.01
 
 
-void	default_movement(t_movement *move, mlx_image_t *img_bg, mlx_image_t *img)
+void	default_movement(t_movement *move, mlx_image_t *img)
 {
-	(void)img_bg;
 	move->x = 1;//?get from parser
 	move->y = 1;//?get from parser
 	move->tile_x = 0.5;
@@ -51,7 +50,7 @@ void	rendering_loop(void *param)
 	player = transporter->player;
 	sprite = transporter->sprite;
 	ft_bzero(img->pixels, (WIDTH * HEIGHT * sizeof(u_int32_t)));
-	mouse_checker(mlx, move, img_bg);
+	mouse_checker(mlx, move);
 	key_checker(mlx, move, map);
 	is_there_something(map, move);
 	// move_bg(map, img_bg, move, tex, sprite);
@@ -74,10 +73,10 @@ int	mlx_setup(t_data *data, t_map *map, t_player *player, t_texture *tex, t_spri
 		cleanup(data);
 	img = mlx_new_image(mlx, WIDTH, HEIGHT);
 	img_bg = mlx_new_image(mlx, WIDTH, HEIGHT * 2);
-	default_movement(&move, img_bg, img);
+	default_movement(&move, img);
 	move.x = player->player_x;
 	move.y = player->player_y;
-	project(mlx, img_bg);
+	// project(mlx, img_bg);
 	mlx_set_cursor_mode(mlx, MLX_MOUSE_HIDDEN);
 	// test_tex(map, player, tex, sprite, img);
 	mlx_loop_hook(mlx, &rendering_loop, &transporter);
