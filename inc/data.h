@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 11:29:23 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/12 03:49:15 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/14 14:31:24 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ typedef struct s_movement
 	double	velocity;//? settig value
 	double	rotation_speed;//? settig value
 	int		pixel_per_map_tile;
+	int		tmp;
 }	t_movement;
 
 /**
