@@ -13,6 +13,7 @@
 		"ios": "c",
 		"string": "c",
 		"type_traits": "c",
-		"font.h": "c"
+		"font.h": "c",
+		"locale": "c"
 	}
 }

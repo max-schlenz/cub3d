@@ -22,13 +22,43 @@ bool	parse_input_player(char **read_buf, t_player *player, int line, int *i)
 	return (true);
 }
 
+static bool	line_valid(char *line)
+{
+	int	i;
+
+	if (line[0] != '1'
+		&& line[0] != '2'
+		&& line[0] != ' '
+		&& line[0] != '\t')
+		return (true);
+
+	i = 0;
+	while (line[i] && line[i] != '\n')
+	{
+		if (line[i] != '0'
+			&& line[i] != '1'
+			&& line[i] != '2'
+			&& line[i] != 'd'
+			&& line[i] != 'D'
+			&& line[i] != 'N'
+			&& line[i] != 'S'
+			&& line[i] != 'E'
+			&& line[i] != 'W'
+			&& line[i] != '\t'
+			&& line[i] != ' ')
+				return (false);
+		i++;
+	}
+	return (true);
+}
+
 bool	parse_input_map(char **read_buf, t_player *player, t_map *map)
 {
 	static int	line = 0;
 	int			i;
 
 	i = 0;
-	while ((*read_buf) && (*read_buf)[i] && (*read_buf)[i] != '\n')
+	while ((*read_buf) && (*read_buf)[i])
 	{
 		if (line < map->height)
 		{
@@ -36,11 +66,16 @@ bool	parse_input_map(char **read_buf, t_player *player, t_map *map)
 				|| (*read_buf)[i] == 'W' || (*read_buf)[i] == 'E')
 				&& !parse_input_player(read_buf, player, line, &i))
 				return (false);
-			if ((*read_buf)[i] == ' ')
+			if ((*read_buf)[i] == ' ' || (*read_buf)[i] == '\t')
 				(*read_buf)[i] = '2';
 			map->elem[line][i] = (*read_buf)[i];
 		}
 		i++;
+	}
+	if (!line_valid(map->elem[line]))
+	{
+		printf("%s\n", map->elem[line]);
+		return (error(0, 0, UNEXPECTED_ERROR));
 	}
 	line++;
 	return (true);
@@ -66,7 +101,7 @@ bool	parse_line(char **line, t_input *input, t_player *player, t_map *map)
 	return (true);
 }
 
-bool	parse_input(t_data *data, t_input *input, t_player *player, t_map *map)
+bool	parse_input(t_input *input, t_player *player, t_map *map)
 {
 	int		fd;
 	char	*line;

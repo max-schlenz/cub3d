@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 11:29:23 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/12 03:49:15 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/14 11:28:18 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ typedef struct t_player
 {
 	int		player_x;
 	int		player_y;
+	int		near_obj;
 	char	player_dir;
 }	t_player;
 

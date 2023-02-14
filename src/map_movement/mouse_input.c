@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mouse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 15:20:58 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/12 13:18:20 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/14 15:08:36 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	mouse_checker(mlx_t *mlx, t_movement *move, mlx_image_t *img_bg)
 	int	x;
 	int	y;
 
+	(void)img_bg;
 	mlx_get_mouse_pos(mlx, &x, &y);
 	if ((mlx->width / 2 - x) < 0)
 	{

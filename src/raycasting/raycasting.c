@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:01:19 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/13 22:12:05 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/14 15:50:33 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	raycasting(mlx_t *mlx, mlx_image_t *img, t_movement *move, t_input *map)
 
 void	draw_hori(mlx_image_t *img, int y, uint32_t col)
 {
-	int	i;
+	uint32_t	i;
 
 	i = 0;
 	while (i < img->width)
@@ -103,23 +103,23 @@ void	show_player_anim(mlx_texture_t **player, mlx_image_t *img, int x, int y)
 		j = 0;
 }
 
-void line(int color,mlx_image_t *img, int x0, int y0, int x1, int y1)
-{
-    int dx =  abs(x1 - x0), sx = x0 < x1 ? 1 : -1;
-    int dy = -abs(y1 - y0), sy = y0 < y1 ? 1 : -1;
-    int err = dx + dy, e2; /* error value e_xy */
+// void line(int color,mlx_image_t *img, int x0, int y0, int x1, int y1)
+// {
+//     int dx =  abs(x1 - x0), sx = x0 < x1 ? 1 : -1;
+//     int dy = -abs(y1 - y0), sy = y0 < y1 ? 1 : -1;
+//     int err = dx + dy, e2; /* error value e_xy */
 
-    while (1) {
-		if (x0 >= 0 && x0 < img->width && y0 >= 0 && y0 < img->height)
-      	  mlx_put_pixel(img, x0, y0, color);
-		else
-			return;
-        if (x0 == x1 && y0 == y1) break;
-        e2 = 2 * err;
-        if (e2 > dy) { err += dy; x0 += sx; } /* e_xy+e_x > 0 */
-        if (e2 < dx) { err += dx; y0 += sy; } /* e_xy+e_y < 0 */
-    }
-}
+//     while (1) {
+// 		if (x0 >= 0 && x0 < img->width && y0 >= 0 && y0 < img->height)
+//       	  mlx_put_pixel(img, x0, y0, color);
+// 		else
+// 			return;
+//         if (x0 == x1 && y0 == y1) break;
+//         e2 = 2 * err;
+//         if (e2 > dy) { err += dy; x0 += sx; } /* e_xy+e_x > 0 */
+//         if (e2 < dx) { err += dx; y0 += sy; } /* e_xy+e_y < 0 */
+//     }
+// }
 
 # define LOGICY y_hit[Y] >= 0 && y_hit[Y] < map->height && y_hit[X] >= 0 && y_hit[X] < map->width
 # define LOGICX x_hit[Y] >= 0 && x_hit[Y] < map->height && x_hit[X] >= 0 && x_hit[X] < map->width
@@ -181,7 +181,7 @@ void	vert_check(t_movement *move, t_map *map, double *y_hit, double *player, dou
 	}
 }
 
-void	sinlgle_ray(t_array *test, t_movement *move, t_map *map, double direction, mlx_image_t *img)
+void	sinlgle_ray(t_array *test, t_movement *move, t_map *map, double direction)
 {
 	double	hori[3];
 	double	vert[3];
@@ -256,18 +256,18 @@ void	draw_wall(t_array *test, mlx_image_t *img, t_texture *tex)
 {
 	double	base_distance;
 	int		base_height;
-	int		skyline;
-	int		wall_height;
-	int		i;
-	int		color = MLX_COLOR_CORAL;
+	uint32_t		skyline;
+	uint32_t		wall_height;
+	uint32_t		i;
+	int		color;
 	
 	i = 0;
 	skyline = img->height / 2;
 	base_distance = 1;
-	base_height = 500;
+	base_height = 1000;
 	wall_height = base_height / test->distance;
 	test->texture = tex->wall_no;
-	while (i  < wall_height && i < img->height)
+	while (i  < wall_height)
 	{
 		// need skip for put of window
 		if (skyline - wall_height / 2 + i > 0 && skyline - wall_height / 2 + i < img->height)
@@ -284,9 +284,9 @@ void	draw_wall(t_array *test, mlx_image_t *img, t_texture *tex)
 #define	DEGREE_TO_RADIAL(degree) ((double)(degree) / 360 * (M_PI * 2))
 #define	RADIAL_TO_DEGREE(degree) ((double)(degree) * 360 / (M_PI * 2))
 
-void	raycasting(mlx_t *mlx, mlx_image_t *img, t_movement *move, t_map *map, t_texture *tex)
+void	raycasting(mlx_image_t *img, t_movement *move, t_map *map, t_texture *tex)
 {
-	int		i;
+	uint32_t	i;
 	double	pov;
 	double	degree_per_pixel;
 	double	degree;
@@ -302,7 +302,7 @@ void	raycasting(mlx_t *mlx, mlx_image_t *img, t_movement *move, t_map *map, t_te
 	while(i < img->width)
 	{
 		test.x = i;
-		sinlgle_ray(&test, move, map, degree, img);
+		sinlgle_ray(&test, move, map, degree);
 		degree = move->direction - (pov / 2) + pov / img->width * i;
 		draw_wall(&test, img, tex);
 		i++;

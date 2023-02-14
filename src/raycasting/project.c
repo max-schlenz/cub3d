@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 13:19:38 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/12 03:47:05 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/14 15:07:37 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	ft_memset_cub(int *b, uint32_t c, size_t len)
 	return ;
 }
 
-void project(mlx_t *mlx, mlx_image_t *img_bg, t_movement *move, t_map *map, t_texture *tex)
+void project(mlx_t *mlx, mlx_image_t *img_bg)
 {
 	// ft_memset_cub((int *)img_bg->pixels, MLX_COLOR_GRAY, (img_bg->width * img_bg->height / 2));
 	ft_memset_cub((int *)img_bg->pixels, MLX_COLOR_BLUE, img_bg->width * img_bg->height / 2);

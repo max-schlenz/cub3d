@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 11:18:12 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/12 03:57:16 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/14 15:10:55 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,14 @@ int	main(int argc, char **argv)
 {
 	t_data		*data;
 
+	(void)argv;
+
 	if (argc == 2 || DEBUG)
 	{
 		check_inputfile(MAPNAME);
 		data = alloc();
 		init(data);
-		if (parse_input(data, data->input, data->player, data->map)
+		if (parse_input(data->input, data->player, data->map)
 			&& check_input(data->input, data->player, data->map))
 		{
 			load_textures(data->input, data->texture);
@@ -32,5 +34,5 @@ int	main(int argc, char **argv)
 		exit (EXIT_SUCCESS);
 	}
 	ft_putendl_fd(HELP, STDERR_FILENO);
-	exit (EXIT_FAILURE);
+	exit (EXIT_FAILURE); 
 }

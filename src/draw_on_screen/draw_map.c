@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 15:09:07 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/11 19:15:50 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/14 15:09:34 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	draw_player_char(mlx_image_t *img, int y, int x)
 	mlx_put_pixel(img, x + 1, y + 1, MLX_COLOR_BLACK);
 }
 
-void	draw_player_on_map(t_map *map, mlx_image_t *img, t_movement *move, t_texture *tex, t_sprite *sprite)
+void	draw_player_on_map(t_map *map, mlx_image_t *img, t_movement *move, t_sprite *sprite)
 {
 	int	x;
 	int	y;
@@ -57,16 +57,24 @@ void draw_tile(mlx_image_t *img, t_tile *tile)
 {
 	int	y;
 	int	x;
+
 	y = 0;
 	while (y < tile->pixel_per_tile)
 	{
 		x = 0;
 		while(x < tile->pixel_per_tile)
 		{
-			if (TILE_BORDER(x) || TILE_BORDER(y))
+			if (x > 18 || x < 2  || y > 18 || y < 2 )
 				mlx_put_pixel(img , tile->x + x,tile->y + y, MLX_COLOR_WHITE);
 			else
+			{
+				// printf("x: %i y: %i\n", tile->x + x, tile->y + y);
 				mlx_put_pixel(img , tile->x + x,tile->y + y, tile->color);
+			}
+			
+				
+			// 	// mlx_put_pixel(img , tile->x + x,tile->y + y, MLX_COLOR_AQUA);
+			// }
 			x++;
 		}
 		y++;
@@ -88,19 +96,18 @@ int	what_tile(t_map *map, t_movement *move , int x, int y)
 		return (MLX_COLOR_BLUE);
 }
 
-void	draw_map(t_map *map, mlx_image_t *img, t_movement *move, t_texture *tex, t_sprite *sprite)
+void	draw_map(t_map *map, mlx_image_t *img, t_movement *move)
 {
 	int	x;
 	int	y;
-	int	pixel_per_tile;
 	t_tile tile;
 
 	tile.pixel_per_tile = MAP_TILE_SIZE;
 	y = -TILE_PER_MAP;
-	while (y <= TILE_PER_MAP)
+	while (y < TILE_PER_MAP)
 	{
 		x = -TILE_PER_MAP;
-		while ( x <= TILE_PER_MAP)
+		while ( x < TILE_PER_MAP)
 		{
 			tile.color = what_tile(map, move , x , y);
 			tile.x = tile.pixel_per_tile  * (x + TILE_PER_MAP);
@@ -114,31 +121,31 @@ void	draw_map(t_map *map, mlx_image_t *img, t_movement *move, t_texture *tex, t_
 
 
 	return ;
-	x = 0;
-	y = 0;
-	if ((double)img->height / (map->height) > (double)img->width / map->width)
-		pixel_per_tile =  (double)img->width / map->width;
-	else
-		pixel_per_tile =  (double)img->width / map->width;
-	while (y < img->height)
-	{
-		while (x < img->width)
-		{
-			if (y /(pixel_per_tile) >= map->height|| x /(pixel_per_tile) > map->width)
-				mlx_put_pixel(img, x, y, MLX_COLOR_BLACK);
-			else
-			{
-				if (map->elem[pixel_per_y][pixel_per_x] == '1')
-					mlx_put_pixel(img, x, y, MLX_COLOR_ORANGERED);
-				else if (map->elem[pixel_per_y][pixel_per_x] == '0')
-					mlx_put_pixel(img, x, y, MLX_COLOR_DARKSALMON);
-				else if (map->elem[pixel_per_y][pixel_per_x] == 'N')
-					mlx_put_pixel(img, x, y, MLX_COLOR_ORANGERED);
-			}
-			x++;
-		}
-		x = 0;
-		y++;
-	}
-	draw_player_on_map(map, img, move, tex, sprite);
+	// x = 0;
+	// y = 0;
+	// if ((double)img->height / (map->height) > (double)img->width / map->width)
+	// 	pixel_per_tile =  (double)img->width / map->width;
+	// else
+	// 	pixel_per_tile =  (double)img->width / map->width;
+	// while (y < img->height)
+	// {
+	// 	while (x < img->width)
+	// 	{
+	// 		if (y /(pixel_per_tile) >= map->height|| x /(pixel_per_tile) > map->width)
+	// 			mlx_put_pixel(img, x, y, MLX_COLOR_BLACK);
+	// 		else
+	// 		{
+	// 			if (map->elem[pixel_per_y][pixel_per_x] == '1')
+	// 				mlx_put_pixel(img, x, y, MLX_COLOR_ORANGERED);
+	// 			else if (map->elem[pixel_per_y][pixel_per_x] == '0')
+	// 				mlx_put_pixel(img, x, y, MLX_COLOR_DARKSALMON);
+	// 			else if (map->elem[pixel_per_y][pixel_per_x] == 'N')
+	// 				mlx_put_pixel(img, x, y, MLX_COLOR_ORANGERED);
+	// 		}
+	// 		x++;
+	// 	}
+	// 	x = 0;
+	// 	y++;
+	// }
+	// draw_player_on_map(map, img, move, tex, sprite);
 }

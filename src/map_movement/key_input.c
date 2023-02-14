@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 15:04:00 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/12 03:47:32 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/14 12:49:03 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,14 @@ void	matrix_movement(t_movement *move, double *array)
 	array[Y] = y;
 }
 
+
+static void	interact(t_movement *move, t_map *map)
+{
+	static int i = 0;
+	if (map->elem[move->y + -1][move->x + 0] == 'D')
+		printf("DOOR TOGGLED %i\n", i++);
+}
+
 /**
  * @brief change position based data depending on specific key pressed.
  * also close window for [esc]
@@ -43,7 +51,7 @@ void	matrix_movement(t_movement *move, double *array)
  *! @todo movement needs to care about current direction aka x * cos() and  y * cos()
  * 
  */
-void	key_checker(mlx_t *mlx, t_movement *move)
+void	key_checker(mlx_t *mlx, t_movement *move, t_map *map)
 {
 	double	movement[2];
 
@@ -59,6 +67,8 @@ void	key_checker(mlx_t *mlx, t_movement *move)
 		movement[Y] += move->velocity;
 	if (mlx_is_key_down(mlx, MLX_KEY_D))
 		movement[X] += move->velocity;
+	if (mlx_is_key_down(mlx, MLX_KEY_E))
+		interact(move, map);
 	if (mlx_is_key_down(mlx, MLX_KEY_1))
 		move->direction = 0.1 * PI_TIMES_TWO;
 	if (mlx_is_key_down(mlx, MLX_KEY_2))

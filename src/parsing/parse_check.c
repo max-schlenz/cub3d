@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:42:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/12 03:47:24 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/14 15:05:11 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ bool	check_player(t_player *player)
 	return (true);
 }
 
-bool	check_tex_color(t_input *input, t_player *player, t_map *map)
+bool	check_tex_color(t_input *input)
 {
 	if (!input->tex_no
 		|| !input->tex_so
@@ -31,7 +31,7 @@ bool	check_tex_color(t_input *input, t_player *player, t_map *map)
 	return (true);
 }
 
-bool	check_elem(char **elem, int row, int col, int params[2])
+static bool	map_closed(char **elem, int row, int col, int params[2])
 {
 	if (elem[row][col] == '0' &&
 		(row == 0 || col == 0
@@ -41,6 +41,13 @@ bool	check_elem(char **elem, int row, int col, int params[2])
 		|| elem[row][col - 1] == '2'
 		|| elem[row + 1][col] == '2'
 		|| elem[row][col + 1] == '2'))
+		return (false);
+	return (true);
+}
+
+bool	check_elem(char **elem, int row, int col, int params[2])
+{
+	if (!map_closed(elem, row, col, params))
 		return (error(row, col, MAP_ERROR));
 	return (true);
 }
@@ -57,7 +64,7 @@ bool	check_input(t_input *input, t_player *player, t_map *map)
 	map_params[1] = map->width;
 	if (!check_player(player))
 		return (false);
-	if (!check_tex_color(input, player, map))
+	if (!check_tex_color(input))
 		return (false);
 	while (row < map->height && col < map->width)
 	{
