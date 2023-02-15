@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 10:56:28 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/12 02:01:20 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/15 22:59:42 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,6 @@ void	alloc_texture(t_data *data);
 void	alloc_sprite(t_data *data);
 void	alloc_sprite_player(t_data *data);
 void	check_inputfile(char *path);
+int		img_pixel(double x_p, double y_p, mlx_texture_t *tex);
 
 #endif

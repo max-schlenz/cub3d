@@ -83,6 +83,7 @@ int	mlx_setup(t_data *data, t_map *map, t_player *player, t_texture *tex, t_spri
 
 	move.x = player->player_x;
 	move.y = player->player_y;
+	// map->elem[player->player_y][player->player_x] = '0';
 	mlx = mlx_init(WIDTH, HEIGHT, "cub3D", 1);
 	if (mlx == NULL)
 		cleanup(data);

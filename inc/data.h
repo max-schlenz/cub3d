@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 11:29:23 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/14 14:31:24 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/15 20:33:02 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,5 +138,15 @@ typedef struct s_array
 	double			distance;
 	mlx_texture_t	*texture;
 }	t_array;
+
+
+typedef struct s_dda
+{
+	double	jump;
+	int		(*f_ptr)(struct s_dda * dda_info, t_map* map);
+	double	hit[10];
+	int		offset;
+	int		dir;
+}t_dda;
 
 #endif
