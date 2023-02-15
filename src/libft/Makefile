@@ -6,7 +6,7 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2022/10/31 11:46:18 by mschlenz         ###   ########.fr        #
+#    Updated: 2023/02/15 16:57:02 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,7 @@ SRC			= 	ft_isalnum ft_isalpha ft_isascii ft_isdigit ft_isprint															\
 				ft_lstnew ft_lstadd_back ft_lstadd_front ft_lstclear ft_lstdelone ft_lstiter ft_lstlast ft_lstsize				\
 				get_next_line/get_next_line get_next_line/get_next_line_utils													\
 				ft_printf/ft_printf ft_printf/ft_printf_csi ft_printf/ft_printf_p ft_printf/ft_printf_u ft_printf/ft_printf_xX	\
-				custom/free_null custom/merge_str custom/realloc_ptr custom/free_array
+				custom/free_null custom/merge_str custom/realloc_ptr custom/free_array custom/strrepl
 
 SRC_PATH	=	$(addsuffix .c, $(addprefix $(SRC_DIR), $(SRC)))
 OBJ_PATH	=	$(addsuffix .o, $(addprefix $(OBJ_DIR), $(SRC)))

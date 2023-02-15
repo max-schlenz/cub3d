@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 10:56:28 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/12 02:01:20 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/15 18:25:43 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,10 @@
 # define CUB3D_H
 
 # include <MLX42.h>
-# include <math.h>
 # include <libft.h>
+# include <math.h>
 # include <stdlib.h>
 # include <stdbool.h>
-# include <libft.h>
 # include <fcntl.h>
 # include <unistd.h>
 # include <sys/types.h>
@@ -26,7 +25,6 @@
 # include <stddef.h>
 # include <stdbool.h>
 # include <stdio.h>
-# include <stdlib.h>
 # include <data.h>
 # include "hex_color.h"
 
@@ -44,7 +42,7 @@ bool	parse_input(t_data *data, t_input *input, t_player *player, t_map *map);
 bool	check_input(t_input *input, t_player *player, t_map *map);
 void	is_there_something(t_map *map, t_movement *move);
 int		wall_check(t_map *map, t_movement *move, int f_b, int l_r);
-void	key_checker(mlx_t *mlx, t_movement *move);
+void	key_checker(mlx_t *mlx, t_movement *move, t_map *map);
 void	draw_map(t_map *map, mlx_image_t *img, t_movement *move, t_texture *tex, t_sprite *sprite);
 void	mouse_checker(mlx_t *mlx, t_movement *move, mlx_image_t *img_bg);
 char	*ft_strdup_nonl(const char *s1);

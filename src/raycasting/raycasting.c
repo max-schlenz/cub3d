@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:01:19 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/15 16:19:17 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/15 17:51:22 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,7 +213,7 @@ int	img_pixel(double x_p, double y_p, mlx_texture_t *tex)
 	return (get_color(ptr));
 }
 
-void	draw_wall(t_array *test, mlx_image_t *img, t_texture *tex,double fov)
+void	draw_wall(t_array *test, mlx_image_t *img, t_texture *tex,double fov, int fact)
 {
 	double	base_distance;
 	double		base_height;
@@ -225,8 +225,8 @@ void	draw_wall(t_array *test, mlx_image_t *img, t_texture *tex,double fov)
 	i = 0;
 	skyline = img->height / 2;
 	base_distance = (img->width / 2) * tan(fov/2);
-	base_height = 100;
-	wall_height = 1/ test->distance * base_distance;
+	base_height = 3.2;
+	wall_height = base_height / test->distance * base_distance;
 	while (i  < wall_height)
 	{
 		// need skip for put of window
@@ -263,7 +263,7 @@ void	raycasting(mlx_t *mlx, mlx_image_t *img, t_movement *move, t_map *map, t_te
 		test.x = i;
 		sinlgle_ray(&test, move, map, degree , img, tex);
 		test.distance *= cos(fabs(fov / 2 - i * degree_per_pixel));
-		draw_wall(&test, img, tex,fov);
+		draw_wall(&test, img, tex,fov, move->tmp);
 		degree += degree_per_pixel;
 		i++;
 	}

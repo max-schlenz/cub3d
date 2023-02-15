@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   key_input.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 15:04:00 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/14 15:16:50 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/15 18:43:49 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,33 @@ void	matrix_movement(t_movement *move, double *array)
 	array[Y] = y;
 }
 
+static void	interact(t_movement *move, t_map *map)
+{
+	static int i = 0;
+	if (map->elem[move->y - 1][move->x] == 'D'			//north
+		|| map->elem[move->y + 1][move->x] == 'D'		//south
+		|| map->elem[move->y][move->x - 1] == 'D'		//west
+		|| map->elem[move->y][move->x + 1] == 'D'		//east
+		&& map->elem[move->y][move->x] != 'D')
+		{
+			map
+			printf("DOOR TOGGLED %i\n", i++);
+		}
+}
+
+static void	interact(t_movement *move, t_map *map)
+{
+	if (map->elem[move->y - 1][move->x] == 'D'			//north
+		|| map->elem[move->y + 1][move->x] == 'D'		//south
+		|| map->elem[move->y][move->x - 1] == 'D'		//west
+		|| map->elem[move->y][move->x + 1] == 'D'		//east
+		&& map->elem[move->y][move->x] != 'D')
+		{
+			map
+			printf("DOOR TOGGLED %i\n", i++);
+		}
+}
+
 /**
  * @brief change position based data depending on specific key pressed.
  * also close window for [esc]
@@ -43,7 +70,7 @@ void	matrix_movement(t_movement *move, double *array)
  *! @todo movement needs to care about current direction aka x * cos() and  y * cos()
  * 
  */
-void	key_checker(mlx_t *mlx, t_movement *move)
+void	key_checker(mlx_t *mlx, t_movement *move, t_map *map)
 {
 	double	movement[2];
 
@@ -59,6 +86,8 @@ void	key_checker(mlx_t *mlx, t_movement *move)
 		movement[Y] += move->velocity;
 	if (mlx_is_key_down(mlx, MLX_KEY_D))
 		movement[X] += move->velocity;
+	if (mlx_is_key_down(mlx, MLX_KEY_E))
+		interact(move, map);
 	if (mlx_is_key_down(mlx, MLX_KEY_1))
 		move->direction = 0.1 * PI_TIMES_TWO;
 	if (mlx_is_key_down(mlx, MLX_KEY_2))
@@ -80,9 +109,15 @@ void	key_checker(mlx_t *mlx, t_movement *move)
 	if (mlx_is_key_down(mlx, MLX_KEY_0))
 		move->direction = 1.0 * PI_TIMES_TWO;
 	if (mlx_is_key_down(mlx, MLX_KEY_EQUAL))
+	{
 		move->tmp--;
+		printf("%i\n", move->tmp);
+	}
 	if (mlx_is_key_down(mlx, MLX_KEY_MINUS))
+	{
 		move->tmp++;
+		printf("%i\n", move->tmp);
+	}
 	matrix_movement(move, movement);
 	move->tile_x += movement[X];
 	move->tile_y += movement[Y];
