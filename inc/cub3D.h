@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 10:56:28 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/15 18:25:43 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/15 23:26:20 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,10 @@
 # define MAPNAME "maps/test"
 # define DEBUG 1
 # define HELP "./cub3d <filepath>\n"
+
+# define WIDTH 500
+# define HEIGHT 500
+
 
 /**
  * @brief main function for the raycasting part
@@ -62,7 +66,7 @@ void	update_fps_counter(mlx_t* mlx, mlx_image_t* img);
 void	parse_debug(t_input *input, t_player *player, t_map *map);
 void 	render_ceiling_floor(mlx_t *mlx, mlx_image_t *img, t_movement *move, t_map *map, t_texture *tex);
 void	draw_hori(mlx_image_t *img, int y, uint32_t col);
-void	project(mlx_t *mlx, mlx_image_t *img_bg, t_movement *move, t_map *map, t_texture *tex);
+mlx_image_t	*create_background_layer(mlx_t *mlx, int color_ceiling, int color_floor);
 void 	draw_pixel(uint8_t* pixel, uint32_t color);
 void	init_data(t_data *data);
 void	alloc_texture(t_data *data);

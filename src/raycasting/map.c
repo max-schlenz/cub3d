@@ -1,18 +1,17 @@
 
 #include	<cub3D.h>
 
-# define WIDTH 1000
-# define HEIGHT 1000
 
-# define DEFAULT_ROTATION_SPEED 0.02
+# define DEFAULT_ROTATION_SPEED 0.22
 # define DEFAULT_DIRECTION 0.174533
 # define DEFAULT_VELOCITY 0.05
 
 
-void	default_movement(t_movement *move, mlx_image_t *img_bg, mlx_image_t *img)
+void	default_movement(t_movement *move, mlx_image_t *img_bg, mlx_image_t *img, t_player *player)
 {
-	move->x = 1;//?get from parser
-	move->y = 1;//?get from parser
+	move->x = player->player_x;//?get from parser
+	move->y = player->player_y;//?get from parser
+	// move->direction = 30;/
 	move->tile_x = 0.5;
 	move->tile_y = 0.5;
 	move->velocity = DEFAULT_VELOCITY;
@@ -75,12 +74,11 @@ int	mlx_setup(t_data *data, t_map *map, t_player *player, t_texture *tex, t_spri
 	mlx = mlx_init(WIDTH, HEIGHT, "cub3D", 1);
 	if (mlx == NULL)
 		cleanup(data);
-	img_bg = mlx_new_image(mlx, WIDTH, HEIGHT);
+	img_bg = create_background_layer(mlx, map->color_ceiling, map->color_floor);
 	img = mlx_new_image(mlx, WIDTH, HEIGHT);
-	default_movement(&move, img_bg, img);
+	default_movement(&move, img_bg, img, player);
 	mlx_set_cursor_mode(mlx, MLX_MOUSE_HIDDEN);
-	project(mlx, img_bg, &move, map, tex);
-	// test_tex(map, player, tex, sprite, img);
+	mlx_image_to_window(mlx, img_bg, 0, 0);
 	mlx_image_to_window(mlx, img, 0, 0);
 	mlx_loop_hook(mlx, &rendering_loop, &transporter);
 	transporter.mlx = mlx;
@@ -90,8 +88,6 @@ int	mlx_setup(t_data *data, t_map *map, t_player *player, t_texture *tex, t_spri
 	transporter.move = &move;
 	transporter.tex = tex;
 	transporter.sprite = sprite;
-	// printf("%i %i\n",tex->wall_no->width, tex->wall_no->height);
-	// exit(0);
 	mlx_loop(mlx);
 	mlx_terminate(mlx);
 	return (0);

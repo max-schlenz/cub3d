@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 15:04:00 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/15 18:43:49 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/15 23:43:35 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,31 +36,54 @@ void	matrix_movement(t_movement *move, double *array)
 	array[Y] = y;
 }
 
-static void	interact(t_movement *move, t_map *map)
-{
-	static int i = 0;
-	if (map->elem[move->y - 1][move->x] == 'D'			//north
-		|| map->elem[move->y + 1][move->x] == 'D'		//south
-		|| map->elem[move->y][move->x - 1] == 'D'		//west
-		|| map->elem[move->y][move->x + 1] == 'D'		//east
-		&& map->elem[move->y][move->x] != 'D')
-		{
-			map
-			printf("DOOR TOGGLED %i\n", i++);
-		}
-}
+// static void	interact(t_movement *move, t_map *map)
+// {
+// 	static int i = 0;
+// 	if (map->elem[move->y - 1][move->x] == 'D'			//north
+// 		|| map->elem[move->y + 1][move->x] == 'D'		//south
+// 		|| map->elem[move->y][move->x - 1] == 'D'		//west
+// 		|| map->elem[move->y][move->x + 1] == 'D'		//east
+// 		&& map->elem[move->y][move->x] != 'D')
+// 		{
+// 			printf("DOOR TOGGLED %i\n", i++);
+// 		}
+// }
 
+
+/*
+y - 1; x - 1
+y - 1; x
+y - 1; x + 1
+
+*/
 static void	interact(t_movement *move, t_map *map)
 {
-	if (map->elem[move->y - 1][move->x] == 'D'			//north
-		|| map->elem[move->y + 1][move->x] == 'D'		//south
-		|| map->elem[move->y][move->x - 1] == 'D'		//west
-		|| map->elem[move->y][move->x + 1] == 'D'		//east
-		&& map->elem[move->y][move->x] != 'D')
-		{
-			map
-			printf("DOOR TOGGLED %i\n", i++);
-		}
+	char	*elem[4];
+	int		i;
+	
+	elem[0] = &map->elem[move->y - 1][move->x];
+	elem[1] = &map->elem[move->y + 1][move->x];
+	elem[2] = &map->elem[move->y][move->x - 1];
+	elem[3] = &map->elem[move->y][move->x + 1];
+	i = 0;
+	while (i++ < 3)
+	{
+		if (*(elem[i]) == 'D')
+			*(elem[i]) = 'd';
+	}
+	
+	// if (map->elem[move->y - 1][move->x] == 'D'			//north
+	// 	|| map->elem[move->y + 1][move->x] == 'D'		//south
+	// 	|| map->elem[move->y][move->x - 1] == 'D'		//west
+	// 	|| map->elem[move->y][move->x + 1] == 'D'		//east
+	// 	&& map->elem[move->y][move->x] != 'D')
+	// 	{
+	// 		while (i < 3)
+	// 		{
+	// 			map->elem[move->y - 1]
+	// 		}
+	// 		printf("DOOR TOGGLED %i\n", i++);
+	// 	}
 }
 
 /**
