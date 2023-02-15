@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:01:19 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/15 16:19:17 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/15 18:50:11 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,36 +58,78 @@ void line(int color,mlx_image_t *img, int x0, int y0, int x1, int y1)
 # define LOGICY y_hit[Y] >= 0 && y_hit[Y] < map->height && y_hit[X] >= 0 && y_hit[X] < map->width
 # define LOGICX x_hit[Y] >= 0 && x_hit[Y] < map->height && x_hit[X] >= 0 && x_hit[X] < map->width
 
-int	hori_check(t_movement *move, t_map *map, double *x_hit, double *player, double direction)
+int	north_dda(double* x_hit, double jump,t_map* map)
 {
-	double	ya;
-
-	if (direction >= M_PI_2 && direction < M_PI + M_PI_2)
-		x_hit[X] = move->x + 1;
-	else
-		x_hit[X] = move->x;
-	x_hit[Y] = player[Y] + (player[X] - x_hit[X]) * tan (direction);
-	ya = 1 * tan(direction);
-	if (direction >= M_PI_2 && direction < M_PI + M_PI_2)
-	{
-		while (LOGICX && map->elem[(int)x_hit[Y]][(int)x_hit[X]] != '1')//needs 0 to change with diffrent stuff because sprites and so on
+		if (LOGICX && map->elem[(int)x_hit[Y]][(int)x_hit[X]] != '1')
 		{
 			x_hit[X] += 1;
-			x_hit[Y] += -ya;
+			x_hit[Y] += -jump;
 		}
-		return (4);
+		else
+			return (4);
+		return (0);
+}
+
+int	south_dda(double* x_hit, double jump,t_map* map)
+{
+		if (LOGICX && map->elem[(int)x_hit[Y]][(int)x_hit[X] - 1] != '1')
+		{
+			x_hit[X] += -1;
+			x_hit[Y] += jump;
+		}
+		else
+			return(2);
+		return (0);
+}
+
+// int	west_dda(double* x_hit, double jump,t_map* map)
+// {
+
+// }
+
+// int	east_dda(double* x_hit, double jump,t_map* map)
+// {
+
+// }
+
+typedef struct s_dda
+{
+	double	jump;
+	int		(*f_ptr)(double* hit, double jump,t_map* map);
+	double*	hit;
+	// double	jump_y;
+	// int		(*f_ptr_y)(double* , double ,t_map* );
+}t_dda;
+
+
+void	north_or_south(t_dda *dda_info, t_movement *move, double *player, double direction)
+{
+	if (direction >= M_PI_2 && direction < M_PI + M_PI_2)
+	{
+		dda_info->hit[X] = move->x + 1;
+		dda_info->f_ptr = &north_dda;
 	}
 	else
 	{
-		while (LOGICX && (map->elem[(int)x_hit[Y]][(int)x_hit[X] - 1] != '1'))
-		{
-			x_hit[X] += -1;
-			x_hit[Y] += ya;
-		}
-		return(2);
+		dda_info->f_ptr = &south_dda;
+		dda_info->hit[X] = move->x;
 	}
+	dda_info->hit[Y] = player[Y] + (player[X] - dda_info->hit[X]) * tan (direction);
+	dda_info->jump = 1 * tan(direction);
 }
 
+int	hori_check( t_dda *dda_info, t_map *map)
+{
+	int	d;
+
+	d = 0;
+	while(d == 0)
+	{
+		d = dda_info->f_ptr(dda_info->hit, dda_info->jump, map);
+	}
+	return (d);
+}
+	
 int	vert_check(t_movement *move, t_map *map, double *y_hit, double *player, double direction)
 {
 	double	xa;
@@ -135,10 +177,17 @@ void	sinlgle_ray(t_array *test, t_movement *move, t_map *map, double direction, 
 	double	player[2];
 	double	*shorter;
 	int		wall;
+	t_dda	dda_info;
 
+	dda_info.f_ptr = NULL;
+	printf("%p\n",&north_dda);
+	printf("%p\n",&south_dda);
+	printf("%p\n",dda_info.f_ptr);
+	north_or_south(&dda_info, move, player, direction);
+	printf("%p\n",dda_info.f_ptr);
 	player[X] = move->x + move->tile_x;
 	player[Y] = move->y + move->tile_y;
-	wall = hori_check(move, map, hori, player, direction);//for tex
+	wall = hori_check(&dda_info, map);//for tex
 	wall += vert_check(move, map, vert, player, direction);//for tex
 	hori[2] = two_point_distants(hori, player, direction);
 	vert[2] = two_point_distants(vert, player, direction);
