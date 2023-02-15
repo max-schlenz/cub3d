@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 15:09:07 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/14 16:48:32 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/14 16:56:52 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,24 +103,24 @@ void	draw_map(t_map *map, mlx_image_t *img, t_movement *move)
 	t_tile tile;
 
 	tile.pixel_per_tile = MAP_TILE_SIZE;
-	y = -TILE_PER_MAP;
-	while (y <= TILE_PER_MAP)
-	{
-		x = -TILE_PER_MAP;
-		while ( x <= TILE_PER_MAP)
-		{
-			tile.color = what_tile(map, move , x , y);
-			tile.x = tile.pixel_per_tile  * (x + TILE_PER_MAP);
-			tile.y = tile.pixel_per_tile  * (y + TILE_PER_MAP);
-			draw_tile(img, &tile);
-			x++;
-		}
-		y++;
-	}
+	// y = -TILE_PER_MAP;
+	// while (y <= TILE_PER_MAP)
+	// {
+	// 	x = -TILE_PER_MAP;
+	// 	while ( x <= TILE_PER_MAP)
+	// 	{
+	// 		tile.color = what_tile(map, move , x , y);
+	// 		tile.x = tile.pixel_per_tile  * (x + TILE_PER_MAP);
+	// 		tile.y = tile.pixel_per_tile  * (y + TILE_PER_MAP);
+	// 		draw_tile(img, &tile);
+	// 		x++;
+	// 	}
+	// 	y++;
+	// }
 	
 
 
-	return ;
+	// return ;
 	// x = 0;
 	// y = 0;
 	// if ((double)img->height / (map->height) > (double)img->width / map->width)

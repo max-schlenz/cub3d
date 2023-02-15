@@ -20,6 +20,7 @@ void	default_movement(t_movement *move, mlx_image_t *img)
 	move->top_down = img->height;
 	move->rotation_speed = DEFAULT_ROTATION_SPEED;
 	move->pixel_per_map_tile = 10;
+	move->tmp = 0;
 }
 
 // void	move_bg(t_map *map, mlx_image_t *img_bg, t_movement *move, t_texture *tex, t_sprite *sprite)
@@ -54,7 +55,7 @@ void	rendering_loop(void *param)
 	key_checker(mlx, move, map);
 	is_there_something(map, move);
 	// move_bg(map, img_bg, move, tex, sprite);
-	// draw_map(map, img, move);
+	 draw_map(map, img, move);
 	raycasting(img, move, map, tex);
 	// printf("fps: %i\n", (int)(1 / mlx->delta_time));
 	update_fps_counter(mlx, img);
@@ -87,6 +88,8 @@ int	mlx_setup(t_data *data, t_map *map, t_player *player, t_texture *tex, t_spri
 	transporter.move = &move;
 	transporter.tex = tex;
 	transporter.sprite = sprite;
+	// printf("%i %i\n",tex->wall_no->width, tex->wall_no->height);
+	// exit(0);
 	mlx_loop(mlx);
 	mlx_terminate(mlx);
 	return (0);

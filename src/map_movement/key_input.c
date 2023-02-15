@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 15:04:00 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/14 12:49:03 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/14 16:54:57 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,10 @@ void	key_checker(mlx_t *mlx, t_movement *move, t_map *map)
 		move->direction = 0.9 * PI_TIMES_TWO;
 	if (mlx_is_key_down(mlx, MLX_KEY_0))
 		move->direction = 1.0 * PI_TIMES_TWO;
+	if (mlx_is_key_down(mlx, MLX_KEY_EQUAL))
+		move->tmp--;
+	if (mlx_is_key_down(mlx, MLX_KEY_MINUS))
+		move->tmp++;
 	matrix_movement(move, movement);
 	move->tile_x += movement[X];
 	move->tile_y += movement[Y];

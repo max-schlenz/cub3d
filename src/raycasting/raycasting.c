@@ -6,11 +6,22 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:01:19 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/14 16:47:26 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/14 16:57:47 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include	<cub3D.h>
+
+void	matrix_two(double *array, double degree)
+{
+	double	x;
+	double	y;
+
+	x = array[0] * cos(degree) - array[1] * sin(degree);
+	y = array[0] * sin(degree) + array[1] * cos(degree);
+	array[0] = x;
+	array[1] = y;
+}
 /*
 void	dots(mlx_t *mlx, mlx_image_t *img, t_movement *move, t_input *map, double x_ofset, double y_ofset)
 {
@@ -124,7 +135,7 @@ void	show_player_anim(mlx_texture_t **player, mlx_image_t *img, int x, int y)
 # define LOGICY y_hit[Y] >= 0 && y_hit[Y] < map->height && y_hit[X] >= 0 && y_hit[X] < map->width
 # define LOGICX x_hit[Y] >= 0 && x_hit[Y] < map->height && x_hit[X] >= 0 && x_hit[X] < map->width
 
-void	hori_check(t_movement *move, t_map *map, double *x_hit, double *player, double direction)
+int	hori_check(t_movement *move, t_map *map, double *x_hit, double *player, double direction)
 {
 	double	ya;
 
@@ -137,23 +148,27 @@ void	hori_check(t_movement *move, t_map *map, double *x_hit, double *player, dou
 	// from here its the same for hori and vert
 	if (direction >= M_PI_2 && direction < M_PI + M_PI_2)
 	{
+			printf("east ");
 		while (LOGICX && map->elem[(int)x_hit[Y]][(int)x_hit[X]] != '1')//needs 0 to change with diffrent stuff because sprites and so on
 		{
 			x_hit[X] += 1;
 			x_hit[Y] += -ya;
 		}
+		return (4);
 	}
 	else
 	{
+			printf("west ");
 		while (LOGICX && (map->elem[(int)x_hit[Y]][(int)x_hit[X] - 1] != '1'))
 		{
 			x_hit[X] += -1;
 			x_hit[Y] += ya;
 		}
+		return(2);
 	}
 }
 
-void	vert_check(t_movement *move, t_map *map, double *y_hit, double *player, double direction)
+int	vert_check(t_movement *move, t_map *map, double *y_hit, double *player, double direction)
 {
 	double	xa;
 
@@ -165,61 +180,94 @@ void	vert_check(t_movement *move, t_map *map, double *y_hit, double *player, dou
 	xa = 1 / tan(direction);
 	if (direction >= 0 && direction < M_PI)
 	{
+			printf("south ");
 		while (LOGICY && map->elem[(int)y_hit[Y]][(int)y_hit[X]] != '1')
 		{
 			y_hit[Y] += 1;
 			y_hit[X] += -xa;
 		}
+		return (0);
 	}
 	else
 	{
+			printf("north ");
 		while (LOGICY && (map->elem[(int)y_hit[Y] - 1][(int)y_hit[X]] != '1'))
 		{
 			y_hit[Y] += -1;
 			y_hit[X] += xa;
 		}
+		return (1);
 	}
 }
 
-void	sinlgle_ray(t_array *test, t_movement *move, t_map *map, double direction)
+void	sinlgle_ray(t_array *test, t_movement *move, t_map *map, double direction, mlx_image_t *img, t_texture *tex)
 {
 	double	hori[3];
 	double	vert[3];
 	double	player[2];
 	double	*shorter;
+	int		wall;
 
+	// direction = direction / 1.000;
+//if(side == 0) perpWallDist = (sideDistX - deltaDistX);
 	player[X] = move->x + move->tile_x;
 	player[Y] = move->y + move->tile_y;
-	hori_check(move, map, hori, player, direction);
-	hori[2] = fabs((player[X] - hori[X]) / cos(direction)) * cos((move->direction - direction));
-	vert_check(move, map, vert, player, direction);
-	vert[2] = fabs((player[X] - vert[X]) / cos(direction)) * cos((move->direction - direction));
+	wall = hori_check(move, map, hori, player, direction);
+	hori[2] = fabs((player[X] - hori[X]) / cos(direction)) ;
+	wall += vert_check(move, map, vert, player, direction);
+	vert[2] = fabs((player[X] - vert[X]) / cos(direction)) ;
+	// vert[2] = sqrt((player[X] - vert[X]) * (player[X] - vert[X]) + (player[Y] - vert[Y]) * (player[Y] - vert[Y]));
+	// hori[2] = sqrt((player[X] - hori[X]) * (player[X] - hori[X]) + (player[Y] - hori[Y]) * (player[Y] - hori[Y]));
 	if (hori[X] < 0 || hori[Y] < 0)
 	{
 		shorter = vert;
 		test->tile_x = shorter[0];
-
+		printf("vert ");
+		if (wall & 1)
+			test->texture = tex->wall_no;
+		else
+			test->texture = tex->wall_so;
 	}
 	else if (vert[X] < 0 || vert[Y] < 0)
 	{
 		shorter = hori;
 		test->tile_x = shorter[1];
+			printf("hori ");
+		if (wall & 2)
+			test->texture = tex->wall_ea;
+		else
+			test->texture = tex->wall_we;
 	}
 	else if (hori[2] < vert[2])
 	{
 		shorter = hori;
 		test->tile_x = shorter[1];
-
+		printf("hori");
+		if (wall & 2)
+			test->texture = tex->wall_ea;
+		else
+			test->texture = tex->wall_we;
 	}
 	else
 	{
 		shorter = vert;
 		test->tile_x = shorter[0];
+			printf("vert ");
+		if (wall & 1)
+			test->texture = tex->wall_no;
+		else
+			test->texture = tex->wall_so;
 	}
+	printf("x%f y%f\n",shorter[X],shorter[Y]);
 	// printf("before%f\n",shorter[2]);
 	// printf("dif %f - %f  = %f\n",move->direction , direction,move->direction - direction);
 	test->distance = shorter[2];
+	while (test->tile_x >= 1)
+		test->tile_x = test->tile_x -1.0;
+	// line(MLX_COLOR_AQUA,img,player[X] * img->width / map->width ,player[Y]* img->height / map->height,shorter[X]* img->width / map->width,shorter[Y]* img->width / map->height);
 	// printf("after%f\n\n",test->distance);
+	// matrix_two(shorter,move->direction - direction);
+	// test->distance = fabs((player[X] - vert[X]));
 }
 
 int	get_color(uint8_t *start)
@@ -264,17 +312,17 @@ void	draw_wall(t_array *test, mlx_image_t *img, t_texture *tex)
 	i = 0;
 	skyline = img->height / 2;
 	base_distance = 1;
-	base_height = 1000;
+	base_height = 500;
 	wall_height = base_height / test->distance;
 	test->texture = tex->wall_no;
-	while (i  < wall_height)
+	while (i  < wall_height && i < img->height)
 	{
 		// need skip for put of window
 		if (skyline - wall_height / 2 + i > 0 && skyline - wall_height / 2 + i < img->height)
 		{
 			//get_pixel_for_sprites
 			color = img_pixel( test->tile_x,((double)i / (double)wall_height), test->texture);
-			mlx_put_pixel(img, test->x, skyline - wall_height / 2 + i, color);
+			mlx_put_pixel(img, test->x,( skyline - wall_height / 2) + i, color);
 		}
 		i++;
 	}
@@ -286,27 +334,31 @@ void	draw_wall(t_array *test, mlx_image_t *img, t_texture *tex)
 
 void	raycasting(mlx_image_t *img, t_movement *move, t_map *map, t_texture *tex)
 {
-	uint32_t	i;
+	int		i;
 	double	pov;
 	double	degree_per_pixel;
 	double	degree;
 	t_array	test;
 
-	pov =  DEGREE_TO_RADIAL(90);
-	degree = move->direction - (pov / 2);
-	degree_per_pixel = pov / img->width;
+	fov =  ((double)(90 + move->tmp) / (double)360) * (M_PI * 2);
+	degree = move->direction - (fov / 2);
+	degree_per_pixel = fov / img->width;
 	i = 0;
-	// printf("%f\n",pov);
-	// exit(0);
+	// printf("%d\n",move->tmp);
+
 	// printf(">>%f player %f\n",degree ,move->direction);
 	while(i < img->width)
 	{
+		test.direction = degree;
+		overshot_protection(&degree);
 		test.x = i;
-		sinlgle_ray(&test, move, map, degree);
+		sinlgle_ray(&test, move, map, degree, img);
 		degree = move->direction - (pov / 2) + pov / img->width * i;
 		draw_wall(&test, img, tex);
+		degree += degree_per_pixel;
 		i++;
 	}
+	printf("-----\n");
 	// printf(">>%f %i\n",degree,i);
 	// exit (0);
 }
