@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:01:19 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/16 15:29:23 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/16 15:41:35 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,6 @@ int	usedda_h(t_dda *dda_info, t_map *map)
 			dda_info->hit[X] += dda_info->dir;
 			dda_info->hit[Y] += dda_info->jump;
 		}
-		if (LOGICc && map->elem[(int)dda_info->hit[Y]][(int)dda_info->hit[X] + dda_info->offset] != '1' && map->elem[(int)dda_info->hit[Y]][(int)dda_info->hit[X] + dda_info->offset] != '2' )
-			return (-20);
 		return (1);
 }
 
@@ -99,8 +97,6 @@ int	usedda_v(t_dda *dda_info, t_map *map)
 			dda_info->hit[Y] += dda_info->dir;
 			dda_info->hit[X] += dda_info->jump;
 		}
-		if (LOGICc && map->elem[(int)dda_info->hit[Y] + dda_info->offset][(int)dda_info->hit[X]] != '1' && map->elem[(int)dda_info->hit[Y] + dda_info->offset][(int)dda_info->hit[X]] != '2')
-			return (-20);
 		return (1);
 }
 
