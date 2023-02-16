@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 15:09:07 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/16 17:05:37 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/16 17:07:00 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,11 +104,10 @@ void	draw_map(t_map *map, mlx_image_t *img, t_movement *move, t_texture *tex, t_
 		x = -TILE_PER_MAP;
 		while ( x <= TILE_PER_MAP)
 		{
-			color = what_tile(map, move , x , y);
+			tile.color = what_tile(map, move , x , y);
 			tile.x = tile.pixel_per_tile  * (x + TILE_PER_MAP);
 			tile.y = tile.pixel_per_tile  * (y + TILE_PER_MAP);
-			// printf("%x\n", color);
-			draw_tile(img, &tile, color);
+			draw_tile(img, &tile, tile.color);
 			x++;
 		}
 		y++;

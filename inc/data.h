@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 11:29:23 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/16 16:52:09 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/16 17:06:21 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,7 @@ typedef struct s_transfer{
  */
 typedef struct s_array
 {
+	double			*point;
 	int				x;
 	double			tile_x;
 	double			direction;

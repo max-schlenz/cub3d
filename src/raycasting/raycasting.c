@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:01:19 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/16 16:35:09 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/16 17:06:16 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,75 +127,56 @@ int	usedda_ultra(t_dda *dda_h, t_dda *dda_v, t_map *map, mlx_image_t *img, t_tex
 	return (hit_v + hit_h);
 }
 
+void	use_vert(t_dda *dda_v, t_array *test, t_map *map , t_texture *tex)
+{
+	test->point = dda_v->hit;
+	test->tile_x = test->point[0];
+	if (map->elem[(int)dda_v->hit[Y] + dda_v->offset][(int)dda_v->hit[X]] == 'd')
+		test->texture = tex->open_door;
+	else if (map->elem[(int)dda_v->hit[Y] + dda_v->offset][(int)dda_v->hit[X]] == 'D')
+		test->texture = tex->closed_door;
+	else if (dda_v->dir == -1)
+		test->texture = tex->wall_no;
+	else
+		test->texture = tex->wall_so;
+}
+
+void	use_hori(t_dda *dda_h, t_array *test, t_map *map , t_texture *tex)
+{
+	test->point = dda_h->hit;
+	test->tile_x = test->point[1];
+	if (map->elem[(int)dda_h->hit[Y]][(int)dda_h->hit[X ] + dda_h->offset] == 'd')
+		test->texture = tex->open_door;
+	else if (map->elem[(int)dda_h->hit[Y]][(int)dda_h->hit[X ] + dda_h->offset] == 'D')
+		test->texture = tex->closed_door;
+	else if (dda_h->dir == -1)
+		test->texture = tex->wall_we;
+	else
+		test->texture = tex->wall_ea;
+}
+
 void	sinlgle_ray(t_array *test, t_movement *move, t_map *map, double direction, mlx_image_t *img, t_texture *tex)
 {
 	double	player[2];
-	double	*shorter;
-	int		wall;
 	t_dda	dda_h;
 	t_dda	dda_v;
-	wall = 3;
-	int color;
+
 	player[X] = move->x + move->tile_x;
 	player[Y] = move->y + move->tile_y;
 	dda_info_h(move, direction, player, &dda_h);
 	dda_info_v(move, direction, player, &dda_v);
-	wall = usedda_ultra(&dda_h, &dda_v, map, img , tex, player, test);
+	usedda_ultra(&dda_h, &dda_v, map, img , tex, player, test);
 	dda_h.hit[2] = two_point_distants(dda_h.hit, player, direction);
 	dda_v.hit[2] = two_point_distants(dda_v.hit, player, direction);
 	if (dda_h.hit[X] < 0 || dda_h.hit[Y] < 0)
-	{
-		shorter = dda_v.hit;
-		test->tile_x = shorter[0];
-		if (map->elem[(int)dda_v.hit[Y] + dda_v.offset][(int)dda_v.hit[X]] == 'd')
-			test->texture = tex->open_door;
-		else if (map->elem[(int)dda_v.hit[Y] + dda_v.offset][(int)dda_v.hit[X]] == 'D')
-			test->texture = tex->closed_door;
-		else if (dda_v.dir == -1)
-			test->texture = tex->wall_no;
-		else
-			test->texture = tex->wall_so;
-	}
+		use_vert(&dda_v, test, map , tex);
 	else if (dda_v.hit[X] < 0 || dda_v.hit[Y] < 0)
-	{
-		shorter = dda_h.hit;
-		test->tile_x = shorter[1];
-		if (map->elem[(int)dda_h.hit[Y]][(int)dda_h.hit[X + dda_h.offset]] == 'd')
-			test->texture = tex->open_door;
-		else if (map->elem[(int)dda_h.hit[Y]][(int)dda_h.hit[X + dda_h.offset]] == 'D')
-			test->texture = tex->closed_door;
-		else if (dda_h.dir == -1)
-			test->texture = tex->wall_we;
-		else
-			test->texture = tex->wall_ea;
-	}
+		use_hori(&dda_h, test, map , tex);
 	else if (dda_h.hit[2] < dda_v.hit[2])
-	{
-		shorter = dda_h.hit;
-		test->tile_x = shorter[1];
-		if (map->elem[(int)dda_h.hit[Y]][(int)dda_h.hit[X + dda_h.offset]] == 'd')
-			test->texture = tex->open_door;
-		else if (map->elem[(int)dda_h.hit[Y]][(int)dda_h.hit[X + dda_h.offset]] == 'D')
-			test->texture = tex->closed_door;
-		else if (dda_h.dir == -1)
-			test->texture = tex->wall_we;
-		else
-			test->texture = tex->wall_ea;
-	}
+		use_hori(&dda_h, test, map , tex);
 	else
-	{
-		shorter = dda_v.hit;
-		test->tile_x = shorter[0];
-		if (map->elem[(int)dda_v.hit[Y] + dda_v.offset][(int)dda_v.hit[X]] == 'd')
-			test->texture = tex->open_door;
-		else if (map->elem[(int)dda_v.hit[Y] + dda_v.offset][(int)dda_v.hit[X]] == 'D')
-			test->texture = tex->closed_door;
-		else if (dda_v.dir == -1)
-			test->texture = tex->wall_no;
-		else
-			test->texture = tex->wall_so;
-	}
-	test->distance = shorter[2];
+		use_vert(&dda_v, test, map , tex);
+	test->distance = test->point[2];
 	while (test->tile_x >= 1)
 		test->tile_x = test->tile_x -1.0;
 }
