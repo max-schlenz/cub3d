@@ -4,7 +4,7 @@
 
 # define DEFAULT_ROTATION_SPEED 0.22
 # define DEFAULT_DIRECTION 0.174533
-# define DEFAULT_VELOCITY 0.05
+# define DEFAULT_VELOCITY 0.025
 
 
 void	default_movement(t_movement *move, mlx_image_t *img_bg, mlx_image_t *img, t_player *player)
