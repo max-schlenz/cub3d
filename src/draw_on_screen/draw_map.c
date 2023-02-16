@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 15:09:07 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/16 17:09:17 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/16 17:17:02 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ typedef struct s_tile{
 # define TILE_PER_MAP 5
 # define TILE_BORDER(X) X > MAP_TILE_SIZE * (1 - MAP_TILE_BORDER) || X < MAP_TILE_SIZE * MAP_TILE_BORDER
 
-void draw_tile(mlx_image_t *img, t_tile *tile)
+void draw_tile(mlx_image_t *img, t_tile *tile, int color)
 {
 	int	y;
 	int	x;
@@ -66,7 +66,8 @@ void draw_tile(mlx_image_t *img, t_tile *tile)
 			if (TILE_BORDER(x) || TILE_BORDER(y))
 				mlx_put_pixel(img , tile->x + x,tile->y + y, MLX_COLOR_WHITE);
 			else
-				mlx_put_pixel(img , tile->x + x,tile->y + y, tile->color);
+				mlx_put_pixel(img , tile->x + x,tile->y + y, color);
+				
 			x++;
 		}
 		y++;
@@ -97,6 +98,7 @@ void	draw_map(t_map *map, mlx_image_t *img, t_movement *move, t_texture *tex, t_
 	int	x;
 	int	y;
 	int	pixel_per_tile;
+	int color;
 	t_tile tile;
 
 	tile.pixel_per_tile = MAP_TILE_SIZE;
@@ -109,14 +111,12 @@ void	draw_map(t_map *map, mlx_image_t *img, t_movement *move, t_texture *tex, t_
 			tile.color = what_tile(map, move , x , y);
 			tile.x = tile.pixel_per_tile  * (x + TILE_PER_MAP);
 			tile.y = tile.pixel_per_tile  * (y + TILE_PER_MAP);
-			draw_tile(img, &tile);
+			draw_tile(img, &tile, tile.color);
 			x++;
 		}
 		y++;
 	}
 	
-
-
 	return ;
 	// x = 0;
 	// y = 0;

@@ -34,6 +34,7 @@ void	rendering_loop(void *param)
 	mlx_t		*mlx;
 	mlx_image_t	*img;
 	mlx_image_t	*img_bg;
+	mlx_image_t	*img_map;
 	t_movement	*move;// player
 	t_map		*map;
 	t_texture	*tex;
@@ -45,6 +46,7 @@ void	rendering_loop(void *param)
 	map = transporter->map;
 	img = transporter->img;
 	img_bg = transporter->img_bg;
+	img_map = transporter->img_map;
 	move = transporter->move;
 	tex = transporter->tex;
 	player = transporter->player;
@@ -64,6 +66,7 @@ int	mlx_setup(t_data *data, t_map *map, t_player *player, t_texture *tex, t_spri
 	mlx_t		*mlx;
 	mlx_image_t	*img;
 	mlx_image_t	*img_bg;
+	mlx_image_t	*img_map;
 	t_movement	move;
 	t_transfer	transporter;// gone
 
@@ -76,14 +79,17 @@ int	mlx_setup(t_data *data, t_map *map, t_player *player, t_texture *tex, t_spri
 		cleanup(data);
 	img_bg = create_background_layer(mlx, map->color_ceiling, map->color_floor);
 	img = mlx_new_image(mlx, WIDTH, HEIGHT);
+	img_map = mlx_new_image(mlx, WIDTH, HEIGHT);
 	default_movement(&move, img_bg, img, player);
 	mlx_set_cursor_mode(mlx, MLX_MOUSE_HIDDEN);
 	mlx_image_to_window(mlx, img_bg, 0, 0);
 	mlx_image_to_window(mlx, img, 0, 0);
+	mlx_image_to_window(mlx, img_map, 0, 0);
 	mlx_loop_hook(mlx, &rendering_loop, &transporter);
 	transporter.mlx = mlx;
 	transporter.img = img;
 	transporter.img_bg = img_bg;
+	transporter.img_map = img_map;
 	transporter.map = map;
 	transporter.move = &move;
 	transporter.tex = tex;
