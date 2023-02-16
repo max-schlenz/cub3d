@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:01:19 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/15 23:12:10 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/16 10:50:35 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -416,7 +416,6 @@ void	raycasting(mlx_t *mlx, mlx_image_t *img, t_movement *move, t_map *map, t_te
 	double	degree_per_pixel;
 	double	degree;
 	t_array	test;
-
 	fov =  ((double)(60 + move->tmp) / (double)360) * (M_PI * 2);
 	degree = move->direction - (fov / 2);
 	degree_per_pixel = fov / img->width;
