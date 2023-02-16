@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 15:04:00 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/15 23:43:35 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/16 00:13:06 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	matrix_movement(t_movement *move, double *array)
 	array[Y] = y;
 }
 
-// static void	interact(t_movement *move, t_map *map)
+// static void	toggle_door(t_movement *move, t_map *map)
 // {
 // 	static int i = 0;
 // 	if (map->elem[move->y - 1][move->x] == 'D'			//north
@@ -56,34 +56,36 @@ y - 1; x
 y - 1; x + 1
 
 */
-static void	interact(t_movement *move, t_map *map)
+
+#include <time.h>
+
+static void	toggle_door(t_movement *move, t_map *map)
 {
-	char	*elem[4];
-	int		i;
+	int				i;
+	char			*elem[4];
+	clock_t			current_time;
+	double			time_elapsed;
+	static clock_t	last_keypress = 0;
 	
+	current_time = clock();
+	time_elapsed = (double)(current_time - last_keypress) / CLOCKS_PER_SEC;
 	elem[0] = &map->elem[move->y - 1][move->x];
 	elem[1] = &map->elem[move->y + 1][move->x];
 	elem[2] = &map->elem[move->y][move->x - 1];
-	elem[3] = &map->elem[move->y][move->x + 1];
+	elem[3] = &map->elem[move->y][move->x + 1]; 
 	i = 0;
-	while (i++ < 3)
+	while (i < 4)
 	{
-		if (*(elem[i]) == 'D')
-			*(elem[i]) = 'd';
+		if (time_elapsed >= 0.3)
+		{
+			if (*(elem[i]) == 'D')
+				*(elem[i]) = 'd';
+			else if (*(elem[i]) == 'd')
+				*(elem[i]) = 'D';
+			last_keypress = current_time;
+		}
+		i++;
 	}
-	
-	// if (map->elem[move->y - 1][move->x] == 'D'			//north
-	// 	|| map->elem[move->y + 1][move->x] == 'D'		//south
-	// 	|| map->elem[move->y][move->x - 1] == 'D'		//west
-	// 	|| map->elem[move->y][move->x + 1] == 'D'		//east
-	// 	&& map->elem[move->y][move->x] != 'D')
-	// 	{
-	// 		while (i < 3)
-	// 		{
-	// 			map->elem[move->y - 1]
-	// 		}
-	// 		printf("DOOR TOGGLED %i\n", i++);
-	// 	}
 }
 
 /**
@@ -110,7 +112,7 @@ void	key_checker(mlx_t *mlx, t_movement *move, t_map *map)
 	if (mlx_is_key_down(mlx, MLX_KEY_D))
 		movement[X] += move->velocity;
 	if (mlx_is_key_down(mlx, MLX_KEY_E))
-		interact(move, map);
+		toggle_door(move, map);
 	if (mlx_is_key_down(mlx, MLX_KEY_1))
 		move->direction = 0.1 * PI_TIMES_TWO;
 	if (mlx_is_key_down(mlx, MLX_KEY_2))
