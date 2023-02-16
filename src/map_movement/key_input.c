@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 15:04:00 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/16 11:33:47 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/16 13:42:32 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,52 +86,55 @@ void	key_checker(mlx_t *mlx, t_movement *move, t_map *map)
 	movement[X] = 0;
 	movement[Y] = 0;
 	delta_time += mlx->delta_time;
+	if (mlx_is_key_down(mlx, MLX_KEY_LEFT_SHIFT))
+		move->velocity *= 2;
 	if (mlx_is_key_down(mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(mlx);
 	if (mlx_is_key_down(mlx, MLX_KEY_W))
-		movement[Y] -= move->velocity;
-	if (mlx_is_key_down(mlx, MLX_KEY_A))
 		movement[X] -= move->velocity;
+	if (mlx_is_key_down(mlx, MLX_KEY_A))
+		movement[Y] -= move->velocity;
 	if (mlx_is_key_down(mlx, MLX_KEY_S))
-		movement[Y] += move->velocity;
-	if (mlx_is_key_down(mlx, MLX_KEY_D))
 		movement[X] += move->velocity;
+	if (mlx_is_key_down(mlx, MLX_KEY_D))
+		movement[Y] += move->velocity;
 	if (mlx_is_key_down(mlx, MLX_KEY_E) && delta_time - last_keypress > 0.3)
 	{
 		toggle_door(move, map, mlx->delta_time);
 		last_keypress = delta_time;
 	}
-	if (mlx_is_key_down(mlx, MLX_KEY_1))
-		move->direction = 0.1 * PI_TIMES_TWO;
-	if (mlx_is_key_down(mlx, MLX_KEY_2))
-		move->direction = 0.2 * PI_TIMES_TWO;
-	if (mlx_is_key_down(mlx, MLX_KEY_3))
-		move->direction = 0.3 * PI_TIMES_TWO;
-	if (mlx_is_key_down(mlx, MLX_KEY_4))
-		move->direction = 0.4 * PI_TIMES_TWO;
-	if (mlx_is_key_down(mlx, MLX_KEY_5))
-		move->direction = 0.5 * PI_TIMES_TWO;
-	if (mlx_is_key_down(mlx, MLX_KEY_6))
-		move->direction = 0.6 * PI_TIMES_TWO;
-	if (mlx_is_key_down(mlx, MLX_KEY_7))
-		move->direction = 0.7 * PI_TIMES_TWO;
-	if (mlx_is_key_down(mlx, MLX_KEY_8))
-		move->direction = 0.8 * PI_TIMES_TWO;
-	if (mlx_is_key_down(mlx, MLX_KEY_9))
-		move->direction = 0.9 * PI_TIMES_TWO;
-	if (mlx_is_key_down(mlx, MLX_KEY_0))
-		move->direction = 1.0 * PI_TIMES_TWO;
-	if (mlx_is_key_down(mlx, MLX_KEY_EQUAL))
-	{
-		move->tmp--;
-		printf("%i\n", move->tmp);
-	}
-	if (mlx_is_key_down(mlx, MLX_KEY_MINUS))
-	{
-		move->tmp++;
-		printf("%i\n", move->tmp);
-	}
-	matrix_movement(move, movement);
+	// if (mlx_is_key_down(mlx, MLX_KEY_1))
+	// 	move->direction = 0.1 * PI_TIMES_TWO;
+	// if (mlx_is_key_down(mlx, MLX_KEY_2))
+	// 	move->direction = 0.2 * PI_TIMES_TWO;
+	// if (mlx_is_key_down(mlx, MLX_KEY_3))
+	// 	move->direction = 0.3 * PI_TIMES_TWO;
+	// if (mlx_is_key_down(mlx, MLX_KEY_4))
+	// 	move->direction = 0.4 * PI_TIMES_TWO;
+	// if (mlx_is_key_down(mlx, MLX_KEY_5))
+	// 	move->direction = 0.5 * PI_TIMES_TWO;
+	// if (mlx_is_key_down(mlx, MLX_KEY_6))
+	// 	move->direction = 0.6 * PI_TIMES_TWO;
+	// if (mlx_is_key_down(mlx, MLX_KEY_7))
+	// 	move->direction = 0.7 * PI_TIMES_TWO;
+	// if (mlx_is_key_down(mlx, MLX_KEY_8))
+	// 	move->direction = 0.8 * PI_TIMES_TWO;
+	// if (mlx_is_key_down(mlx, MLX_KEY_9))
+	// 	move->direction = 0.9 * PI_TIMES_TWO;
+	// if (mlx_is_key_down(mlx, MLX_KEY_0))
+	// 	move->direction = 1.0 * PI_TIMES_TWO;
+	// if (mlx_is_key_down(mlx, MLX_KEY_EQUAL))
+	// {
+	// 	move->tmp--;
+	// 	printf("%i\n", move->tmp);
+	// }
+	// if (mlx_is_key_down(mlx, MLX_KEY_MINUS))
+	// {
+	// 	move->tmp++;
+	// 	printf("%i\n", move->tmp);
+	// }
+	// matrix_movement(move, movement);
 	move->tile_x += movement[X];
 	move->tile_y += movement[Y];
+	move->velocity = 0.020;
 }

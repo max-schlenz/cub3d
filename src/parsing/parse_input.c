@@ -19,6 +19,7 @@ bool	parse_input_player(char **read_buf, t_player *player, int line, int *i)
 	player->player_x = (*i);
 	player->player_y = line;
 	player->player_dir = (*read_buf)[(*i)];
+	(*read_buf)[(*i)] = '0';
 	return (true);
 }
 

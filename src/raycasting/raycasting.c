@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:01:19 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/16 13:21:18 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/16 13:30:18 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -255,7 +255,6 @@ void	draw_some_pixel(t_dda *dda_h, t_dda *dda_v, t_map *map, mlx_image_t *img, t
 		i++;
 	}
 }
-
 
 int	usedda_ultra(t_dda *dda_h, t_dda *dda_v, t_map *map, mlx_image_t *img, t_texture *tex, double *player, t_array *test)
 {

@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 20:55:12 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/16 12:42:06 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/16 13:58:30 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,21 @@ static bool	load_sprites_player(mlx_texture_t **player)
 		idx = ft_itoa(i);
 		tmp = ft_strjoin("res/player/sprite", idx);
 		path = ft_strjoin(tmp, ".png");
+		free(tmp);
+		free(idx);
 		player[i] = mlx_load_png(path);
 		if (!player[i])
 		{
-			while (i >= 0)
-				mlx_delete_texture(player[i--]);
+			while (--i >= 0)
+			{
+				mlx_delete_texture(player[i]);
+				player[i] = NULL;
+			}
+			player = NULL;
+			free(path);
 			return (false);
 		}
-		free(tmp);
 		free(path);
-		free(idx);
 		i++;
 	}
 	return (true);
