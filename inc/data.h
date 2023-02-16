@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 11:29:23 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/16 15:34:35 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/16 16:52:09 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ typedef enum e_transport
 	MAP,
 	IMG,
 	IMG_BG,
+	IMG_MAP,
 	MOVE,
 	TEX,
 	SPRITE,
@@ -124,6 +125,7 @@ typedef struct s_transfer{
 	mlx_t		*mlx;
 	mlx_image_t	*img;
 	mlx_image_t	*img_bg;
+	mlx_image_t	*img_map;
 	t_movement	*move;
 	t_texture	*tex;
 	t_player	*player;
