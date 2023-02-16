@@ -6,13 +6,13 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 20:55:12 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/14 13:02:52 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/16 15:31:36 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3D.h>
 
-static void	load_sprites_player(mlx_texture_t **player)
+static bool	load_sprites_player(mlx_texture_t **player)
 {
 	int		i;
 	char	*idx;
@@ -25,24 +25,52 @@ static void	load_sprites_player(mlx_texture_t **player)
 		idx = ft_itoa(i);
 		tmp = ft_strjoin("res/player/sprite", idx);
 		path = ft_strjoin(tmp, ".png");
-		player[i++] = mlx_load_png(path);
 		free(tmp);
-		free(path);
 		free(idx);
+		player[i] = mlx_load_png(path);
+		if (!player[i])
+		{
+			while (--i >= 0)
+			{
+				mlx_delete_texture(player[i]);
+				player[i] = NULL;
+			}
+			player = NULL;
+			free(path);
+			return (false);
+		}
+		free(path);
+		i++;
 	}
+	return (true);
 }
 
-void	load_sprites(t_sprite *sprite)
+bool	load_sprites(t_sprite *sprite)
 {
-	load_sprites_player(sprite->player);
+	if (!load_sprites_player(sprite->player))
+		return (false);
+	return (true);
 }
 
-void	load_textures(t_input *input, t_texture *texture)
+bool	load_textures(t_input *input, t_texture *texture)
 {
+	int				i;
+	mlx_texture_t	*tex[4];
+
 	texture->wall_no = mlx_load_png(input->tex_no);
 	texture->wall_so = mlx_load_png(input->tex_so);
 	texture->wall_we = mlx_load_png(input->tex_we);
 	texture->wall_ea = mlx_load_png(input->tex_ea);
+	tex[0] = texture->wall_no;
+	tex[1] = texture->wall_so;
+	tex[2] = texture->wall_we;
+	tex[3] = texture->wall_ea;
+	i = 0;
+	while (i < 4 && tex[i])
+		i++;
+	if (i == 4)
+		return (true);
+	return (false);
 }
 
 void	init(t_data *data)

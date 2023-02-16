@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 11:29:23 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/16 15:06:34 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/16 15:29:01 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ typedef struct t_map
 	char	**elem;
 	int		width;
 	int		height;
+	int		color_ceiling;
+	int		color_floor;
 }	t_map;
 
 typedef struct s_data
