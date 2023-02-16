@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:01:19 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/16 10:50:35 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/16 13:19:19 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,7 +200,6 @@ void	draw_some_pixel(t_dda *dda_h, t_dda *dda_v, t_map *map, mlx_image_t *img, t
 	double	*shorter;
 	dda_h->hit[2] = two_point_distants(dda_h->hit, player, test->direction);
 	dda_v->hit[2] = two_point_distants(dda_v->hit, player, test->direction);
-		// printf("here2\n");
 	if (dda_h->hit[X] < 0 || dda_h->hit[Y] < 0)
 	{
 		// printf("herea\n");
