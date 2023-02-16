@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 02:04:44 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/16 14:07:40 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/16 15:08:04 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,10 @@ static bool	get_map_params(t_map *map)
 			|| (line[0] != '0' && line[0] != '1' && line[0] != ' '))
 			continue ;
 		map->height++;
-		width_line = ft_strlen(line) - 1;
+		if (line[ft_strlen(line) - 1] == '\n')
+			width_line = ft_strlen(line) - 1;
+		else
+			width_line = ft_strlen(line);
 		if (width_line > map->width)
 			map->width = width_line;
 	}

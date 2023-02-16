@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 11:18:12 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/16 12:54:28 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/16 15:28:09 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,27 +22,49 @@ static int*	parse_color(char *str_input)
 	char	**str;
 	int		*color;
 	char	*tmp;
-	
+		
 	str = ft_split(str_input, ',');
 	color = ft_calloc(3, sizeof(int));
 	for (int i = 0; i < 3; i++)
 	{
 		tmp = ft_strtrim(str[i], " ");
-		color[i] = ft_atoi(tmp);
+		if (!ft_strlen(tmp))
+			color[i] = -1;
+		else
+			color[i] = ft_atoi(tmp);
 		free (tmp);
 	}
 	return (color);
 }
 
-static void	parse_colors(t_input *input, t_map *map)
+static bool	check_color(int rgb[3])
+{
+	int	i;
+
+	i = 0;
+	while (i < 3)
+	{
+		if (rgb[i] == -1 || rgb[i] > 255 || rgb[i] < 0)
+			return (false);
+		i++;
+	}
+	return (true);
+}
+
+static bool	parse_colors(t_input *input, t_map *map)
 {
 	int	*ceiling;
 	int	*floor;
 
 	ceiling = parse_color(input->c);
 	floor = parse_color(input->f);
+	if (!check_color(ceiling) || !check_color(floor))
+		return (false);
 	map->color_ceiling = get_rgba(ceiling[0], ceiling[1], ceiling[2], 255);
 	map->color_floor = get_rgba(floor[0], floor[1], floor[2], 255);
+	free (ceiling);
+	free (floor);
+	return (true);
 }
 
 int	main(int argc, char **argv)
@@ -54,14 +76,12 @@ int	main(int argc, char **argv)
 		check_inputfile(MAPNAME);
 		data = alloc();
 		init(data);
-		if (parse_input(data, data->input, data->player, data->map)
+		if ((parse_input(data, data->input, data->player, data->map, MAPNAME)
 			&& check_input(data->input, data->player, data->map)
 			&& load_textures(data->input, data->texture)
 			&& load_sprites(data->sprite))
-		{
-			parse_colors(data->input, data->map);
-			main_casting(data);
-		}
+			&& parse_colors(data->input, data->map))
+				main_casting(data);
 		cleanup(data);
 		exit (EXIT_SUCCESS);
 	}

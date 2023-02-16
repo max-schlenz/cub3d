@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 11:29:23 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/16 15:29:01 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/16 15:34:35 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ typedef struct s_input
 	char	*tex_so;
 	char	*tex_we;
 	char	*tex_ea;
+	char	*tex_door_open;
+	char	*tex_door_closed;
 	char	*f;
 	char	*c;
 }	t_input;

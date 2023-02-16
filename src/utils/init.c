@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 20:55:12 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/16 15:31:36 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/16 15:36:48 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,20 +55,24 @@ bool	load_sprites(t_sprite *sprite)
 bool	load_textures(t_input *input, t_texture *texture)
 {
 	int				i;
-	mlx_texture_t	*tex[4];
+	mlx_texture_t	*tex[6];
 
 	texture->wall_no = mlx_load_png(input->tex_no);
 	texture->wall_so = mlx_load_png(input->tex_so);
 	texture->wall_we = mlx_load_png(input->tex_we);
 	texture->wall_ea = mlx_load_png(input->tex_ea);
+	texture->open_door = mlx_load_png(input->tex_door_open);
+	texture->closed_door = mlx_load_png(input->tex_door_closed);
 	tex[0] = texture->wall_no;
 	tex[1] = texture->wall_so;
 	tex[2] = texture->wall_we;
 	tex[3] = texture->wall_ea;
+	tex[4] = texture->open_door;
+	tex[5] = texture->closed_door;
 	i = 0;
-	while (i < 4 && tex[i])
+	while (i < 5 && tex[i])
 		i++;
-	if (i == 4)
+	if (i == 5)
 		return (true);
 	return (false);
 }

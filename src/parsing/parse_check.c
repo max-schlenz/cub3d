@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:42:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/16 14:07:27 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/16 15:01:19 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,31 @@ bool	check_elem(char **elem, int row, int col, int params[2])
 	return (true);
 }
 
+static bool color_count_elems(char *str_input)
+{
+	int	elems;
+	int	i;
+	
+	elems = 0;
+	i = 0;
+	while (str_input[i])
+	{
+		if (str_input[i] == ',' && str_input[i + 1])
+			elems++;
+		i++;
+	}
+	if (elems == 2)
+		return (true);
+	return (false);
+}
+
 bool	check_color(char *str)
 {
 	int	i;
 
 	i = 0;
+	if (!str)
+		return (false);
 	while (str[i] && ft_isdigit(str[i]) || str[i] == ',' || str[i] == ' ') 
 		i++;
 	if (!str[i])
@@ -59,7 +79,7 @@ bool	check_color(char *str)
 
 bool	check_colors(t_input *input)
 {
-	if (check_color(input->c) && check_color(input->f))
+	if (check_color(input->c) && check_color(input->f) && color_count_elems(input->c) && color_count_elems(input->f))
 		return (true);
 	ft_putendl_fd("Error parsing floor/ceiling color", 2);
 	return (false);

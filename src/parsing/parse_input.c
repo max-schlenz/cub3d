@@ -64,10 +64,14 @@ bool	parse_line(char **line, t_input *input, t_player *player, t_map *map)
 		input->f = ft_strdup_nonl((*line) + 2);
 	else if (!input->c && !ft_strncmp((*line), "C ", 2))
 		input->c = ft_strdup_nonl((*line) + 2);
+	else if (!input->tex_door_closed && !ft_strncmp((*line), "D ", 2))
+		input->tex_door_closed = ft_strdup_nonl((*line) + 2);
+	else if (!input->tex_door_open && !ft_strncmp((*line), "d ", 2))
+		input->tex_door_open = ft_strdup_nonl((*line) + 2);
 	return (true);
 }
 
-bool	parse_input(t_data *data, t_input *input, t_player *player, t_map *map)
+bool	parse_input(t_data *data, t_input *input, t_player *player, t_map *map, char *path)
 {
 	int		fd;
 	char	*line;
@@ -75,7 +79,7 @@ bool	parse_input(t_data *data, t_input *input, t_player *player, t_map *map)
 	line = ft_calloc(1, sizeof(char));
 	if (line && map->width != -1)
 	{
-		fd = open(MAPNAME, O_RDONLY);
+		fd = open(path, O_RDONLY);
 		while (line)
 		{
 			free (line);
