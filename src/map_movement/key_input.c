@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   key_input.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 15:04:00 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/14 15:16:50 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/16 11:33:47 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include	<cub3D.h>
+#include <cub3D.h>
+#include <time.h>
 
 #define X 0
 #define Y 1
@@ -36,6 +37,39 @@ void	matrix_movement(t_movement *move, double *array)
 	array[Y] = y;
 }
 
+// static void	toggle_door(t_movement *move, t_map *map)
+// {
+// 	static int i = 0;
+// 	if (map->elem[move->y - 1][move->x] == 'D'			//north
+// 		|| map->elem[move->y + 1][move->x] == 'D'		//south
+// 		|| map->elem[move->y][move->x - 1] == 'D'		//west
+// 		|| map->elem[move->y][move->x + 1] == 'D'		//east
+// 		&& map->elem[move->y][move->x] != 'D')
+// 		{
+// 			printf("DOOR TOGGLED %i\n", i++);
+// 		}
+// }
+
+static void	toggle_door(t_movement *move, t_map *map, double delta_time)
+{
+	int				i;
+	char			*elem[4];
+
+	elem[0] = &map->elem[move->y - 1][move->x];
+	elem[1] = &map->elem[move->y + 1][move->x];
+	elem[2] = &map->elem[move->y][move->x - 1];
+	elem[3] = &map->elem[move->y][move->x + 1]; 
+	i = 0;
+	while (i < 4)
+	{
+		if (*(elem[i]) == 'D')
+			*(elem[i]) = 'd';
+		else if (*(elem[i]) == 'd')
+			*(elem[i]) = 'D';
+		i++;
+	}
+}
+
 /**
  * @brief change position based data depending on specific key pressed.
  * also close window for [esc]
@@ -43,12 +77,15 @@ void	matrix_movement(t_movement *move, double *array)
  *! @todo movement needs to care about current direction aka x * cos() and  y * cos()
  * 
  */
-void	key_checker(mlx_t *mlx, t_movement *move)
+void	key_checker(mlx_t *mlx, t_movement *move, t_map *map)
 {
-	double	movement[2];
+	double			movement[2];
+	static double	delta_time = 0;
+	static double	last_keypress = 0;
 
 	movement[X] = 0;
 	movement[Y] = 0;
+	delta_time += mlx->delta_time;
 	if (mlx_is_key_down(mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(mlx);
 	if (mlx_is_key_down(mlx, MLX_KEY_W))
@@ -59,6 +96,11 @@ void	key_checker(mlx_t *mlx, t_movement *move)
 		movement[Y] += move->velocity;
 	if (mlx_is_key_down(mlx, MLX_KEY_D))
 		movement[X] += move->velocity;
+	if (mlx_is_key_down(mlx, MLX_KEY_E) && delta_time - last_keypress > 0.3)
+	{
+		toggle_door(move, map, mlx->delta_time);
+		last_keypress = delta_time;
+	}
 	if (mlx_is_key_down(mlx, MLX_KEY_1))
 		move->direction = 0.1 * PI_TIMES_TWO;
 	if (mlx_is_key_down(mlx, MLX_KEY_2))
@@ -80,9 +122,15 @@ void	key_checker(mlx_t *mlx, t_movement *move)
 	if (mlx_is_key_down(mlx, MLX_KEY_0))
 		move->direction = 1.0 * PI_TIMES_TWO;
 	if (mlx_is_key_down(mlx, MLX_KEY_EQUAL))
+	{
 		move->tmp--;
+		printf("%i\n", move->tmp);
+	}
 	if (mlx_is_key_down(mlx, MLX_KEY_MINUS))
+	{
 		move->tmp++;
+		printf("%i\n", move->tmp);
+	}
 	matrix_movement(move, movement);
 	move->tile_x += movement[X];
 	move->tile_y += movement[Y];

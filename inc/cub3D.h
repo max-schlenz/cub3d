@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 10:56:28 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/15 22:59:42 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/16 13:20:53 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,10 @@
 # define CUB3D_H
 
 # include <MLX42.h>
-# include <math.h>
 # include <libft.h>
+# include <math.h>
 # include <stdlib.h>
 # include <stdbool.h>
-# include <libft.h>
 # include <fcntl.h>
 # include <unistd.h>
 # include <sys/types.h>
@@ -26,7 +25,6 @@
 # include <stddef.h>
 # include <stdbool.h>
 # include <stdio.h>
-# include <stdlib.h>
 # include <data.h>
 # include "hex_color.h"
 
@@ -34,6 +32,10 @@
 # define MAPNAME "maps/test"
 # define DEBUG 1
 # define HELP "./cub3d <filepath>\n"
+
+# define WIDTH 1000
+# define HEIGHT 1000
+
 
 /**
  * @brief main function for the raycasting part
@@ -44,15 +46,15 @@ bool	parse_input(t_data *data, t_input *input, t_player *player, t_map *map);
 bool	check_input(t_input *input, t_player *player, t_map *map);
 void	is_there_something(t_map *map, t_movement *move);
 int		wall_check(t_map *map, t_movement *move, int f_b, int l_r);
-void	key_checker(mlx_t *mlx, t_movement *move);
+void	key_checker(mlx_t *mlx, t_movement *move, t_map *map);
 void	draw_map(t_map *map, mlx_image_t *img, t_movement *move, t_texture *tex, t_sprite *sprite);
 void	mouse_checker(mlx_t *mlx, t_movement *move, mlx_image_t *img_bg);
 char	*ft_strdup_nonl(const char *s1);
 void	raycasting(mlx_t *mlx, mlx_image_t *img, t_movement *move, t_map *map, t_texture *tex);
 void	show_player_anim(mlx_texture_t **player, mlx_image_t *img, int x, int y);
 void	cleanup(t_data *data);
-void	load_textures(t_input *input, t_texture *tex);
-void	load_sprites(t_sprite *sprite);
+bool	load_textures(t_input *input, t_texture *tex);
+bool	load_sprites(t_sprite *sprite);
 void	init(t_data *data);
 t_data	*alloc(void);
 bool	error(int row, int col, t_error error);
@@ -64,7 +66,7 @@ void	update_fps_counter(mlx_t* mlx, mlx_image_t* img);
 void	parse_debug(t_input *input, t_player *player, t_map *map);
 void 	render_ceiling_floor(mlx_t *mlx, mlx_image_t *img, t_movement *move, t_map *map, t_texture *tex);
 void	draw_hori(mlx_image_t *img, int y, uint32_t col);
-void	project(mlx_t *mlx, mlx_image_t *img_bg, t_movement *move, t_map *map, t_texture *tex);
+mlx_image_t	*create_background_layer(mlx_t *mlx, int color_ceiling, int color_floor);
 void 	draw_pixel(uint8_t* pixel, uint32_t color);
 void	init_data(t_data *data);
 void	alloc_texture(t_data *data);
