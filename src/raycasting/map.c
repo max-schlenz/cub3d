@@ -54,9 +54,8 @@ void	rendering_loop(void *param)
 	key_checker(mlx, move, map);
 	is_there_something(map, move);
 
-	// draw_map(map, img, move, tex, sprite);
 	raycasting(mlx, img, move, map, tex);
-	// printf("fps: %i\n", (int)(1 / mlx->delta_time));
+	draw_map(map, img, move, tex, sprite);
 	update_fps_counter(mlx, img);
 }
 

@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 15:09:07 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/16 16:10:53 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/16 17:09:17 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,15 @@ int	what_tile(t_map *map, t_movement *move , int x, int y)
 	y = move->y + y;
 	if (x < 0 || y < 0)
 		return (MLX_COLOR_BLANCHEDALMOND);
+	if (x >= map->width || y >= map->height)
+		return (MLX_COLOR_BLANCHEDALMOND);
 	if (map->elem[y][x] == '1')
 		return ( MLX_COLOR_BURLYWOOD);
-	// elsif (x <  - MAP_TILE_SIZE / 2 || y < 0)
-	// 	return (MLX_COLOR_BLACK);
-		return (MLX_COLOR_BLUE);
+	if (map->elem[y][x] == 'd')
+		return ( MLX_COLOR_CORNSILK);
+	if (map->elem[y][x] == 'D')
+		return ( MLX_COLOR_ROSYBROWN);
+	return (MLX_COLOR_PALEVIOLETRED);
 }
 
 void	draw_map(t_map *map, mlx_image_t *img, t_movement *move, t_texture *tex, t_sprite *sprite)
@@ -114,31 +118,31 @@ void	draw_map(t_map *map, mlx_image_t *img, t_movement *move, t_texture *tex, t_
 
 
 	return ;
-	x = 0;
-	y = 0;
-	if ((double)img->height / (map->height) > (double)img->width / map->width)
-		pixel_per_tile =  (double)img->width / map->width;
-	else
-		pixel_per_tile =  (double)img->width / map->width;
-	while (y < img->height)
-	{
-		while (x < img->width)
-		{
-			if (y /(pixel_per_tile) >= map->height|| x /(pixel_per_tile) > map->width)
-				mlx_put_pixel(img, x, y, MLX_COLOR_BLACK);
-			else
-			{
-				if (map->elem[pixel_per_y][pixel_per_x] == '1')
-					mlx_put_pixel(img, x, y, MLX_COLOR_ORANGERED);
-				else if (map->elem[pixel_per_y][pixel_per_x] == '0')
-					mlx_put_pixel(img, x, y, MLX_COLOR_DARKSALMON);
-				else if (map->elem[pixel_per_y][pixel_per_x] == 'N')
-					mlx_put_pixel(img, x, y, MLX_COLOR_ORANGERED);
-			}
-			x++;
-		}
-		x = 0;
-		y++;
-	}
-	draw_player_on_map(map, img, move, tex, sprite);
+	// x = 0;
+	// y = 0;
+	// if ((double)img->height / (map->height) > (double)img->width / map->width)
+	// 	pixel_per_tile =  (double)img->width / map->width;
+	// else
+	// 	pixel_per_tile =  (double)img->width / map->width;
+	// while (y < img->height)
+	// {
+	// 	while (x < img->width)
+	// 	{
+	// 		if (y /(pixel_per_tile) >= map->height|| x /(pixel_per_tile) > map->width)
+	// 			mlx_put_pixel(img, x, y, MLX_COLOR_BLACK);
+	// 		else
+	// 		{
+	// 			if (map->elem[pixel_per_y][pixel_per_x] == '1')
+	// 				mlx_put_pixel(img, x, y, MLX_COLOR_ORANGERED);
+	// 			else if (map->elem[pixel_per_y][pixel_per_x] == '0')
+	// 				mlx_put_pixel(img, x, y, MLX_COLOR_DARKSALMON);
+	// 			else if (map->elem[pixel_per_y][pixel_per_x] == 'N')
+	// 				mlx_put_pixel(img, x, y, MLX_COLOR_ORANGERED);
+	// 		}
+	// 		x++;
+	// 	}
+	// 	x = 0;
+	// 	y++;
+	// }
+	// draw_player_on_map(map, img, move, tex, sprite);
 }
