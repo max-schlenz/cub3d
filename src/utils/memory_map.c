@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 02:04:44 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/12 02:05:39 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/16 12:58:53 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,27 +18,25 @@ static bool	get_map_params(t_map *map)
 	int		width_line;
 	char	*line;
 
-	if (!access(MAPNAME, F_OK))
+	fd = open(MAPNAME, O_RDONLY);
+	if (fd == -1)
+		return (ft_putendl_fd("Error", 2), false);
+	line = ft_calloc(1, sizeof(char));
+	while (line != NULL)
 	{
-		fd = open(MAPNAME, O_RDONLY);
-		line = ft_calloc(1, sizeof(char));
-		while (line != NULL)
-		{
-			free (line);
-			line = get_next_line(fd);
-			if (!line)
-				return (true);
-			if (line[0] == '\n'
-				|| (line[0] != '0' && line[0] != '1' && line[0] != ' '))
-				continue ;
-			map->height++;
-			width_line = ft_strlen(line) - 1;
-			if (width_line > map->width)
-				map->width = width_line;
-		}
-		return (true);
+		free (line);
+		line = get_next_line(fd);
+		if (!line)
+			return (true);
+		if (line[0] == '\n'
+			|| (line[0] != '0' && line[0] != '1' && line[0] != ' '))
+			continue ;
+		map->height++;
+		width_line = ft_strlen(line) - 1;
+		if (width_line > map->width)
+			map->width = width_line;
 	}
-	return (false);
+	return (true);
 }
 
 char	**prep_map(t_map *map)

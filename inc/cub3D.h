@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 10:56:28 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/16 09:39:01 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/16 12:19:09 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ char	*ft_strdup_nonl(const char *s1);
 void	raycasting(mlx_t *mlx, mlx_image_t *img, t_movement *move, t_map *map, t_texture *tex);
 void	show_player_anim(mlx_texture_t **player, mlx_image_t *img, int x, int y);
 void	cleanup(t_data *data);
-void	load_textures(t_input *input, t_texture *tex);
-void	load_sprites(t_sprite *sprite);
+bool	load_textures(t_input *input, t_texture *tex);
+bool	load_sprites(t_sprite *sprite);
 void	init(t_data *data);
 t_data	*alloc(void);
 bool	error(int row, int col, t_error error);

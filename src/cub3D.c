@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 11:18:12 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/15 17:18:15 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/16 12:54:28 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,11 @@ int	main(int argc, char **argv)
 		data = alloc();
 		init(data);
 		if (parse_input(data, data->input, data->player, data->map)
-			&& check_input(data->input, data->player, data->map))
+			&& check_input(data->input, data->player, data->map)
+			&& load_textures(data->input, data->texture)
+			&& load_sprites(data->sprite))
 		{
 			parse_colors(data->input, data->map);
-			load_textures(data->input, data->texture);
-			load_sprites(data->sprite);
 			main_casting(data);
 		}
 		cleanup(data);

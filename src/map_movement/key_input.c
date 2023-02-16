@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 15:04:00 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/16 10:04:57 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/16 11:33:47 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ static void	toggle_door(t_movement *move, t_map *map, double delta_time)
 			*(elem[i]) = 'D';
 		i++;
 	}
-	
 }
 
 /**
