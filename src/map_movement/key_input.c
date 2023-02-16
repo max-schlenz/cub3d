@@ -6,11 +6,12 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 15:04:00 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/16 00:13:06 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/16 00:22:24 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include	<cub3D.h>
+#include <cub3D.h>
+#include <time.h>
 
 #define X 0
 #define Y 1
@@ -49,16 +50,6 @@ void	matrix_movement(t_movement *move, double *array)
 // 		}
 // }
 
-
-/*
-y - 1; x - 1
-y - 1; x
-y - 1; x + 1
-
-*/
-
-#include <time.h>
-
 static void	toggle_door(t_movement *move, t_map *map)
 {
 	int				i;
@@ -69,6 +60,8 @@ static void	toggle_door(t_movement *move, t_map *map)
 	
 	current_time = clock();
 	time_elapsed = (double)(current_time - last_keypress) / CLOCKS_PER_SEC;
+	if (time_elapsed < 0.3)
+		return ;
 	elem[0] = &map->elem[move->y - 1][move->x];
 	elem[1] = &map->elem[move->y + 1][move->x];
 	elem[2] = &map->elem[move->y][move->x - 1];
@@ -76,14 +69,11 @@ static void	toggle_door(t_movement *move, t_map *map)
 	i = 0;
 	while (i < 4)
 	{
-		if (time_elapsed >= 0.3)
-		{
-			if (*(elem[i]) == 'D')
-				*(elem[i]) = 'd';
-			else if (*(elem[i]) == 'd')
-				*(elem[i]) = 'D';
-			last_keypress = current_time;
-		}
+		if (*(elem[i]) == 'D')
+			*(elem[i]) = 'd';
+		else if (*(elem[i]) == 'd')
+			*(elem[i]) = 'D';
+		last_keypress = current_time;
 		i++;
 	}
 }

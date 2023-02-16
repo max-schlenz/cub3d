@@ -67,7 +67,7 @@ int	mlx_setup(t_data *data, t_map *map, t_player *player, t_texture *tex, t_spri
 	mlx_image_t	*img_bg;
 	t_movement	move;
 	t_transfer	transporter;// gone
-	void	*transpot[20];
+
 
 	move.x = player->player_x;
 	move.y = player->player_y;
