@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 11:29:23 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/15 20:33:02 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/16 15:06:34 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ typedef struct s_texture
 	mlx_texture_t	*wall_so;
 	mlx_texture_t	*wall_we;
 	mlx_texture_t	*wall_ea;
+	mlx_texture_t	*open_door;
+	mlx_texture_t	*closed_door;
 }	t_texture;
 
 typedef struct s_input
