@@ -1,18 +1,19 @@
 NO ./res/wall_pixel_a.png
 SO ./res/wall_pixel_b.png
-EA ./res/wall_pixel_c.png
 WE ./res/wall_pixel_d.png
-d ./res/door_open_pixel.png
+EA ./res/wall_pixel_c.png
 
-F 20, 10, 20
+d ./res/door_open_pixel.png
+D ./res/door_closed_pixel.png
+
+F 20, 10, 30
 C 130, 115, 115
 
-D ./res/door_closed_pixel.png
-111
-1dd1
-101111111111111111111111
-101110000000000000110001
-100000010S00000000dd0001
+1111
+1dd1      1
+101111111101111111111111
+101110000000100000110001
+100000010N00000D00dd0001
 101110000000000000110001
 10111111111D111111111111
 101       101

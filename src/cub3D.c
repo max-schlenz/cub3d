@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 11:18:12 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/18 12:54:16 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/18 14:13:26 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,17 @@ static bool	parse_colors(t_input *input, t_map *map)
 	return (true);
 }
 
+static void	print_controls(void)
+{
+	ft_putendl_fd("------------------------------", 2);
+	ft_putendl_fd("	    cub3D", 2);
+	ft_putendl_fd("------------------------------", 2);
+	ft_putendl_fd("W/A/S/D\t- Directional movement", 2);
+	ft_putendl_fd("Mouse\t- Camera movement", 2);
+	ft_putendl_fd("SHIFT\t- Run", 2);
+	ft_putendl_fd("ESC\t- Quit\n", 2);
+}
+
 int	main(int argc, char **argv)
 {
 	t_data		*data;
@@ -86,7 +97,11 @@ int	main(int argc, char **argv)
 			&& load_textures(data->input, data->texture) \
 			&& load_sprites(data->sprite)) \
 			&& parse_colors(data->input, data->map))
-			main_casting(data);
+			{
+				// parse_debug(data->input, data->player, data->map);
+				print_controls();
+				main_casting(data);
+			}
 		cleanup(data);
 		exit (EXIT_SUCCESS);
 	}

@@ -23,6 +23,27 @@ bool	parse_input_player(char **read_buf, t_player *player, int line, int *i)
 	return (true);
 }
 
+static bool	check_line(char *line)
+{
+	int			i;
+	int			j;
+	const char	valid[11] = "012NSEWDd \n";
+
+	i = 0;
+	if (!line || line && line[0] && line[0] == '\n')
+		return (false);
+	while (line[i])
+	{
+		j = 0;
+		while (j < 11 && line[i] != valid[j])
+			j++;
+		if (j == 11)
+			return (false);
+		i++;
+	}
+	return (true);
+}
+
 bool	parse_input_map(char **read_buf, t_player *player, t_map *map, bool *m)
 {
 	static int	line = 0;
@@ -30,6 +51,8 @@ bool	parse_input_map(char **read_buf, t_player *player, t_map *map, bool *m)
 
 	i = 0;
 	(*m) = true;
+	if (!check_line((*read_buf)))
+		return (false);
 	while ((*read_buf) && (*read_buf)[i] && (*read_buf)[i] != '\n')
 	{
 		if (line < map->height)
@@ -52,7 +75,7 @@ bool	parse_line(char **line, t_input *input, t_player *player, t_map *map)
 {
 	static bool	bmap = false;
 
-	if (((*line)[0] == '1' || (*line)[0] == '0' || (*line)[0] == ' ')
+	if (((*line)[0] == '1' || (*line)[0] == '0' || (*line)[0] == ' ' || bmap)
 		&& !parse_input_map(line, player, map, &bmap))
 		return (false);
 	if (!bmap)
@@ -93,9 +116,8 @@ bool	parse_input(t_input *input, t_player *player, t_map *map, char *path)
 			if (!line)
 				break ;
 			if (!parse_line(&line, input, player, map))
-				return (false);
+				return (error(0, 0, MAP_ERROR));
 		}
 	}
-	parse_debug(input, player, map);
 	return (true);
 }
