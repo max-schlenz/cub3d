@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 15:09:07 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/18 09:28:54 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/18 17:52:51 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,17 @@ int	what_tile(t_map *map, t_movement *move, int x, int y)
 	return (MLX_COLOR_PALEVIOLETRED);
 }
 
-void	draw_map(t_map *map, mlx_image_t *img, t_movement *move, t_texture *tex)
+void	show_player_anim(mlx_texture_t **player, mlx_image_t *img, int x, int y)
+{
+	static int	j = 0;
+
+	mlx_draw_texture(img, player[j], x, y);
+	j++;
+	if (j == 33)
+		j = 0;
+}
+
+void	draw_map(t_map *map, mlx_image_t *img, t_movement *move, t_texture *tex, mlx_texture_t **sprites)
 {
 	int		x;
 	int		y;
@@ -71,6 +81,8 @@ void	draw_map(t_map *map, mlx_image_t *img, t_movement *move, t_texture *tex)
 			tile.x = MAP_TILE_SIZE * (x + TILE_PER_MAP);
 			tile.y = MAP_TILE_SIZE * (y + TILE_PER_MAP);
 			draw_tile(img, &tile, tile.color);
+			if (tile.color == MLX_COLOR_RED)
+				show_player_anim(sprites, img, tile.x, tile.y);
 			x++;
 		}
 		y++;

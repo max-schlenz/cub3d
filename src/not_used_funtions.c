@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   not_used_funtions.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 06:33:15 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/18 06:33:38 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/18 17:29:54 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,3 @@ void	matrix_two(double *array, double degree)
 	array[1] = y;
 }
 
-void	show_player_anim(mlx_texture_t **player, mlx_image_t *img, int x, int y)
-{
-	static int	j = 0;
-
-	mlx_draw_texture(img, player[j], x, y);
-	j++;
-	if (j == 33)
-		j = 0;
-}

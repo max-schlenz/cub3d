@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 20:55:12 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/18 14:21:47 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/18 17:48:24 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,34 +23,39 @@ static bool	free_player(mlx_texture_t **player, int *i)
 	return (false);
 }
 
-static bool	load_sprites_player(mlx_texture_t **player)
+static bool	load_sprites_folder(mlx_texture_t **sprites, char *name, int max)
 {
-	int		i;
-	char	*idx;
-	char	*tmp;
-	char	*path;
+	int			i;
+	char		*idx;
+	char		*tmp;
+	char		*path;
 
 	i = 0;
-	while (i < 33)
+	// sprites = ft_calloc(max, sizeof(mlx_texture_t *));
+	while (i < max)
 	{
 		idx = ft_itoa(i);
-		tmp = ft_strjoin("res/player/sprite", idx);
+		tmp = ft_strjoin(name, idx);
 		path = ft_strjoin(tmp, ".png");
 		free_null(2, &tmp, &idx);
-		player[i] = mlx_load_png(path);
-		if (!player[i])
-			return (free(path), free_player(player, &i));
+		sprites[i] = mlx_load_png(path);
+		if (!sprites[i])
+		{
+			printf("%s\n", path);
+			return (free(path), free_player(sprites, &i));
+		}
 		free(path);
 		i++;
 	}
 	return (true);
 }
 
-bool	load_sprites(t_sprite *sprite)
+bool	load_sprites(t_sprites *sprites)
 {
-	if (!load_sprites_player(sprite->player))
+	if (!load_sprites_folder(sprites->player->sprites, "res/player/sprite", 33))
 		return (false);
 	return (true);
+	// if (!load_sprites_player(sprite->player))
 }
 
 bool	load_textures(t_input *input, t_texture *texture)

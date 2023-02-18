@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 11:29:23 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/18 14:21:36 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/18 17:39:02 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,15 @@ typedef enum e_error
 
 typedef struct s_sprite
 {
-	mlx_texture_t	**player;
+	int				max;
+	mlx_texture_t	**sprites;
 }	t_sprite;
+
+typedef struct s_sprites
+{
+	t_sprite		*player;
+	t_sprite		*door_locked;
+}	t_sprites;
 
 typedef struct s_texture
 {
@@ -50,6 +57,7 @@ typedef struct s_texture
 	mlx_texture_t	*wall_ea;
 	mlx_texture_t	*open_door;
 	mlx_texture_t	*closed_door;
+	t_sprite		*locked_door_s;
 }	t_texture;
 
 typedef struct s_input
@@ -86,7 +94,7 @@ typedef struct s_data
 	t_player	*player;
 	t_map		*map;
 	t_texture	*texture;
-	t_sprite	*sprite;
+	t_sprites	*sprites;
 }	t_data;
 
 /**
@@ -130,7 +138,7 @@ typedef struct s_transfer{
 	t_movement	*move;
 	t_texture	*tex;
 	t_player	*player;
-	t_sprite	*sprite;
+	t_sprites	*sprites;
 }t_transfer;
 
 /**
