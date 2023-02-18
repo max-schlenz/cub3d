@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 11:29:23 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/18 07:21:08 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/18 13:24:06 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef enum e_error
 
 typedef struct s_sprite
 {
+	int				i;
 	mlx_texture_t	**player;
 }	t_sprite;
 
@@ -49,6 +50,12 @@ typedef struct s_texture
 	mlx_texture_t	*wall_ea;
 	mlx_texture_t	*open_door;
 	mlx_texture_t	*closed_door;
+	t_sprite		*arrow_left;
+	t_sprite		*arrow_right;
+	t_sprite		*arrow_up;
+	t_sprite		*arrow_down;
+	t_sprite		*lock_open;
+	t_sprite		*lock_closed;
 }	t_texture;
 
 typedef struct s_input
