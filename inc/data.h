@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 11:29:23 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/16 17:06:21 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/18 07:21:08 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,8 +109,8 @@ typedef struct s_movement
 	double	tile_y;
 	double	direction;
 	int		top_down;
-	double	velocity;//? settig value
-	double	rotation_speed;//? settig value
+	double	velocity;
+	double	rotation_speed;
 	int		pixel_per_map_tile;
 	int		tmp;
 }	t_movement;
@@ -145,6 +145,9 @@ typedef struct s_array
 	double			tile_x;
 	double			direction;
 	double			distance;
+	double			player[3];
+	int				player_x;
+	int				player_y;
 	mlx_texture_t	*texture;
 }	t_array;
 
@@ -152,10 +155,18 @@ typedef struct s_array
 typedef struct s_dda
 {
 	double	jump;
-	int		(*f_ptr)(struct s_dda * dda_info, t_map* map);
+	int		(*f_ptr)(struct s_dda *dda_info, t_map *map);
 	double	hit[10];
 	int		offset;
 	int		dir;
 }t_dda;
+
+
+typedef struct s_tile{
+	int	x;
+	int	y;
+	int	color;
+}t_tile;
+
 
 #endif

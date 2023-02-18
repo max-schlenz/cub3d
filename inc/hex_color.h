@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   hex_color.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/18 05:54:23 by lkrabbe           #+#    #+#             */
+/*   Updated: 2023/02/18 05:54:23 by lkrabbe          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #define MLX_COLOR_ALICEBLUE                   0xF0F8FFFF
 #define MLX_COLOR_ANTIQUEWHITE                0xFAEBD7FF
 #define MLX_COLOR_AQUA                        0x00FFFFFF

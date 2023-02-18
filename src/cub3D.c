@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 11:18:12 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/16 15:28:09 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/18 08:04:57 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int*	parse_color(char *str_input)
 	char	**str;
 	int		*color;
 	char	*tmp;
-		
+
 	str = ft_split(str_input, ',');
 	color = ft_calloc(3, sizeof(int));
 	for (int i = 0; i < 3; i++)

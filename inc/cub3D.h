@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 10:56:28 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/18 03:38:57 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/18 08:46:25 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,57 +27,60 @@
 # include <stdio.h>
 # include <data.h>
 # include "hex_color.h"
+# include <define_default.h>
 
 # define PLAYER_SPRITE_FRAMES
-# define MAPNAME "maps/test"
+# define MAPNAME "maps/pixel.cub"
 # define DEBUG 1
 # define HELP "./cub3d <filepath>"
-
-# define WIDTH 1000
-# define HEIGHT 1000
 
 
 /**
  * @brief main function for the raycasting part
  * 
  */
-int		main_casting(t_data *data);
-bool	parse_input(t_data *data, t_input *input, t_player *player, t_map *map, char *path);
-bool	check_input(t_input *input, t_player *player, t_map *map);
-void	is_there_something(t_map *map, t_movement *move);
-int		wall_check(t_map *map, t_movement *move, int f_b, int l_r);
-void	key_checker(mlx_t *mlx, t_movement *move, t_map *map);
-void	draw_map(t_map *map, mlx_image_t *img, t_movement *move, t_texture *tex, t_sprite *sprite);
-void	mouse_checker(mlx_t *mlx, t_movement *move, mlx_image_t *img_bg);
-char	*ft_strdup_nonl(const char *s1);
-void	raycasting(mlx_t *mlx, mlx_image_t *img, t_movement *move, t_map *map, t_texture *tex);
-void	show_player_anim(mlx_texture_t **player, mlx_image_t *img, int x, int y);
-void	cleanup(t_data *data);
-bool	load_textures(t_input *input, t_texture *tex);
-bool	load_sprites(t_sprite *sprite);
-void	init(t_data *data);
-t_data	*alloc(void);
-bool	error(int row, int col, t_error error);
-char	*get_line(int fd);
-char	**prep_map(t_map *map);
-void	overshot_protection(double *degree);
-void	img_draw_char(mlx_image_t* image, int32_t texoffset, int32_t imgoffset);
-void	update_fps_counter(mlx_t* mlx, mlx_image_t* img);
-void	parse_debug(t_input *input, t_player *player, t_map *map);
-void 	render_ceiling_floor(mlx_t *mlx, mlx_image_t *img, t_movement *move, t_map *map, t_texture *tex);
-void	draw_hori(mlx_image_t *img, int y, uint32_t col);
+int			main_casting(t_data *data);
+bool		parse_input(t_data *data, t_input *input, t_player *player, t_map *map, char *path);
+bool		check_input(t_input *input, t_player *player, t_map *map);
+void		is_there_something(t_map *map, t_movement *move);
+int			wall_check(t_map *map, t_movement *move, int f_b, int l_r);
+void		key_checker(mlx_t *mlx, t_movement *move, t_map *map);
+void		draw_map(t_map *map, mlx_image_t *img, t_movement *move, t_texture *tex);
+void		mouse_checker(mlx_t *mlx, t_movement *move, mlx_image_t *img_bg);
+char		*ft_strdup_nonl(const char *s1);
+void		raycasting( mlx_image_t *img, t_movement *move, t_map *map, t_texture *tex);
+void		show_player_anim(mlx_texture_t **player, mlx_image_t *img, int x, int y);
+void		cleanup(t_data *data);
+bool		load_textures(t_input *input, t_texture *tex);
+bool		load_sprites(t_sprite *sprite);
+void		init(t_data *data);
+t_data		*alloc(void);
+bool		error(int row, int col, t_error error);
+char		*get_line(int fd);
+char		**prep_map(t_map *map);
+void		overshot_protection(double *degree);
+void		img_draw_char(mlx_image_t* image, int32_t texoffset, int32_t imgoffset);
+void		update_fps_counter(mlx_t* mlx, mlx_image_t* img);
+void		parse_debug(t_input *input, t_player *player, t_map *map);
+void 		render_ceiling_floor(mlx_t *mlx, mlx_image_t *img, t_movement *move, t_map *map, t_texture *tex);
+void		draw_hori(mlx_image_t *img, int y, uint32_t col);
 mlx_image_t	*create_background_layer(mlx_t *mlx, int color_ceiling, int color_floor);
-void 	draw_pixel(uint8_t* pixel, uint32_t color);
-void	init_data(t_data *data);
-void	alloc_texture(t_data *data);
-void	alloc_sprite(t_data *data);
-void	alloc_sprite_player(t_data *data);
-void	check_inputfile(char *path);
-int		img_pixel(double x_p, double y_p, mlx_texture_t *tex);
-int		left_turn(t_movement *move);
-int		right_turn(t_movement *move);
-int		front_tile(t_map *map, t_movement *move);
-int		back_tile(t_map *map, t_movement *move);
-
-
+void 		draw_pixel(uint8_t* pixel, uint32_t color);
+void		init_data(t_data *data);
+void		alloc_texture(t_data *data);
+void		alloc_sprite(t_data *data);
+void		alloc_sprite_player(t_data *data);
+void		check_inputfile(char *path);
+int			img_pixel(double x_p, double y_p, mlx_texture_t *tex);
+int			left_turn(t_movement *move);
+int			right_turn(t_movement *move);
+int			front_tile(t_map *map, t_movement *move);
+int			back_tile(t_map *map, t_movement *move);
+int			usedda_ultra(t_dda *dda_h, t_dda *dda_v, t_map *map);
+void		dda_info_v(int y, double direction, \
+double		*player, t_dda *dda_info);
+void		dda_info_h(int x, double direction, \
+double		*player, t_dda *dda_info);
+void		draw_wall(t_array *test, mlx_image_t *img, \
+t_texture *tex, double fov);
 #endif

@@ -6,7 +6,7 @@
 #    By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2023/02/18 03:12:09 by lkrabbe          ###   ########.fr        #
+#    Updated: 2023/02/18 07:35:22 by lkrabbe          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 SHELL 			=	/bin/bash
 UNAME			=	$(shell uname)
 MAKEFLAGS 		=	--no-print-directory
-CFLAGS			=	-Ofast -g #-fsanitize=address #-Wall -Wextra -Werror #-g  
+CFLAGS			=	-Ofast -g -fsanitize=address #-Wall -Wextra -Werror #-g  
 
 #FORMAT----------------------------------#
 DEFCL			=	$(shell echo -e "\033[0m")
@@ -44,6 +44,7 @@ SRC				= 	${NAME}													\
 					parsing/parse_utils										\
 					raycasting/map											\
 					raycasting/raycasting									\
+					raycasting/dda											\
 					raycasting/project										\
 					map_movement/check_side									\
 					map_movement/checks										\
@@ -51,6 +52,7 @@ SRC				= 	${NAME}													\
 					map_movement/arrow_keys									\
 					map_movement/mouse_input								\
 					draw_on_screen/draw_map									\
+					draw_on_screen/draw_wall								\
 					utils/cleanup											\
 					utils/init												\
 					utils/utils												\
