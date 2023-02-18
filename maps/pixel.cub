@@ -3,11 +3,11 @@ SO ./res/wall_pixel_b.png
 EA ./res/wall_pixel_c.png
 WE ./res/wall_pixel_d.png
 d ./res/door_open_pixel.png
+D ./res/door_closed_pixel.png
 
 F 20, 10, 20
 C 130, 115, 115
 
-D ./res/door_closed_pixel.png
 111
 1dd1
 101111111111111111111111

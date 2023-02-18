@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 11:29:23 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/18 13:24:06 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/18 14:40:10 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ typedef enum e_error
 
 typedef struct s_sprite
 {
-	int				i;
-	mlx_texture_t	**player;
+	int				max;
+	mlx_texture_t	**sprite;
 }	t_sprite;
 
 typedef struct s_texture

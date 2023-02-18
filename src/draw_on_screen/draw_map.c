@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 15:09:07 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/18 13:20:23 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/18 14:40:03 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,9 @@ void	show_player_anim(t_texture *tex, mlx_image_t *img, int x, int y)
 {
 	static int	j = 0;
 
-	mlx_draw_texture(img, tex->, x, y);
+	mlx_draw_texture(img, tex->arrow_down->sprite[j], x, y);
 	j++;
-	if (j == 33)
+	if (j == tex->arrow_down->max)
 		j = 0;
 }
 

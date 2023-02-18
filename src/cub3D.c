@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 11:18:12 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/18 12:54:16 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/18 14:48:16 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	main(int argc, char **argv)
 		if ((parse_input(data->input, data->player, data->map, MAPNAME) \
 			&& check_input(data->input, data->player, data->map) \
 			&& load_textures(data->input, data->texture) \
-			&& load_sprites(data->sprite)) \
+			&& load_sprites(data->sprite->sprite, "res/arrow/down", 2)) \
 			&& parse_colors(data->input, data->map))
 			main_casting(data);
 		cleanup(data);
