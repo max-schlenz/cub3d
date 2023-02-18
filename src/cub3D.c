@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 11:18:12 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/18 14:13:26 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/18 14:52:45 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,10 +95,9 @@ int	main(int argc, char **argv)
 		if ((parse_input(data->input, data->player, data->map, MAPNAME) \
 			&& check_input(data->input, data->player, data->map) \
 			&& load_textures(data->input, data->texture) \
-			&& load_sprites(data->sprite)) \
+			&& load_sprites(data->sprite->sprite, "res/arrow/down", 2)) \
 			&& parse_colors(data->input, data->map))
 			{
-				// parse_debug(data->input, data->player, data->map);
 				print_controls();
 				main_casting(data);
 			}

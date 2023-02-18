@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   memory_res.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 01:16:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/12 03:46:33 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/18 14:44:24 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ void	alloc_sprite(t_data *data)
 
 void	alloc_sprite_player(t_data *data)
 {
-	data->sprite->player = ft_calloc(34, sizeof(mlx_texture_t *));
-	if (!data->sprite->player)
+	data->sprite->sprite = ft_calloc(34, sizeof(mlx_texture_t *));
+	if (!data->sprite->sprite)
 	{
 		free(data->sprite);
 		free(data->texture);

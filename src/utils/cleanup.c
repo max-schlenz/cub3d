@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 20:02:42 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/18 12:41:21 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/18 14:41:48 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ static void	clean_sprites(t_sprite *sprite)
 	int	i;
 
 	i = 0;
-	while (sprite->player[i])
-		mlx_delete_texture(sprite->player[i++]);
-	free(sprite->player);
+	while (sprite->sprite[i])
+		mlx_delete_texture(sprite->sprite[i++]);
+	free(sprite->sprite);
 	free(sprite);
 }
 

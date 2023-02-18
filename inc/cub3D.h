@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 10:56:28 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/18 12:19:27 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/18 14:42:56 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,10 @@ void		draw_map(t_map *map, mlx_image_t *img, t_movement *move, t_texture *tex);
 void		mouse_checker(mlx_t *mlx, t_movement *move, mlx_image_t *img_bg);
 char		*ft_strdup_nonl(const char *s1);
 void		raycasting( mlx_image_t *img, t_movement *move, t_map *map, t_texture *tex);
-void		show_player_anim(mlx_texture_t **player, mlx_image_t *img, int x, int y);
+void		show_player_anim(t_texture *tex, mlx_image_t *img, int x, int y);
 void		cleanup(t_data *data);
 bool		load_textures(t_input *input, t_texture *tex);
-bool		load_sprites(t_sprite *sprite);
+bool		load_sprites(t_sprite *sprite, char *name, int max);
 void		init(t_data *data);
 t_data		*alloc(void);
 bool		error(int row, int col, t_error error);

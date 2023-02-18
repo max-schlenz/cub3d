@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 20:55:12 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/18 14:21:47 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/18 14:52:07 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static bool	free_player(mlx_texture_t **player, int *i)
 	return (false);
 }
 
-static bool	load_sprites_player(mlx_texture_t **player)
+static bool	load_sprites_folder(mlx_texture_t **sprite, char *name, int max)
 {
 	int		i;
 	char	*idx;
@@ -31,25 +31,27 @@ static bool	load_sprites_player(mlx_texture_t **player)
 	char	*path;
 
 	i = 0;
-	while (i < 33)
+	while (i < max)
 	{
 		idx = ft_itoa(i);
-		tmp = ft_strjoin("res/player/sprite", idx);
+		tmp = ft_strjoin(name, idx);
 		path = ft_strjoin(tmp, ".png");
 		free_null(2, &tmp, &idx);
-		player[i] = mlx_load_png(path);
-		if (!player[i])
-			return (free(path), free_player(player, &i));
+		sprite[i] = mlx_load_png(path);
+		if (!sprite[i])
+			return (free(path), free_player(sprite, &i));
 		free(path);
 		i++;
 	}
 	return (true);
 }
 
-bool	load_sprites(t_sprite *sprite)
+bool	load_sprites(t_sprite *sprite, char *name, int max)
 {
-	if (!load_sprites_player(sprite->player))
+	if (!load_sprites_folder(sprite, name, max))
+	{
 		return (false);
+	}
 	return (true);
 }
 

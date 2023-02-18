@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 05:53:17 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/18 09:05:23 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/18 12:05:17 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # define WIDTH 1000
 # define HEIGHT 1000
 # define MAP_TILE_BORDER 0.1
-# define MAP_TILE_SIZE 20
+# define MAP_TILE_SIZE 32
 # define TILE_PER_MAP 5
 # define X 0
 # define Y 1

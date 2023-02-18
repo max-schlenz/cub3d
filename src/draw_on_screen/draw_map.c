@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 15:09:07 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/18 09:28:54 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/18 14:40:03 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,17 @@ int	what_tile(t_map *map, t_movement *move, int x, int y)
 	return (MLX_COLOR_PALEVIOLETRED);
 }
 
+
+void	show_player_anim(t_texture *tex, mlx_image_t *img, int x, int y)
+{
+	static int	j = 0;
+
+	mlx_draw_texture(img, tex->arrow_down->sprite[j], x, y);
+	j++;
+	if (j == tex->arrow_down->max)
+		j = 0;
+}
+
 void	draw_map(t_map *map, mlx_image_t *img, t_movement *move, t_texture *tex)
 {
 	int		x;
@@ -71,6 +82,7 @@ void	draw_map(t_map *map, mlx_image_t *img, t_movement *move, t_texture *tex)
 			tile.x = MAP_TILE_SIZE * (x + TILE_PER_MAP);
 			tile.y = MAP_TILE_SIZE * (y + TILE_PER_MAP);
 			draw_tile(img, &tile, tile.color);
+			show_player_anim(tex, img, tile.x, tile.y);
 			x++;
 		}
 		y++;

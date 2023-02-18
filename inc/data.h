@@ -6,7 +6,11 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 11:29:23 by mschlenz          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/02/18 14:21:36 by mschlenz         ###   ########.fr       */
+=======
+/*   Updated: 2023/02/18 14:40:10 by lkrabbe          ###   ########.fr       */
+>>>>>>> 728c67717d1968dd0ff580d4691b35e99d3a2d84
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +43,8 @@ typedef enum e_error
 
 typedef struct s_sprite
 {
-	mlx_texture_t	**player;
+	int				max;
+	mlx_texture_t	**sprite;
 }	t_sprite;
 
 typedef struct s_texture
@@ -50,6 +55,12 @@ typedef struct s_texture
 	mlx_texture_t	*wall_ea;
 	mlx_texture_t	*open_door;
 	mlx_texture_t	*closed_door;
+	t_sprite		*arrow_left;
+	t_sprite		*arrow_right;
+	t_sprite		*arrow_up;
+	t_sprite		*arrow_down;
+	t_sprite		*lock_open;
+	t_sprite		*lock_closed;
 }	t_texture;
 
 typedef struct s_input
