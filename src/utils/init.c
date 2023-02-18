@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 20:55:12 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/18 14:48:47 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/18 14:52:07 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,11 @@ bool	load_textures(t_input *input, t_texture *texture)
 	tex[4] = texture->open_door;
 	tex[5] = texture->closed_door;
 	i = 0;
-	while (i < 5 && tex[i])
+	while (i < 6 && tex[i])
 		i++;
-	if (i == 5)
+	if (i == 6)
 		return (true);
-	return (false);
+	return (error(0, 0, TEXTURE_ERROR));
 }
 
 void	init(t_data *data)
