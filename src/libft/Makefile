@@ -6,7 +6,7 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2023/02/15 16:57:02 by mschlenz         ###   ########.fr        #
+#    Updated: 2023/02/18 12:50:05 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,9 +44,9 @@ SRC			= 	ft_isalnum ft_isalpha ft_isascii ft_isdigit ft_isprint															\
 				ft_strlcat ft_strlcpy ft_strdup ft_strnstr ft_strjoin ft_substr ft_striteri ft_strtrim ft_split ft_strmapi		\
 				ft_calloc ft_memchr ft_memcmp ft_memcpy ft_memmove ft_memset ft_bzero											\
 				ft_lstnew ft_lstadd_back ft_lstadd_front ft_lstclear ft_lstdelone ft_lstiter ft_lstlast ft_lstsize				\
-				get_next_line/get_next_line get_next_line/get_next_line_utils													\
+				get_next_line/get_next_line																				\
 				ft_printf/ft_printf ft_printf/ft_printf_csi ft_printf/ft_printf_p ft_printf/ft_printf_u ft_printf/ft_printf_xX	\
-				custom/free_null custom/merge_str custom/realloc_ptr custom/free_array custom/strrepl
+				custom/free_null custom/merge_str custom/realloc_ptr custom/free_array
 
 SRC_PATH	=	$(addsuffix .c, $(addprefix $(SRC_DIR), $(SRC)))
 OBJ_PATH	=	$(addsuffix .o, $(addprefix $(OBJ_DIR), $(SRC)))

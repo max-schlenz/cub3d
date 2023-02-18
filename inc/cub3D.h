@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 10:56:28 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/18 08:46:25 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/18 12:19:27 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@
  * 
  */
 int			main_casting(t_data *data);
-bool		parse_input(t_data *data, t_input *input, t_player *player, t_map *map, char *path);
+bool		parse_input(t_input *input, t_player *player, t_map *map, char *path);
 bool		check_input(t_input *input, t_player *player, t_map *map);
 void		is_there_something(t_map *map, t_movement *move);
 int			wall_check(t_map *map, t_movement *move, int f_b, int l_r);
@@ -64,7 +64,7 @@ void		update_fps_counter(mlx_t* mlx, mlx_image_t* img);
 void		parse_debug(t_input *input, t_player *player, t_map *map);
 void 		render_ceiling_floor(mlx_t *mlx, mlx_image_t *img, t_movement *move, t_map *map, t_texture *tex);
 void		draw_hori(mlx_image_t *img, int y, uint32_t col);
-mlx_image_t	*create_background_layer(mlx_t *mlx, int color_ceiling, int color_floor);
+mlx_image_t	*create_bg_layer(mlx_t *mlx, int color_ceiling, int color_floor);
 void 		draw_pixel(uint8_t* pixel, uint32_t color);
 void		init_data(t_data *data);
 void		alloc_texture(t_data *data);
@@ -83,4 +83,8 @@ void		dda_info_h(int x, double direction, \
 double		*player, t_dda *dda_info);
 void		draw_wall(t_array *test, mlx_image_t *img, \
 t_texture *tex, double fov);
+bool		color_count_elems(char *str_input);
+bool		check_color(char *str);
+void		update_fps_counter(mlx_t *mlx, mlx_image_t *img);
+
 #endif

@@ -23,12 +23,13 @@ bool	parse_input_player(char **read_buf, t_player *player, int line, int *i)
 	return (true);
 }
 
-bool	parse_input_map(char **read_buf, t_player *player, t_map *map)
+bool	parse_input_map(char **read_buf, t_player *player, t_map *map, bool *m)
 {
 	static int	line = 0;
 	int			i;
 
 	i = 0;
+	(*m) = true;
 	while ((*read_buf) && (*read_buf)[i] && (*read_buf)[i] != '\n')
 	{
 		if (line < map->height)
@@ -49,29 +50,34 @@ bool	parse_input_map(char **read_buf, t_player *player, t_map *map)
 
 bool	parse_line(char **line, t_input *input, t_player *player, t_map *map)
 {
+	static bool	bmap = false;
+
 	if (((*line)[0] == '1' || (*line)[0] == '0' || (*line)[0] == ' ')
-		&& !parse_input_map(line, player, map))
+		&& !parse_input_map(line, player, map, &bmap))
 		return (false);
-	else if (!input->tex_no && !ft_strncmp((*line), "NO ", 3))
-		input->tex_no = ft_strdup_nonl((*line) + 3);
-	else if (!input->tex_so && !ft_strncmp((*line), "SO ", 3))
-		input->tex_so = ft_strdup_nonl((*line) + 3);
-	else if (!input->tex_we && !ft_strncmp((*line), "WE ", 3))
-		input->tex_we = ft_strdup_nonl((*line) + 3);
-	else if (!input->tex_ea && !ft_strncmp((*line), "EA ", 3))
-		input->tex_ea = ft_strdup_nonl((*line) + 3);
-	else if (!input->f && !ft_strncmp((*line), "F ", 2))
-		input->f = ft_strdup_nonl((*line) + 2);
-	else if (!input->c && !ft_strncmp((*line), "C ", 2))
-		input->c = ft_strdup_nonl((*line) + 2);
-	else if (!input->tex_door_closed && !ft_strncmp((*line), "D ", 2))
-		input->tex_door_closed = ft_strdup_nonl((*line) + 2);
-	else if (!input->tex_door_open && !ft_strncmp((*line), "d ", 2))
-		input->tex_door_open = ft_strdup_nonl((*line) + 2);
+	if (!bmap)
+	{
+		if (!input->tex_no && !ft_strncmp((*line), "NO ", 3))
+			input->tex_no = ft_strdup_nonl((*line) + 3);
+		else if (!input->tex_so && !ft_strncmp((*line), "SO ", 3))
+			input->tex_so = ft_strdup_nonl((*line) + 3);
+		else if (!input->tex_we && !ft_strncmp((*line), "WE ", 3))
+			input->tex_we = ft_strdup_nonl((*line) + 3);
+		else if (!input->tex_ea && !ft_strncmp((*line), "EA ", 3))
+			input->tex_ea = ft_strdup_nonl((*line) + 3);
+		else if (!input->f && !ft_strncmp((*line), "F ", 2))
+			input->f = ft_strdup_nonl((*line) + 2);
+		else if (!input->c && !ft_strncmp((*line), "C ", 2))
+			input->c = ft_strdup_nonl((*line) + 2);
+		else if (!input->tex_door_closed && !ft_strncmp((*line), "D ", 2))
+			input->tex_door_closed = ft_strdup_nonl((*line) + 2);
+		else if (!input->tex_door_open && !ft_strncmp((*line), "d ", 2))
+			input->tex_door_open = ft_strdup_nonl((*line) + 2);
+	}
 	return (true);
 }
 
-bool	parse_input(t_data *data, t_input *input, t_player *player, t_map *map, char *path)
+bool	parse_input(t_input *input, t_player *player, t_map *map, char *path)
 {
 	int		fd;
 	char	*line;

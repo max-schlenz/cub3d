@@ -5,84 +5,136 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/01 21:00:32 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/08 01:06:55 by mschlenz         ###   ########.fr       */
+/*   Created: 2022/07/07 19:27:23 by lkrabbe           #+#    #+#             */
+/*   Updated: 2023/02/18 12:49:32 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include	<libft.h>
 
-static void	create_line(char **line, char **stat_buf, int fd, int rcheck)
+int	lookfor(int fd, char *buffer, char *sta_buf)
 {
-	char			*buf;
-	char			*ptr_old_line;
-	char			*buf_substr_nl;
+	ssize_t	len;
+	ssize_t	i;
+	ssize_t	pos;
 
-	ptr_old_line = NULL;
-	buf_substr_nl = NULL;
-	buf = ft_calloc(BUFFER_SIZE + 1, 1);
-	while (rcheck > 0)
+	pos = 0;
+	sta_buf[0] = '\0';
+	len = read(fd, buffer, BUFFER_SIZE);
+	if (len == 0 || len == -1)
+		return (len);
+	i = 0;
+	while (i < len && buffer[i] != '\n')
+		i++;
+	if (buffer[i] == '\n')
 	{
-		rcheck = read(fd, buf, BUFFER_SIZE);
-		buf[rcheck] = '\0';
-		ptr_old_line = *line;
-		if (p_nl(buf) >= 0)
+		i++;
+		while (pos + i < len)
 		{
-			*stat_buf = substr(buf, p_nl(buf) + 1, BUFFER_SIZE - p_nl(buf), 1);
-			buf_substr_nl = substr(buf, 0, p_nl(buf), 2);
-			*line = ft_strjoin_dup(*line, buf_substr_nl);
-			free (buf_substr_nl);
-			free (ptr_old_line);
-			break ;
+			sta_buf[pos] = buffer[i + pos];
+			pos++;
 		}
-		*line = ft_strjoin_dup(*line, buf);
-		free(ptr_old_line);
+		sta_buf[pos] = '\0';
 	}
-	free (buf);
+	return (i);
 }
 
-static void	trim_stat_buf(char **stat_buf)
+char	*rec_str_join(int fd, char *ptr, ssize_t size, char *tmp_buf)
 {
-	int		stat_buf_nl;
-	char	*ptr_stat_buf;
+	char		buffer[BUFFER_SIZE + 1];
+	ssize_t		i;
+	int			k;
 
-	stat_buf_nl = p_nl(*stat_buf);
-	if (ft_strlen(*stat_buf) - stat_buf_nl == 1)
-	{
-		free (*stat_buf);
-		*stat_buf = NULL;
-		return ;
+	buffer[BUFFER_SIZE] = '\0';
+	k = 0;
+	i = lookfor(fd, buffer, tmp_buf);
+	if (i == BUFFER_SIZE && buffer[i - 1] != '\n')
+	{	
+		ptr = rec_str_join(fd, ptr, size + i, tmp_buf);
+		if (ptr == NULL)
+			return (NULL);
 	}
-	ptr_stat_buf = *stat_buf;
-	*stat_buf = substr(*stat_buf, stat_buf_nl + 1, \
-				ft_strlen(*stat_buf) - stat_buf_nl, 1);
-	free (ptr_stat_buf);
+	else if ((i == 0 && size == 0) || i == -1)
+		return (NULL);
+	else
+	{
+		ptr = malloc (sizeof(char) * (size + 1 + i));
+		if (ptr == NULL)
+			return (NULL);
+		ptr[size + i] = '\0';
+	}
+	while (i-- > 0)
+		ptr[size + i] = buffer[i];
+	return (ptr);
+}
+
+char	*will_not_read(ssize_t i, char *sta_buf)
+{
+	int		k;
+	char	*ptr;
+
+	k = 0;
+	ptr = ft_calloc(sizeof(char), (i + 1));
+	if (ptr == NULL)
+		return (NULL);
+	while (k < i)
+	{
+		ptr[k] = sta_buf[k];
+		sta_buf[k] = sta_buf[k + i];
+		k++;
+	}
+	ptr[k] = '\0';
+	while (sta_buf[k + i] != '\0')
+	{
+		sta_buf[k] = sta_buf[k + i];
+		k++;
+	}
+	while (k <= BUFFER_SIZE)
+	{
+		sta_buf[k] = '\0';
+		k++;
+	}
+	return (ptr);
+}
+
+char	*will_read(char *sta_buf, int fd, char *tmp_buf, ssize_t i)
+{
+	int		k;
+	char	*ptr;
+
+	ptr = NULL;
+	k = 0;
+	ptr = rec_str_join(fd, ptr, i, tmp_buf);
+	if (ptr == NULL)
+		return (NULL);
+	while (sta_buf[k] != '\0')
+	{
+		ptr[k] = sta_buf[k];
+		k++;
+	}
+	k = 0;
+	while (k <= BUFFER_SIZE)
+	{
+		sta_buf[k] = tmp_buf[k];
+		k++;
+	}
+	sta_buf[k] = '\0';
+	return (ptr);
 }
 
 char	*get_next_line(int fd)
 {
-	static char		*stat_buf = NULL;
-	char			*line;
+	static char	sta_buf[255][BUFFER_SIZE +1];
+	ssize_t		i;
+	char		tmp_buf[BUFFER_SIZE +1];
 
-	line = NULL;
-	if (BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+	i = 0;
+	if (fd > 1024 || fd < 0 || BUFFER_SIZE < 1)
 		return (NULL);
-	if (stat_buf)
-	{
-		if (p_nl(stat_buf) == -1)
-			line = ft_strdup(stat_buf);
-		else
-		{
-			line = substr(stat_buf, 0, p_nl(stat_buf), 2);
-			trim_stat_buf(&stat_buf);
-			return (line);
-		}
-		free (stat_buf);
-		stat_buf = NULL;
-	}
-	create_line(&line, &stat_buf, fd, 1);
-	if (ft_strlen(line) > 0)
-		return (line);
-	free (line);
-	return (NULL);
+	while (sta_buf[fd][i] != '\0' && sta_buf[fd][i] != '\n')
+		i++;
+	if (sta_buf[fd][i] == '\n')
+		return (will_not_read(i + 1, sta_buf[fd]));
+	else
+		return (will_read(sta_buf[fd], fd, tmp_buf, i));
 }

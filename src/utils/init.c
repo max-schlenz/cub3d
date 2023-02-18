@@ -6,11 +6,22 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 20:55:12 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/16 15:36:48 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/18 12:13:07 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3D.h>
+
+static bool	free_player(mlx_texture_t **player, int *i)
+{
+	while (--(*i) >= 0)
+	{
+		mlx_delete_texture(player[(*i)]);
+		player[(*i)] = NULL;
+	}
+	player = NULL;
+	return (false);
+}
 
 static bool	load_sprites_player(mlx_texture_t **player)
 {
@@ -25,20 +36,10 @@ static bool	load_sprites_player(mlx_texture_t **player)
 		idx = ft_itoa(i);
 		tmp = ft_strjoin("res/player/sprite", idx);
 		path = ft_strjoin(tmp, ".png");
-		free(tmp);
-		free(idx);
+		free_null(2, &tmp, &idx);
 		player[i] = mlx_load_png(path);
 		if (!player[i])
-		{
-			while (--i >= 0)
-			{
-				mlx_delete_texture(player[i]);
-				player[i] = NULL;
-			}
-			player = NULL;
-			free(path);
-			return (false);
-		}
+			return (free(path), free_player(player, &i));
 		free(path);
 		i++;
 	}
