@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 10:56:28 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/18 00:21:40 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/18 03:38:57 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,10 @@ void	alloc_sprite(t_data *data);
 void	alloc_sprite_player(t_data *data);
 void	check_inputfile(char *path);
 int		img_pixel(double x_p, double y_p, mlx_texture_t *tex);
+int		left_turn(t_movement *move);
+int		right_turn(t_movement *move);
+int		front_tile(t_map *map, t_movement *move);
+int		back_tile(t_map *map, t_movement *move);
+
 
 #endif

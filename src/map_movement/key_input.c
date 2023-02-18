@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 15:04:00 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/18 02:03:27 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/18 04:43:50 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,18 @@ void	matrix_movement(t_movement *move, double *array)
 {
 	double	x;
 	double	y;
-	// printf("\nx before %f y %f\n",array[X],array[Y]);
+	printf("\nx before %f y %f\n",array[X],array[Y]);
+	printf("degree %f\n",move->direction);
 	// printf(" %f %f = %f &  %f %f = %f\n",array[X] , cos(move->direction),array[X] * cos(move->direction),\
 	array[Y] , sin(move->direction),array[Y] * sin(move->direction));
 	x = array[X] * cos(move->direction) - array[Y] * sin(move->direction);
 	y = array[X] * sin(move->direction) + array[Y] * cos(move->direction);
-	// printf("x after %f y %f\n",x,y);
+	printf("x after %f y %f\n",x,y);
+	move->tile_x += x;
+	move->tile_y += y;
 }
 
-static void	toggle_door(t_movement *move, t_map *map, double delta_time)
+static int	toggle_door(t_movement *move, t_map *map, double delta_time)
 {
 	int				i;
 	char			*elem[4];
@@ -56,6 +59,7 @@ static void	toggle_door(t_movement *move, t_map *map, double delta_time)
 			*(elem[i]) = 'D';
 		i++;
 	}
+	return (0);
 }
 
 /**
@@ -68,37 +72,45 @@ static void	toggle_door(t_movement *move, t_map *map, double delta_time)
 void	key_checker(mlx_t *mlx, t_movement *move, t_map *map)
 {
 	double			movement[2];
-	static double	delta_time = 0.029;
+	static double	delta_time = 0.09;
 
 	movement[X] = 0;
 	movement[Y] = 0;
-	movement[X] -= move->velocity;
+	move->velocity = 0.005;
 	delta_time += mlx->delta_time;
 	if (mlx_is_key_down(mlx, MLX_KEY_LEFT_SHIFT))
 		move->velocity *= 2;
 	if (mlx_is_key_down(mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(mlx);
 	if (mlx_is_key_down(mlx, MLX_KEY_W))
-		movement[X] -= move->velocity * cos(move->direction);
+		movement[X] -= move->velocity;
 	if (mlx_is_key_down(mlx, MLX_KEY_A))
-		movement[Y] -= move->velocity * sin(move->direction);
+		movement[Y] -= move->velocity;
 	if (mlx_is_key_down(mlx, MLX_KEY_S))
-		movement[X] += move->velocity * cos(move->direction);
+		movement[X] += move->velocity;
 	if (mlx_is_key_down(mlx, MLX_KEY_D))
-		movement[Y] += move->velocity * sin(move->direction);
-	if (mlx_is_key_down(mlx, MLX_KEY_E) && delta_time > 0.3)
+		movement[Y] += move->velocity;
+	if (delta_time > 0.4)
 	{
-		toggle_door(move, map, mlx->delta_time);
-		delta_time = 0;
+		if (mlx_is_key_down(mlx, MLX_KEY_E))
+			delta_time = toggle_door(move, map, mlx->delta_time);
+		else if (mlx_is_key_down(mlx, MLX_KEY_UP))
+			delta_time = front_tile(map, move);
+		else if (mlx_is_key_down(mlx, MLX_KEY_DOWN))
+			delta_time = back_tile(map, move);
+		else if (mlx_is_key_down(mlx, MLX_KEY_LEFT))
+			delta_time = left_turn(move);
+		else if (mlx_is_key_down(mlx, MLX_KEY_RIGHT))
+			delta_time = right_turn(move);
 	}
-	move->direction += 0.02;
+	// move->direction += 0.02;
 	// printf("??diretion %f",move->direction);
-	// printf("!>%f %f/n\n",movement[X],movement[Y]);
-	// matrix_movement(move, movement);	
-	// printf("?>%f %f/n\n\n",movement[X],movement[Y]);
-	printf("<%f %f>\n",move->tile_x,move->tile_y);
-	move->tile_x += movement[X];
-	move->tile_y += movement[Y];
-	printf("<!%f %f>\n",move->tile_x,move->tile_y);
-	move->velocity = 0.080;
+	// printf("!>%f %f\n",movement[X],movement[Y]);
+	matrix_movement(move, movement);	
+	// printf("?>%f %f\n",movement[X],movement[Y]);
+	// printf("<%f %f>\n",move->tile_x,move->tile_y);
+	// move->tile_x += movement[X];
+	// move->tile_y += movement[Y];
+	// printf("<!%f %f>\n",move->tile_x,move->tile_y);
+	//move->velocity = 0.080;
 }

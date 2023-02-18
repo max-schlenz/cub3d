@@ -52,13 +52,15 @@ void	rendering_loop(void *param)
 	player = transporter->player;
 	sprite = transporter->sprite;
 	ft_bzero(img->pixels, (WIDTH * HEIGHT * sizeof(u_int32_t)));
+	// printf("\n<1%f %f>\n",move->tile_x,move->tile_y);
 	mouse_checker(mlx, move, img_bg);
 	key_checker(mlx, move, map);
 	is_there_something(map, move);
-
 	raycasting(mlx, img, move, map, tex);
 	draw_map(map, img, move, tex, sprite);
+	// printf("<2%f %f>\n",move->tile_x,move->tile_y);
 	update_fps_counter(mlx, img);
+	usleep(5000);
 }
 
 int	mlx_setup(t_data *data, t_map *map, t_player *player, t_texture *tex, t_sprite *sprite)
