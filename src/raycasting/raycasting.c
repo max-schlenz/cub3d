@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:01:19 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/16 17:06:16 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/18 00:49:46 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int	usedda_v(t_dda *dda_info, t_map *map)
 		return (1);
 }
 
-int	usedda_ultra(t_dda *dda_h, t_dda *dda_v, t_map *map, mlx_image_t *img, t_texture *tex, double *player, t_array *test)
+int	usedda_ultra(t_dda *dda_h, t_dda *dda_v, t_map *map)
 {
 	int	hit_h;
 	int	hit_v;
@@ -165,7 +165,7 @@ void	sinlgle_ray(t_array *test, t_movement *move, t_map *map, double direction, 
 	player[Y] = move->y + move->tile_y;
 	dda_info_h(move, direction, player, &dda_h);
 	dda_info_v(move, direction, player, &dda_v);
-	usedda_ultra(&dda_h, &dda_v, map, img , tex, player, test);
+	usedda_ultra(&dda_h, &dda_v, map);
 	dda_h.hit[2] = two_point_distants(dda_h.hit, player, direction);
 	dda_v.hit[2] = two_point_distants(dda_v.hit, player, direction);
 	if (dda_h.hit[X] < 0 || dda_h.hit[Y] < 0)
@@ -211,24 +211,24 @@ int	img_pixel(double x_p, double y_p, mlx_texture_t *tex)
 
 void	draw_wall(t_array *test, mlx_image_t *img, t_texture *tex,double fov, int fact)
 {
-	double	base_distance;
-	double	base_height;
 	int		skyline;
 	int		wall_height;
 	int		i;
-	int		color = MLX_COLOR_CORAL;
+	int		color;
 	
 	i = 0;
 	skyline = img->height / 2;
-	base_distance = (img->width / 2) * tan(fov/2);
-	base_height = 3.2;
-	wall_height = base_height / test->distance * base_distance;
+	wall_height = 3.2 / test->distance * (img->width / 2) * tan(fov/2);
 	while (i  < wall_height)
 	{
+		if (skyline - wall_height / 2 + i < 0)
+			i = wall_height / 2 - skyline;
+		if(skyline - wall_height / 2 + i > img->height)
+			break;
 		if (skyline - wall_height / 2 + i > 0 && skyline - wall_height / 2 + i < img->height)
 		{
 			color = img_pixel( test->tile_x,((double)i / (double)wall_height), test->texture);
-			mlx_put_pixel(img, test->x,( skyline - wall_height / 2) + i, color);
+			mlx_put_pixel(img, test->x,(skyline - wall_height / 2) + i, color);
 		}
 		i++;
 	}
