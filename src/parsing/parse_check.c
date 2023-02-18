@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:42:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/16 15:01:19 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/18 13:26:10 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,9 @@ bool	check_tex_color(t_input *input, t_player *player, t_map *map)
 
 bool	check_elem(char **elem, int row, int col, int params[2])
 {
-	if (elem[row][col] == '0' &&
-		(row == 0 || col == 0
+	if ((elem[row][col] == '0'
+		|| elem[row][col] == 'd' || elem[row][col] == 'D')
+		&& (row == 0 || col == 0
 		|| row == params[0] - 1 || col == params[1] - 1
 		|| !elem[row][col + 1]
 		|| elem[row - 1][col] == '2'
@@ -45,45 +46,36 @@ bool	check_elem(char **elem, int row, int col, int params[2])
 	return (true);
 }
 
-static bool color_count_elems(char *str_input)
-{
-	int	elems;
-	int	i;
-	
-	elems = 0;
-	i = 0;
-	while (str_input[i])
-	{
-		if (str_input[i] == ',' && str_input[i + 1])
-			elems++;
-		i++;
-	}
-	if (elems == 2)
-		return (true);
-	return (false);
-}
-
-bool	check_color(char *str)
-{
-	int	i;
-
-	i = 0;
-	if (!str)
-		return (false);
-	while (str[i] && ft_isdigit(str[i]) || str[i] == ',' || str[i] == ' ') 
-		i++;
-	if (!str[i])
-		return (true);
-	return (false);
-}
-
 bool	check_colors(t_input *input)
 {
-	if (check_color(input->c) && check_color(input->f) && color_count_elems(input->c) && color_count_elems(input->f))
+	if (check_color(input->c)
+		&& check_color(input->f)
+		&& color_count_elems(input->c)
+		&& color_count_elems(input->f))
 		return (true);
 	ft_putendl_fd("Error parsing floor/ceiling color", 2);
 	return (false);
 }
+
+// static bool	check_line(char *line)
+// {
+// 	int		i;
+// 	int		j;
+// 	char	valid[10];
+
+// 	valid[10] = "012NSEWDd";
+// 	i = 0;
+// 	while (line[i])
+// 	{
+// 		j = 0;
+// 		while (j < 9 && line[i] == valid[j])
+// 			j++;
+// 		if (j == 10)
+// 			return (false);
+// 		i++;
+// 	}
+// 	return (true);
+// }
 
 bool	check_input(t_input *input, t_player *player, t_map *map)
 {
@@ -96,7 +88,9 @@ bool	check_input(t_input *input, t_player *player, t_map *map)
 	map_params[0] = map->height;
 	map_params[1] = map->width;
 	if (!check_player(player))
+	{
 		return (false);
+	}
 	if (!check_colors(input))
 		return (false);
 	if (!check_tex_color(input, player, map))

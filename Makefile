@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+         #
+#    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2023/02/18 07:35:22 by lkrabbe          ###   ########.fr        #
+#    Updated: 2023/02/18 12:53:10 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 SHELL 			=	/bin/bash
 UNAME			=	$(shell uname)
 MAKEFLAGS 		=	--no-print-directory
-CFLAGS			=	-Ofast -g -fsanitize=address #-Wall -Wextra -Werror #-g  
+CFLAGS			=	-Ofast -g #-fsanitize=address #-Wall -Wextra -Werror #-g  
 
 #FORMAT----------------------------------#
 DEFCL			=	$(shell echo -e "\033[0m")
@@ -59,6 +59,7 @@ SRC				= 	${NAME}													\
 					utils/memory											\
 					utils/memory_map										\
 					utils/memory_res										\
+					utils/fps												\
 					debug													\
 
 INC				=	${NAME}													\

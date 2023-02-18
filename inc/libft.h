@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/30 14:33:31 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/08 01:02:07 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/18 12:48:40 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,6 @@ int		print_hex(va_list args, size_t lcase);
 # endif
 
 char	*get_next_line(int fd);
-int		p_nl(const char *c);
-char	*ft_strjoin_dup(char *s1, char *s2);
-char	*substr(char const *s, unsigned int start, size_t len, int flag);
 
 // CUSTOM
 
@@ -98,6 +95,5 @@ void	free_null(int index, ...);
 char	*merge_str(int index, ...);
 char	*realloc_ptr(char *ptr, char *new, bool free_new);
 void	free_array(char **array);
-char	*strrepl(char *str, char *needle, char *repl);
 
 #endif

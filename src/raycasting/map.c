@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 07:58:02 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/18 09:18:59 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/18 12:13:49 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ t_texture *tex)
 	t.mlx = mlx_init(WIDTH, HEIGHT, "cub3D", 1);
 	if (t.mlx == NULL)
 		cleanup(data);
-	t.img_bg = create_background_layer(t.mlx, map->color_ceiling, \
+	t.img_bg = create_bg_layer(t.mlx, map->color_ceiling, \
 	map->color_floor);
 	t.img = mlx_new_image(t.mlx, WIDTH, HEIGHT);
 	t.img_map = mlx_new_image(t.mlx, WIDTH, HEIGHT);
