@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:01:19 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/20 14:22:21 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/20 14:36:55 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ void	single_ray(t_array *ray, t_map *map, t_texture *tex)
 		ray->tile_x = ray->tile_x -1.0;
 }
 
-void	raycasting(mlx_image_t *img, t_movement *move, \
-t_map *map, t_texture *tex)
+void	raycasting(mlx_image_t *img, t_movement *move,
+	t_map *map, t_texture *tex)
 {
 	uint32_t	i;
 	double		fov;

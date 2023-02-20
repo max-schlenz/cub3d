@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 19:27:23 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/18 12:49:32 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/20 14:41:57 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,8 @@ char	*rec_str_join(int fd, char *ptr, ssize_t size, char *tmp_buf)
 {
 	char		buffer[BUFFER_SIZE + 1];
 	ssize_t		i;
-	int			k;
 
 	buffer[BUFFER_SIZE] = '\0';
-	k = 0;
 	i = lookfor(fd, buffer, tmp_buf);
 	if (i == BUFFER_SIZE && buffer[i - 1] != '\n')
 	{	
