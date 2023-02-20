@@ -6,24 +6,21 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 20:02:42 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/20 11:45:33 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/20 13:13:56 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3D.h>
 
-static void	clean_sprites(t_anim *sprite)
+static void	clean_anim(t_anim *anim)
 {
 	int	i;
 
 	i = 0;
-	while (i < 2)
-	{
-		printf("%i\n", i);
-		mlx_delete_texture(sprite->frames[i++]);
-	}
-	free(sprite->frames);
-	free(sprite);
+	while (i < anim->max)
+		mlx_delete_texture(anim->frames[i++]);
+	free(anim->frames);
+	free(anim);
 }
 
 static void	clean_textures(t_texture *texture)
@@ -70,7 +67,9 @@ void	cleanup(t_data *data)
 {
 	clean_textures(data->texture);
 	clean_input(data->input);
-	// clean_sprites(data->sprites->player);
+	clean_anim(data->sprites->player);
+	clean_anim(data->sprites->door_locked);
+	free(data->sprites);
 	clean_map(data->map);
 	free(data->player);
 	free(data->map);

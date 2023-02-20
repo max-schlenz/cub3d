@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 20:55:12 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/20 12:31:12 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/20 13:20:05 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static bool	load_sprites_folder(t_anim *anim, char *name, int max)
 		free_null(2, &tmp, &idx);
 		anim->frames[i] = mlx_load_png(path);
 		if (!anim->frames[i])
-			return (free(path), free_player(anim->frames, &i));
+			return (free(path), free_player(anim->frames, &i), anim->max = 0);
 		free(path);
 		i++;
 	}
@@ -52,9 +52,9 @@ static bool	load_sprites_folder(t_anim *anim, char *name, int max)
 bool	load_sprites(t_sprites *sprites)
 {
 	if (!load_sprites_folder(sprites->player, "res/player/sprite", 33))
-		return (false);
+		return (error(0, 0, TEXTURE_ERROR));
 	if (!load_sprites_folder(sprites->door_locked, "res/lock_closed/lclosed", 4))
-		return (false);
+		return (error(0, 0, TEXTURE_ERROR));
 	return (true);
 }
 

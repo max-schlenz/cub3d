@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 01:16:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/20 12:59:55 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/20 13:04:00 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,37 @@ void	alloc_texture(t_data *data)
 	}
 }
 
-// void	alloc_sprite_player
+void	alloc_sprite_door_locked(t_data *data)
+{
+	data->sprites->door_locked = ft_calloc(1, sizeof(t_anim));
+	if (!data->sprites->door_locked)
+	{
+		free(data->sprites);
+		free(data->texture);
+		free(data->player);
+		free(data->input);
+		free(data);
+		exit(EXIT_FAILURE);
+	}
+}
+
+void	alloc_sprite_player(t_data *data)
+{
+	data->sprites->player = ft_calloc(1, sizeof(t_anim));
+	if (!data->sprites->player)
+	{
+		free(data->sprites);
+		free(data->texture);
+		free(data->player);
+		free(data->input);
+		free(data);
+		exit(EXIT_FAILURE);
+	}
+}
 
 void	alloc_sprite(t_data *data)
 {
 	data->sprites = ft_calloc(1, sizeof(t_anim));
-	data->sprites->player = ft_calloc(1, sizeof(t_anim));
-	data->sprites->door_locked = ft_calloc(1, sizeof(t_anim));
 	if (!data->sprites)
 	{
 		free(data->texture);

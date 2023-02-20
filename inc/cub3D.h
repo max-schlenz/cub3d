@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 10:56:28 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/20 12:45:34 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/20 13:13:27 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void		mouse_checker(mlx_t *mlx, t_movement *move, mlx_image_t *img_bg);
 char		*ft_strdup_nonl(const char *s1);
 void		raycasting( mlx_image_t *img, t_movement *move, t_map *map, t_texture *tex);
 void		show_anim_sprite(t_anim *anim, mlx_image_t *img, int x, int y);
-static void clean_sprites(t_anim * sprite);
+static void clean_anim(t_anim * sprite);
 void		cleanup(t_data *data);
 bool		load_textures(t_input *input, t_texture *tex);
 bool		load_sprites(t_sprites *frames);
@@ -88,5 +88,6 @@ bool		color_count_elems(char *str_input);
 bool		check_color(char *str);
 void		update_fps_counter(mlx_t *mlx, mlx_image_t *img);
 void 		choose_frame(t_sprites *sprites, mlx_t *mlx);
+void		alloc_sprite_door_locked(t_data *data);
 
 #endif

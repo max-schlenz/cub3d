@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 11:29:23 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/20 12:29:29 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/20 13:16:08 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,12 @@ typedef struct t_map
 	int		color_floor;
 }	t_map;
 
+typedef struct s_bool
+{
+	bool	player;
+	bool	door_locked;
+}	t_bool;
+
 typedef struct s_data
 {
 	t_input		*input;
@@ -103,6 +109,7 @@ typedef struct s_data
 	t_map		*map;
 	t_texture	*texture;
 	t_sprites	*sprites;
+	t_bool		*allocated;
 }	t_data;
 
 /**
