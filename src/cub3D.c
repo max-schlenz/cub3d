@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 11:18:12 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/20 13:20:39 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/20 13:23:28 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,10 @@ static void	print_controls(void)
 	ft_putendl_fd("------------------------------", 2);
 	ft_putendl_fd("	    cub3D", 2);
 	ft_putendl_fd("------------------------------", 2);
-	ft_putendl_fd("W/A/S/D\t- Directional movement", 2);
-	ft_putendl_fd("Mouse\t- Camera movement", 2);
-	ft_putendl_fd("SHIFT\t- Run", 2);
-	ft_putendl_fd("ESC\t- Quit\n", 2);
+	ft_putendl_fd("w/a/s/d\t- Directional movement", 2);
+	ft_putendl_fd("mouse\t- Camera movement", 2);
+	ft_putendl_fd("shift\t- Run", 2);
+	ft_putendl_fd("esc\t- Quit\n", 2);
 }
 
 int	main(int argc, char **argv)
