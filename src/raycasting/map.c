@@ -6,14 +6,13 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 07:58:02 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/20 14:05:02 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/20 14:21:59 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include	<cub3D.h>
 
-void	default_movement(t_movement *move, mlx_image_t *img_bg, \
-mlx_image_t *img, t_player *player)
+void	default_movement(t_movement *move, mlx_image_t *img, t_player *player)
 {
 	move->x = player->player_x;
 	move->y = player->player_y;
@@ -38,7 +37,7 @@ void	rendering_loop(void *param)
 
 	t = param;
 	ft_bzero(t->img->pixels, (WIDTH * HEIGHT * sizeof(u_int32_t)));
-	mouse_checker(t->mlx, t->move, t->img_bg);
+	mouse_checker(t->mlx, t->move);
 	key_checker(t->mlx, t->move, t->map);
 	is_there_something(t->map, t->move);
 	raycasting(t->img, t->move, t->map, t->tex);
@@ -63,7 +62,7 @@ t_texture *tex)
 	t.img = mlx_new_image(t.mlx, WIDTH, HEIGHT);
 	t.img_map = mlx_new_image(t.mlx, WIDTH, HEIGHT);
 	t.sprites = data->sprites;
-	default_movement(&move, t.img_bg, t.img, player);
+	default_movement(&move, t.img, player);
 	mlx_set_cursor_mode(t.mlx, MLX_MOUSE_HIDDEN);
 	mlx_image_to_window(t.mlx, t.img_bg, 0, 0);
 	mlx_image_to_window(t.mlx, t.img, 0, 0);

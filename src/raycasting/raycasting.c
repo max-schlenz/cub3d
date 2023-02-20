@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:01:19 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/18 07:42:40 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/20 14:22:21 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,7 @@ void	use_hori(t_dda *dda_h, t_array *ray, t_map *map, t_texture *tex)
 		ray->texture = tex->wall_ea;
 }
 
-void	sinlgle_ray(t_array *ray, t_map *map, \
-mlx_image_t *img, t_texture *tex)
+void	single_ray(t_array *ray, t_map *map, t_texture *tex)
 {
 	t_dda	dda_h;
 	t_dda	dda_v;
@@ -76,11 +75,11 @@ mlx_image_t *img, t_texture *tex)
 void	raycasting(mlx_image_t *img, t_movement *move, \
 t_map *map, t_texture *tex)
 {
-	int		i;
-	double	fov;
-	double	degree_per_pixel;
-	double	degree;
-	t_array	ray;
+	uint32_t	i;
+	double		fov;
+	double		degree_per_pixel;
+	double		degree;
+	t_array		ray;
 
 	ray.player_x = move->x;
 	ray.player_y = move->y;
@@ -95,9 +94,9 @@ t_map *map, t_texture *tex)
 		ray.direction = degree;
 		overshot_protection(&degree);
 		ray.x = i;
-		sinlgle_ray(&ray, map, img, tex);
+		single_ray(&ray, map, tex);
 		ray.distance *= cos(fabs(fov / 2 - i * degree_per_pixel));
-		draw_wall(&ray, img, tex, fov);
+		draw_wall(&ray, img, fov);
 		degree += degree_per_pixel;
 		i++;
 	}

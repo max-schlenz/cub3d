@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 11:18:12 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/20 14:14:06 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/20 14:23:18 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	main(int argc, char **argv)
 {
 	t_data		*data;
 
+	(void)argv;
 	if (argc == 2 || DEBUG)
 	{
 		check_inputfile(MAPNAME);
@@ -46,7 +47,7 @@ int	main(int argc, char **argv)
 		if (prepare_scene(data))
 			main_casting(data);
 		cleanup(data);
-		system("leaks cub3D");
+		// system("leaks cub3D");
 		exit(EXIT_SUCCESS);
 	}
 	ft_putendl_fd(HELP, STDERR_FILENO);

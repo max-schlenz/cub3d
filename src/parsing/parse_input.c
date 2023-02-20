@@ -30,7 +30,7 @@ static bool	check_line(char *line)
 	const char	valid[11] = "012NSEWDd \n";
 
 	i = 0;
-	if (!line || line && line[0] && line[0] == '\n')
+	if (!line || (line && line[0] && line[0] == '\n'))
 		return (false);
 	while (line[i])
 	{

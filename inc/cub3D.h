@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 10:56:28 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/20 14:05:44 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/20 14:21:23 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,10 @@ void		is_there_something(t_map *map, t_movement *move);
 int			wall_check(t_map *map, t_movement *move, int f_b, int l_r);
 void		key_checker(mlx_t *mlx, t_movement *move, t_map *map);
 void		draw_map(t_map *map, mlx_image_t *img, t_movement *move, t_sprites *sprites);
-void		mouse_checker(mlx_t *mlx, t_movement *move, mlx_image_t *img_bg);
+void		mouse_checker(mlx_t *mlx, t_movement *move);
 char		*ft_strdup_nonl(const char *s1);
 void		raycasting( mlx_image_t *img, t_movement *move, t_map *map, t_texture *tex);
 void		show_anim_sprite(t_anim *anim, mlx_image_t *img, int x, int y);
-static void clean_anim(t_anim * sprite);
 void		cleanup(t_data *data);
 bool		load_textures(t_input *input, t_texture *tex);
 bool		load_sprites(t_sprites *frames);
@@ -82,8 +81,7 @@ void		dda_info_v(int y, double direction, \
 double		*player, t_dda *dda_info);
 void		dda_info_h(int x, double direction, \
 double		*player, t_dda *dda_info);
-void		draw_wall(t_array *test, mlx_image_t *img, \
-t_texture *tex, double fov);
+void		draw_wall(t_array *test, mlx_image_t *img, double fov);
 bool		color_count_elems(char *str_input);
 bool		check_color(char *str);
 void		update_fps_counter(mlx_t *mlx, mlx_image_t *img);
