@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 10:56:28 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/20 13:13:27 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/20 14:05:44 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ bool		check_input(t_input *input, t_player *player, t_map *map);
 void		is_there_something(t_map *map, t_movement *move);
 int			wall_check(t_map *map, t_movement *move, int f_b, int l_r);
 void		key_checker(mlx_t *mlx, t_movement *move, t_map *map);
-void		draw_map(t_map *map, mlx_image_t *img, t_movement *move, t_texture *tex, t_sprites *sprites);
+void		draw_map(t_map *map, mlx_image_t *img, t_movement *move, t_sprites *sprites);
 void		mouse_checker(mlx_t *mlx, t_movement *move, mlx_image_t *img_bg);
 char		*ft_strdup_nonl(const char *s1);
 void		raycasting( mlx_image_t *img, t_movement *move, t_map *map, t_texture *tex);
@@ -87,7 +87,11 @@ t_texture *tex, double fov);
 bool		color_count_elems(char *str_input);
 bool		check_color(char *str);
 void		update_fps_counter(mlx_t *mlx, mlx_image_t *img);
-void 		choose_frame(t_sprites *sprites, mlx_t *mlx);
+void		choose_frame(t_sprites *sprites, mlx_t *mlx);
 void		alloc_sprite_door_locked(t_data *data);
+void		alloc_sprite_door_opened(t_data *data);
+void		draw_anim(t_tile tile, mlx_image_t *img, t_sprites *sprites);
+bool		parse_colors(t_input *input, t_map *map);
+void		print_controls(void);
 
 #endif

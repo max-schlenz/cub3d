@@ -6,11 +6,11 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 06:33:15 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/18 17:29:54 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/20 14:02:15 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include <cub3D.h>
+#include <cub3D.h>
 
 void	matrix_two(double *array, double degree)
 {

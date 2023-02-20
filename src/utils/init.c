@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 20:55:12 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/20 13:20:05 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/20 13:58:23 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,11 @@ static bool	load_sprites_folder(t_anim *anim, char *name, int max)
 
 bool	load_sprites(t_sprites *sprites)
 {
-	if (!load_sprites_folder(sprites->player, "res/player/sprite", 33))
+	if (!load_sprites_folder(sprites->player, "res/player/player", 4))
 		return (error(0, 0, TEXTURE_ERROR));
-	if (!load_sprites_folder(sprites->door_locked, "res/lock_closed/lclosed", 4))
+	if (!load_sprites_folder(sprites->door_locked, "res/lclosed/lclosed", 6))
+		return (error(0, 0, TEXTURE_ERROR));
+	if (!load_sprites_folder(sprites->door_opened, "res/lopened/lopen", 6))
 		return (error(0, 0, TEXTURE_ERROR));
 	return (true);
 }

@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 00:50:17 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/20 13:10:57 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/20 13:33:41 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ t_data	*alloc(void)
 	alloc_sprite(data);
 	alloc_sprite_player(data);
 	alloc_sprite_door_locked(data);
+	alloc_sprite_door_opened(data);
 	alloc_map(data);
 	alloc_map_elem(data);
 	return (data);

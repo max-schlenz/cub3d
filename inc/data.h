@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 11:29:23 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/20 13:16:08 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/20 13:34:39 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef struct s_sprites
 {
 	t_anim		*player;
 	t_anim		*door_locked;
+	t_anim		*door_opened;
 }	t_sprites;
 
 typedef struct s_texture
@@ -65,7 +66,6 @@ typedef struct s_texture
 	mlx_texture_t	*wall_ea;
 	mlx_texture_t	*open_door;
 	mlx_texture_t	*closed_door;
-	t_anim		*locked_door_s;
 }	t_texture;
 
 typedef struct s_input
@@ -109,7 +109,6 @@ typedef struct s_data
 	t_map		*map;
 	t_texture	*texture;
 	t_sprites	*sprites;
-	t_bool		*allocated;
 }	t_data;
 
 /**

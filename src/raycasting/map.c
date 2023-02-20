@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 07:58:02 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/20 12:42:01 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/20 14:05:02 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,13 @@ void	rendering_loop(void *param)
 	key_checker(t->mlx, t->move, t->map);
 	is_there_something(t->map, t->move);
 	raycasting(t->img, t->move, t->map, t->tex);
-	choose_frame(t->sprites,  t->mlx);
-	draw_map(t->map, t->img, t->move, t->tex, t->sprites);
+	choose_frame(t->sprites, t->mlx);
+	draw_map(t->map, t->img, t->move, t->sprites);
 	update_fps_counter(t->mlx, t->img);
 }
 
 int	mlx_setup(t_data *data, t_map *map, t_player *player, \
-t_texture *tex, t_sprites *sprites)
+t_texture *tex)
 {
 	t_movement	move;
 	t_transfer	t;
@@ -62,7 +62,7 @@ t_texture *tex, t_sprites *sprites)
 	map->color_floor);
 	t.img = mlx_new_image(t.mlx, WIDTH, HEIGHT);
 	t.img_map = mlx_new_image(t.mlx, WIDTH, HEIGHT);
-	t.sprites = sprites;
+	t.sprites = data->sprites;
 	default_movement(&move, t.img_bg, t.img, player);
 	mlx_set_cursor_mode(t.mlx, MLX_MOUSE_HIDDEN);
 	mlx_image_to_window(t.mlx, t.img_bg, 0, 0);
@@ -79,6 +79,7 @@ t_texture *tex, t_sprites *sprites)
 
 int	main_casting(t_data *data)
 {
-	mlx_setup(data, data->map, data->player, data->texture, data->sprites);
+	print_controls();
+	mlx_setup(data, data->map, data->player, data->texture);
 	return (0);
 }

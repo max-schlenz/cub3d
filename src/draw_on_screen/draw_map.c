@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 15:09:07 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/20 12:47:06 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/20 13:57:01 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,32 +55,8 @@ int	what_tile(t_map *map, t_movement *move, int x, int y)
 	return (MLX_COLOR_PALEVIOLETRED);
 }
 
-void	show_anim_sprite(t_anim *anim, mlx_image_t *img, int x, int y)
-{
-	mlx_draw_texture(img, anim->frames[anim->idx], x, y);
-}
-
-void	next_sprite(t_anim *anim)
-{
-	anim->idx++;
-	if (anim->idx >= anim->max)
-		anim->idx = 0;
-}
-
-void	choose_frame(t_sprites *sprites, mlx_t *mlx)
-{
-	static double	time = DEFAULT_SPRITE_LIFE;
-
-	time -= mlx->delta_time;
-	if (time < 0)
-		time = DEFAULT_SPRITE_LIFE;
-	else
-		return ;
-	next_sprite(sprites->door_locked);
-	next_sprite(sprites->player);
-}
-
-void	draw_map(t_map *map, mlx_image_t *img, t_movement *move, t_texture *tex, t_sprites *sprites)
+void	draw_map(t_map *map, mlx_image_t *img, t_movement *move,
+	t_sprites *sprites)
 {
 	int		x;
 	int		y;
@@ -95,10 +71,10 @@ void	draw_map(t_map *map, mlx_image_t *img, t_movement *move, t_texture *tex, t_
 			tile.color = what_tile(map, move, x, y);
 			tile.x = MAP_TILE_SIZE * (x + TILE_PER_MAP);
 			tile.y = MAP_TILE_SIZE * (y + TILE_PER_MAP);
-			if (tile.color == A_PLAYER)
-				show_anim_sprite(sprites->player, img, tile.x, tile.y);
-			else if (tile.color == A_LDOOR)
-				show_anim_sprite(sprites->door_locked, img, tile.x, tile.y);
+			if (tile.color == A_PLAYER
+				|| tile.color == A_LDOOR
+				|| tile.color == A_ODOOR)
+				draw_anim(tile, img, sprites);
 			else
 				draw_tile(img, &tile, tile.color);
 			x++;

@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 01:16:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/20 13:04:00 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/20 13:58:37 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,20 @@ void	alloc_sprite_door_locked(t_data *data)
 	}
 }
 
+void	alloc_sprite_door_opened(t_data *data)
+{
+	data->sprites->door_opened = ft_calloc(1, sizeof(t_anim));
+	if (!data->sprites->door_opened)
+	{
+		free(data->sprites);
+		free(data->texture);
+		free(data->player);
+		free(data->input);
+		free(data);
+		exit(EXIT_FAILURE);
+	}
+}
+
 void	alloc_sprite_player(t_data *data)
 {
 	data->sprites->player = ft_calloc(1, sizeof(t_anim));
@@ -54,7 +68,7 @@ void	alloc_sprite_player(t_data *data)
 
 void	alloc_sprite(t_data *data)
 {
-	data->sprites = ft_calloc(1, sizeof(t_anim));
+	data->sprites = ft_calloc(1, sizeof(t_sprites));
 	if (!data->sprites)
 	{
 		free(data->texture);
@@ -63,21 +77,4 @@ void	alloc_sprite(t_data *data)
 		free(data);
 		exit(EXIT_FAILURE);
 	}
-}
-
-t_anim	*alloc_sprite_name(t_data *data, int max)
-{
-	t_anim	*new;
-
-	new = ft_calloc(max, sizeof(mlx_texture_t *));
-	if (!new)
-	{
-		free(data->sprites);
-		free(data->texture);
-		free(data->player);
-		free(data->input);
-		free(data);
-		exit(EXIT_FAILURE);
-	}
-	return (new);
 }

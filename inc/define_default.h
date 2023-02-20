@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 05:53:17 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/20 12:44:05 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/20 13:41:25 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,5 @@
 # define DEFAULT_DIRECTION 0.174533
 # define DEFAULT_VELOCITY 0.020
 # define DEFAULT_WALL_HEIGHT 3.2
-# define DEFAULT_SPRITE_LIFE 0.8
+# define DEFAULT_SPRITE_LIFE 0.4
 #endif
