@@ -6,7 +6,7 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2023/02/20 15:54:37 by mschlenz         ###   ########.fr        #
+#    Updated: 2023/02/20 16:50:08 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -175,6 +175,8 @@ fclean: clean ${HEADER}
 		echo -e "\\r		  $(NAME)   	   🗑  ${RED}$(NAME)${DEFCL}${DEL_R}"; \
 	fi
 	@echo -en "\n";
+
+bonus: all
 
 re: fclean all
 

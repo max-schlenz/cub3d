@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 13:59:22 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/20 13:59:42 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/20 16:44:54 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ bool	check_color_valid(int rgb[3])
 	while (i < 3)
 	{
 		if (rgb[i] == -1 || rgb[i] > 255 || rgb[i] < 0)
-			return (false);
+			return (error(0, 0, COLOR_ERROR));
 		i++;
 	}
 	return (true);
@@ -64,7 +64,11 @@ bool	parse_colors(t_input *input, t_map *map)
 	ceiling = parse_color(input->c);
 	floor = parse_color(input->f);
 	if (!check_color_valid(ceiling) || !check_color_valid(floor))
+	{
+		free (ceiling);
+		free (floor);
 		return (false);
+	}
 	map->color_ceiling = get_rgba(ceiling[0], ceiling[1], ceiling[2], 255);
 	map->color_floor = get_rgba(floor[0], floor[1], floor[2], 255);
 	free (ceiling);

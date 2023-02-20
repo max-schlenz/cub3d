@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 15:38:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/18 14:23:15 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/20 16:39:30 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 bool	error(int row, int col, t_error error)
 {
-	char	*error_msg[4];
+	char	*error_msg[5];
 
 	if (error == UNEXPECTED_ERROR)
 	{
@@ -30,6 +30,7 @@ bool	error(int row, int col, t_error error)
 		error_msg[MAP_ERROR] = "Error: invalid map";
 		error_msg[PARAM_ERROR] = "Error: required map params not set";
 		error_msg[PLAYER_ERROR] = "Error: spawn not set";
+		error_msg[COLOR_ERROR] = "Error parsing floor/ceiling color";
 		ft_putendl_fd(error_msg[error], STDERR_FILENO);
 	}
 	return (false);

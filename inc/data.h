@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 15:20:52 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/20 15:21:29 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/20 16:46:44 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef enum e_error
 	PARAM_ERROR,
 	PLAYER_ERROR,
 	TEXTURE_ERROR,
+	COLOR_ERROR,
 	UNEXPECTED_ERROR
 }	t_error;
 
@@ -111,19 +112,6 @@ typedef struct s_data
 	t_sprites	*sprites;
 }	t_data;
 
-/**
- * @brief base struct for map movement related vars
- * 
- * @param x x position on the map
- * @param y y position on the map
- * 
- * @param tile_x x position inside of a tile(0 - 1)
- * @param tile_y y position inside of a tile(0 - 1)
- * 
- * @param direction the direction the player looks on the horizontal axis, value is i radial (0 - 2 pi)
- * @param velocity value how fast the player can move //?setting value 
- * @param rotation_speed value how fast a  player can turn//? setting value
- */
 typedef struct s_movement
 {
 	int		x;
@@ -174,7 +162,6 @@ typedef struct s_array
 	mlx_texture_t	*texture;
 }	t_array;
 
-
 typedef struct s_dda
 {
 	double	jump;
@@ -182,14 +169,11 @@ typedef struct s_dda
 	double	hit[10];
 	int		offset;
 	int		dir;
-}t_dda;
-
+}	t_dda;
 
 typedef struct s_tile{
 	int	x;
 	int	y;
 	int	color;
-}t_tile;
-
-
+}	t_tile;
 #endif

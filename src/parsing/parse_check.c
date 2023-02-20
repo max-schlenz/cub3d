@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:42:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/20 14:17:29 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/20 16:45:59 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ bool	check_player(t_player *player)
 	return (true);
 }
 
-bool	check_tex_color(t_input *input)
+bool	check_tx_color(t_input *input)
 {
 	if (!input->tex_no
 		|| !input->tex_so
@@ -53,8 +53,7 @@ bool	check_colors(t_input *input)
 		&& color_count_elems(input->c)
 		&& color_count_elems(input->f))
 		return (true);
-	ft_putendl_fd("Error parsing floor/ceiling color", 2);
-	return (false);
+	return (error(0, 0, COLOR_ERROR));
 }
 
 bool	check_input(t_input *input, t_player *player, t_map *map)
@@ -65,13 +64,11 @@ bool	check_input(t_input *input, t_player *player, t_map *map)
 
 	row = 0;
 	col = 0;
+	if (!map->height && !map->width)
+		return (error(0, 0, MAP_ERROR));
 	map_params[0] = map->height;
 	map_params[1] = map->width;
-	if (!check_player(player))
-		return (false);
-	if (!check_colors(input))
-		return (false);
-	if (!check_tex_color(input))
+	if (!check_player(player) || !check_colors(input) || !check_tx_color(input))
 		return (false);
 	while (row < map->height && col < map->width)
 	{

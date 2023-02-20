@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:35:06 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/20 14:21:43 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/20 16:54:14 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,11 @@ void	check_inputfile(char *path)
 {
 	int	fd;
 
+	if (ft_strncmp(path + ft_strlen(path) - 3, "cub", 3))
+	{
+		ft_putendl_fd("Error\nMap file has to end in .cub", STDERR_FILENO);
+		exit(EXIT_FAILURE);
+	}
 	fd = open(path, O_RDONLY);
 	if (fd == -1)
 	{
