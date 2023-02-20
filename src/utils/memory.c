@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 00:50:17 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/20 15:20:13 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/20 15:51:36 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@ static void	alloc_map(t_data *data)
 	}
 }
 
-static void	alloc_map_elem(t_data *data)
+static void	alloc_map_elem(t_data *data, char *path)
 {
-	data->map->elem = prep_map(data->map);
+	data->map->elem = prep_map(data->map, path);
 	if (!data->map->elem)
 	{
 		free(data->map);
@@ -62,7 +62,7 @@ static void	alloc_map_elem(t_data *data)
 	}
 }
 
-t_data	*alloc(void)
+t_data	*alloc(char *path)
 {
 	t_data		*data;
 
@@ -77,6 +77,6 @@ t_data	*alloc(void)
 	alloc_sprite_door_locked(data);
 	alloc_sprite_door_opened(data);
 	alloc_map(data);
-	alloc_map_elem(data);
+	alloc_map_elem(data, path);
 	return (data);
 }

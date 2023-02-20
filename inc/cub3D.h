@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 10:56:28 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/20 15:20:42 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/20 15:52:50 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,10 +156,10 @@ bool			load_textures(t_input *input, t_texture *texture);
 void			init(t_data *data);
 
 //src/utils/memory.c
-t_data			*alloc(void);
+t_data			*alloc(char *path);
 
 //src/utils/memory_map.c
-char			**prep_map(t_map *map);
+char			**prep_map(t_map *map, char *path);
 
 //src/utils/memory_res.c
 void			alloc_sprite(t_data *data);

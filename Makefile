@@ -6,7 +6,7 @@
 #    By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/22 12:57:52 by mschlenz          #+#    #+#              #
-#    Updated: 2023/02/20 15:26:27 by mschlenz         ###   ########.fr        #
+#    Updated: 2023/02/20 15:54:37 by mschlenz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 SHELL 			=	/bin/bash
 UNAME			=	$(shell uname)
 MAKEFLAGS 		=	--no-print-directory
-CFLAGS			=	-Ofast -Wall -Wextra -Werror -g #-fsanitize=address #-Wall -Wextra -Werror #-g  
+CFLAGS			=	-Ofast -Wall -Wextra -Werror #-g -fsanitize=address #-Wall -Wextra -Werror #-g  
 
 #FORMAT----------------------------------#
 DEFCL			=	$(shell echo -e "\033[0m")

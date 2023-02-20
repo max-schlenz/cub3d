@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 11:18:12 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/20 15:33:56 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/20 15:56:51 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	main(int argc, char **argv)
 	if (argc == 2)
 	{
 		check_inputfile(argv[1]);
-		data = alloc();
+		data = alloc(argv[1]);
 		init(data);
 		if (prepare_scene(data, argv[1]))
 			main_casting(data);
