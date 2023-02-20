@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 07:58:02 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/18 17:39:22 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/20 12:16:50 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	rendering_loop(void *param)
 	key_checker(t->mlx, t->move, t->map);
 	is_there_something(t->map, t->move);
 	raycasting(t->img, t->move, t->map, t->tex);
-	draw_map(t->map, t->img, t->move, t->tex, t->sprites->player->sprites);
+	draw_map(t->map, t->img, t->move, t->tex, t->sprites);
 	update_fps_counter(t->mlx, t->img);
 }
 

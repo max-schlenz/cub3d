@@ -6,13 +6,13 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 20:02:42 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/18 17:27:41 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/20 11:45:33 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3D.h>
 
-static void	clean_sprites(t_sprite *sprite)
+static void	clean_sprites(t_anim *sprite)
 {
 	int	i;
 
@@ -20,9 +20,9 @@ static void	clean_sprites(t_sprite *sprite)
 	while (i < 2)
 	{
 		printf("%i\n", i);
-		mlx_delete_texture(sprite->sprites[i++]);
+		mlx_delete_texture(sprite->frames[i++]);
 	}
-	free(sprite->sprites);
+	free(sprite->frames);
 	free(sprite);
 }
 

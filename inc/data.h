@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 11:29:23 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/18 17:39:02 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/20 12:13:25 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,13 @@
 # define DATA_H
 
 # include <cub3D.h>
+
+typedef enum e_anims
+{
+	A_PLAYER,
+	A_ODOOR,
+	A_LDOOR
+}	t_anims;
 
 typedef enum e_transport
 {
@@ -37,16 +44,16 @@ typedef enum e_error
 	UNEXPECTED_ERROR
 }	t_error;
 
-typedef struct s_sprite
+typedef struct s_anim
 {
 	int				max;
-	mlx_texture_t	**sprites;
-}	t_sprite;
+	mlx_texture_t	**frames;
+}	t_anim;
 
 typedef struct s_sprites
 {
-	t_sprite		*player;
-	t_sprite		*door_locked;
+	t_anim		*player;
+	t_anim		*door_locked;
 }	t_sprites;
 
 typedef struct s_texture
@@ -57,7 +64,7 @@ typedef struct s_texture
 	mlx_texture_t	*wall_ea;
 	mlx_texture_t	*open_door;
 	mlx_texture_t	*closed_door;
-	t_sprite		*locked_door_s;
+	t_anim		*locked_door_s;
 }	t_texture;
 
 typedef struct s_input
