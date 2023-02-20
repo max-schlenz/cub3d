@@ -13,6 +13,13 @@
 		"ios": "c",
 		"string": "c",
 		"type_traits": "c",
-		"font.h": "c"
+		"font.h": "c",
+		"chrono": "c",
+		"limits": "c",
+		"ratio": "c",
+		"array": "c",
+		"iterator": "c",
+		"string_view": "c",
+		"vector": "c"
 	}
 }

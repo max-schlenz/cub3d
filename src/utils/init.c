@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 20:55:12 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/18 14:52:07 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/20 15:19:47 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,35 +23,40 @@ static bool	free_player(mlx_texture_t **player, int *i)
 	return (false);
 }
 
-static bool	load_sprites_folder(mlx_texture_t **sprite, char *name, int max)
+static bool	load_sprites_folder(t_anim *anim, char *name, int max)
 {
-	int		i;
-	char	*idx;
-	char	*tmp;
-	char	*path;
+	int			i;
+	char		*idx;
+	char		*tmp;
+	char		*path;
 
 	i = 0;
+	anim->frames = ft_calloc(max, sizeof(mlx_texture_t *));
+	anim->max = max;
+	anim->idx = 0;
 	while (i < max)
 	{
 		idx = ft_itoa(i);
 		tmp = ft_strjoin(name, idx);
 		path = ft_strjoin(tmp, ".png");
 		free_null(2, &tmp, &idx);
-		sprite[i] = mlx_load_png(path);
-		if (!sprite[i])
-			return (free(path), free_player(sprite, &i));
+		anim->frames[i] = mlx_load_png(path);
+		if (!anim->frames[i])
+			return (free(path), free_player(anim->frames, &i), anim->max = 0);
 		free(path);
 		i++;
 	}
 	return (true);
 }
 
-bool	load_sprites(t_sprite *sprite, char *name, int max)
+bool	load_sprites(t_sprites *sprites)
 {
-	if (!load_sprites_folder(sprite, name, max))
-	{
-		return (false);
-	}
+	if (!load_sprites_folder(sprites->player, "res/player/player", 4))
+		return (error(0, 0, TEXTURE_ERROR));
+	if (!load_sprites_folder(sprites->door_locked, "res/lclosed/lclosed", 6))
+		return (error(0, 0, TEXTURE_ERROR));
+	if (!load_sprites_folder(sprites->door_opened, "res/lopened/lopen", 6))
+		return (error(0, 0, TEXTURE_ERROR));
 	return (true);
 }
 

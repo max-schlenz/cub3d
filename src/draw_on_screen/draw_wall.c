@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_wall.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 06:38:55 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/18 08:08:56 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/20 14:27:25 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,12 @@ int	img_pixel(double x_p, double y_p, mlx_texture_t *tex)
 	return (get_color(ptr));
 }
 
-void	draw_wall(t_array *test, mlx_image_t *img, \
-t_texture *tex, double fov)
+void	draw_wall(t_array *test, mlx_image_t *img, double fov)
 {
-	int		skyline;
-	int		wall_height;
-	int		i;
-	int		color;
+	int			skyline;
+	int			wall_height;
+	int			i;
+	int			color;
 
 	i = 0;
 	skyline = img->height / 2;
@@ -56,10 +55,10 @@ t_texture *tex, double fov)
 	{
 		if (skyline - wall_height / 2 + i < 0)
 			i = wall_height / 2 - skyline;
-		if (skyline - wall_height / 2 + i > img->height)
+		if (skyline - wall_height / 2 + i > (int)img->height)
 			break ;
 		if (skyline - wall_height / 2 + i > 0 && \
-		skyline - wall_height / 2 + i < img->height)
+		skyline - wall_height / 2 + i < (int)img->height)
 		{
 			color = img_pixel(test->tile_x, ((double)i / (double)wall_height), \
 			test->texture);

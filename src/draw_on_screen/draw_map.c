@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 15:09:07 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/18 14:40:03 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/20 15:22:01 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	draw_tile(mlx_image_t *img, t_tile *tile, int color)
 int	what_tile(t_map *map, t_movement *move, int x, int y)
 {
 	if (x == 0 && y == 0)
-		return (MLX_COLOR_RED);
+		return (A_PLAYER);
 	x = move->x + x;
 	y = move->y + y;
 	if (x < 0 || y < 0)
@@ -49,24 +49,14 @@ int	what_tile(t_map *map, t_movement *move, int x, int y)
 	if (map->elem[y][x] == '1')
 		return (MLX_COLOR_BURLYWOOD);
 	if (map->elem[y][x] == 'd')
-		return (MLX_COLOR_CORNSILK);
+		return (A_ODOOR);
 	if (map->elem[y][x] == 'D')
-		return (MLX_COLOR_ROSYBROWN);
+		return (A_LDOOR);
 	return (MLX_COLOR_PALEVIOLETRED);
 }
 
-
-void	show_player_anim(t_texture *tex, mlx_image_t *img, int x, int y)
-{
-	static int	j = 0;
-
-	mlx_draw_texture(img, tex->arrow_down->sprite[j], x, y);
-	j++;
-	if (j == tex->arrow_down->max)
-		j = 0;
-}
-
-void	draw_map(t_map *map, mlx_image_t *img, t_movement *move, t_texture *tex)
+void	draw_map(t_map *map, mlx_image_t *img, t_movement *move,
+	t_sprites *sprites)
 {
 	int		x;
 	int		y;
@@ -81,8 +71,12 @@ void	draw_map(t_map *map, mlx_image_t *img, t_movement *move, t_texture *tex)
 			tile.color = what_tile(map, move, x, y);
 			tile.x = MAP_TILE_SIZE * (x + TILE_PER_MAP);
 			tile.y = MAP_TILE_SIZE * (y + TILE_PER_MAP);
-			draw_tile(img, &tile, tile.color);
-			show_player_anim(tex, img, tile.x, tile.y);
+			if (tile.color == A_PLAYER
+				|| tile.color == A_LDOOR
+				|| tile.color == A_ODOOR)
+				draw_anim(tile, img, sprites);
+			else
+				draw_tile(img, &tile, tile.color);
 			x++;
 		}
 		y++;

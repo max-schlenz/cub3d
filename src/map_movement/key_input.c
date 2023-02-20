@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   key_input.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 15:04:00 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/18 13:11:28 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/20 15:20:01 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3D.h>
 
-static int	toggle_door(t_movement *move, t_map *map, double delta_time)
+static int	toggle_door(t_movement *move, t_map *map)
 {
 	int				i;
 	char			*elem[4];
@@ -67,9 +67,9 @@ void	arrow_keys(mlx_t *mlx, t_map *map, t_movement *move)
 	delta_time += mlx->delta_time;
 	if (delta_time > 0.4)
 	{
-		if (mlx_is_key_down(mlx, MLX_KEY_E) || \
-		mlx_is_key_down(mlx, MLX_KEY_KP_0))
-			delta_time = toggle_door(move, map, mlx->delta_time);
+		if (mlx_is_key_down(mlx, MLX_KEY_E)
+			|| mlx_is_key_down(mlx, MLX_KEY_KP_0))
+			delta_time = toggle_door(move, map);
 		else if (mlx_is_key_down(mlx, MLX_KEY_UP))
 			delta_time = front_tile(map, move);
 		else if (mlx_is_key_down(mlx, MLX_KEY_DOWN))

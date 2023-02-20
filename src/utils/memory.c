@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   memory.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 00:50:17 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/18 14:43:47 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/20 15:20:13 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,7 @@ static void	alloc_map(t_data *data)
 	data->map = ft_calloc(1, sizeof(t_map));
 	if (!data->map)
 	{
-		// free(data->sprite->player);
-		free(data->sprite);
+		free(data->sprites);
 		free(data->texture);
 		free(data->player);
 		free(data->input);
@@ -54,7 +53,7 @@ static void	alloc_map_elem(t_data *data)
 	if (!data->map->elem)
 	{
 		free(data->map);
-		free(data->sprite);
+		free(data->sprites);
 		free(data->texture);
 		free(data->player);
 		free(data->input);
@@ -75,6 +74,8 @@ t_data	*alloc(void)
 	alloc_texture(data);
 	alloc_sprite(data);
 	alloc_sprite_player(data);
+	alloc_sprite_door_locked(data);
+	alloc_sprite_door_opened(data);
 	alloc_map(data);
 	alloc_map_elem(data);
 	return (data);

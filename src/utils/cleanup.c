@@ -3,24 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 20:02:42 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/18 14:41:48 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/20 15:19:52 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3D.h>
 
-static void	clean_sprites(t_sprite *sprite)
+static void	clean_anim(t_anim *anim)
 {
 	int	i;
 
 	i = 0;
-	while (sprite->sprite[i])
-		mlx_delete_texture(sprite->sprite[i++]);
-	free(sprite->sprite);
-	free(sprite);
+	while (i < anim->max)
+		mlx_delete_texture(anim->frames[i++]);
+	free(anim->frames);
+	free(anim);
 }
 
 static void	clean_textures(t_texture *texture)
@@ -67,7 +67,10 @@ void	cleanup(t_data *data)
 {
 	clean_textures(data->texture);
 	clean_input(data->input);
-	clean_sprites(data->sprite);
+	clean_anim(data->sprites->player);
+	clean_anim(data->sprites->door_locked);
+	clean_anim(data->sprites->door_opened);
+	free(data->sprites);
 	clean_map(data->map);
 	free(data->player);
 	free(data->map);

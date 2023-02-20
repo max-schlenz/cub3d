@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:42:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/18 13:28:27 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/20 14:17:29 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ bool	check_player(t_player *player)
 	return (true);
 }
 
-bool	check_tex_color(t_input *input, t_player *player, t_map *map)
+bool	check_tex_color(t_input *input)
 {
 	if (!input->tex_no
 		|| !input->tex_so
@@ -71,7 +71,7 @@ bool	check_input(t_input *input, t_player *player, t_map *map)
 		return (false);
 	if (!check_colors(input))
 		return (false);
-	if (!check_tex_color(input, player, map))
+	if (!check_tex_color(input))
 		return (false);
 	while (row < map->height && col < map->width)
 	{

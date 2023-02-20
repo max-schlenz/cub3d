@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:35:06 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/18 12:19:02 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/20 14:21:43 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ bool	check_color(char *str)
 	i = 0;
 	if (!str)
 		return (false);
-	while (str[i] && ft_isdigit(str[i]) || str[i] == ',' || str[i] == ' ')
+	while (str[i] && (ft_isdigit(str[i]) || str[i] == ',' || str[i] == ' '))
 		i++;
 	if (!str[i])
 		return (true);

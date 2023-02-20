@@ -5,12 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/19 11:29:23 by mschlenz          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/02/18 14:21:36 by mschlenz         ###   ########.fr       */
-=======
-/*   Updated: 2023/02/18 14:40:10 by lkrabbe          ###   ########.fr       */
->>>>>>> 728c67717d1968dd0ff580d4691b35e99d3a2d84
+/*   Created: 2023/02/20 15:20:52 by mschlenz          #+#    #+#             */
+/*   Updated: 2023/02/20 15:21:29 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +14,13 @@
 # define DATA_H
 
 # include <cub3D.h>
+
+typedef enum e_anims
+{
+	A_PLAYER,
+	A_ODOOR,
+	A_LDOOR
+}	t_anims;
 
 typedef enum e_transport
 {
@@ -41,11 +44,19 @@ typedef enum e_error
 	UNEXPECTED_ERROR
 }	t_error;
 
-typedef struct s_sprite
+typedef struct s_anim
 {
 	int				max;
-	mlx_texture_t	**sprite;
-}	t_sprite;
+	int				idx;
+	mlx_texture_t	**frames;
+}	t_anim;
+
+typedef struct s_sprites
+{
+	t_anim		*player;
+	t_anim		*door_locked;
+	t_anim		*door_opened;
+}	t_sprites;
 
 typedef struct s_texture
 {
@@ -55,12 +66,6 @@ typedef struct s_texture
 	mlx_texture_t	*wall_ea;
 	mlx_texture_t	*open_door;
 	mlx_texture_t	*closed_door;
-	t_sprite		*arrow_left;
-	t_sprite		*arrow_right;
-	t_sprite		*arrow_up;
-	t_sprite		*arrow_down;
-	t_sprite		*lock_open;
-	t_sprite		*lock_closed;
 }	t_texture;
 
 typedef struct s_input
@@ -91,13 +96,19 @@ typedef struct t_map
 	int		color_floor;
 }	t_map;
 
+typedef struct s_bool
+{
+	bool	player;
+	bool	door_locked;
+}	t_bool;
+
 typedef struct s_data
 {
 	t_input		*input;
 	t_player	*player;
 	t_map		*map;
 	t_texture	*texture;
-	t_sprite	*sprite;
+	t_sprites	*sprites;
 }	t_data;
 
 /**
@@ -141,7 +152,7 @@ typedef struct s_transfer{
 	t_movement	*move;
 	t_texture	*tex;
 	t_player	*player;
-	t_sprite	*sprite;
+	t_sprites	*sprites;
 }t_transfer;
 
 /**

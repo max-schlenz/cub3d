@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   define_default.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 05:53:17 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/18 12:05:17 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/20 15:21:06 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef DEFINE_DEFAULT_H
 # define DEFINE_DEFAULT_H
@@ -29,4 +28,10 @@
 # define DEFAULT_DIRECTION 0.174533
 # define DEFAULT_VELOCITY 0.020
 # define DEFAULT_WALL_HEIGHT 3.2
+# define DEFAULT_SPRITE_LIFE 0.4
+# define MLX_COLOR_BLANCHEDALMOND 0xFFEBCDFF
+# define MLX_COLOR_BURLYWOOD 0xDEB887FF
+# define MLX_COLOR_PALEVIOLETRED 0xDB7093FF
+# define MLX_COLOR_WHITE 0xFFFFFFFF
+
 #endif
