@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 01:16:03 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/20 11:45:25 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/20 12:59:55 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,13 @@ void	alloc_texture(t_data *data)
 	}
 }
 
+// void	alloc_sprite_player
+
 void	alloc_sprite(t_data *data)
 {
 	data->sprites = ft_calloc(1, sizeof(t_anim));
+	data->sprites->player = ft_calloc(1, sizeof(t_anim));
+	data->sprites->door_locked = ft_calloc(1, sizeof(t_anim));
 	if (!data->sprites)
 	{
 		free(data->texture);

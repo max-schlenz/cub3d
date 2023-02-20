@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 10:56:28 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/20 12:11:27 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/20 12:45:34 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,5 +87,6 @@ t_texture *tex, double fov);
 bool		color_count_elems(char *str_input);
 bool		check_color(char *str);
 void		update_fps_counter(mlx_t *mlx, mlx_image_t *img);
+void 		choose_frame(t_sprites *sprites, mlx_t *mlx);
 
 #endif

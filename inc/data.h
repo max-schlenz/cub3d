@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 11:29:23 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/20 12:13:25 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/20 12:29:29 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef enum e_error
 typedef struct s_anim
 {
 	int				max;
+	int				idx;
 	mlx_texture_t	**frames;
 }	t_anim;
 

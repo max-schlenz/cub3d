@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   define_default.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 05:53:17 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/02/18 09:05:23 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/02/20 12:44:05 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # define WIDTH 1000
 # define HEIGHT 1000
 # define MAP_TILE_BORDER 0.1
-# define MAP_TILE_SIZE 20
+# define MAP_TILE_SIZE 32
 # define TILE_PER_MAP 5
 # define X 0
 # define Y 1
@@ -29,4 +29,5 @@
 # define DEFAULT_DIRECTION 0.174533
 # define DEFAULT_VELOCITY 0.020
 # define DEFAULT_WALL_HEIGHT 3.2
+# define DEFAULT_SPRITE_LIFE 0.8
 #endif

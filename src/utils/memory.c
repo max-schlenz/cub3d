@@ -6,7 +6,7 @@
 /*   By: mschlenz <mschlenz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 00:50:17 by mschlenz          #+#    #+#             */
-/*   Updated: 2023/02/20 11:52:37 by mschlenz         ###   ########.fr       */
+/*   Updated: 2023/02/20 12:21:19 by mschlenz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,6 @@ t_data	*alloc(void)
 	alloc_player(data);
 	alloc_texture(data);
 	alloc_sprite(data);
-	data->sprites->player = ft_calloc(1, sizeof(t_anim));
-	// data->sprites->player->frames = ft_calloc(33, sizeof(mlx_texture_t *));
 	alloc_map(data);
 	alloc_map_elem(data);
 	return (data);
